@@ -1,0 +1,166 @@
+// ===================
+// © AngelaMos | 2025
+// hookAnalysisCard.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+  padding: $space-lg;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+
+  &.chosen {
+    border-color: $accent-purple;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+}
+
+.hookId {
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+}
+
+.prediction {
+  padding: $space-xs $space-sm;
+  font-size: $text-xs;
+  color: $text-light;
+  background: $bg-surface-200;
+  border-radius: $radius-sm;
+}
+
+.chosenBadge {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  margin-left: auto;
+  padding: $space-xs $space-sm;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-default;
+  background: $accent-purple;
+  border-radius: $radius-sm;
+}
+
+.hookPreview {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+  padding: $space-md;
+  background: $bg-surface-200;
+  border-radius: $radius-sm;
+}
+
+.hookLine {
+  display: flex;
+  gap: $space-sm;
+  font-size: $text-sm;
+}
+
+.hookType {
+  flex-shrink: 0;
+  width: 60px;
+  font-weight: $font-medium;
+  color: $text-muted;
+}
+
+.hookContent {
+  color: $text-light;
+  line-height: $line-height-normal;
+}
+
+.analysisGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-md;
+}
+
+.prosSection,
+.consSection,
+.riskSection {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.riskSection {
+  padding-top: $space-sm;
+  border-top: 1px solid $border-muted;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-light;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.prosIcon {
+  color: $text-lighter;
+}
+
+.consIcon {
+  color: $text-lighter;
+}
+
+.warningIcon {
+  color: $text-lighter;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.listItem {
+  font-size: $text-xs;
+  color: $text-lighter;
+  line-height: $line-height-normal;
+  padding-left: $space-sm;
+  border-left: 2px solid $border-muted;
+}
+
+.chooseButton {
+  padding: $space-sm $space-lg;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+  background: transparent;
+  border: 1px solid $border-strong;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: filter 100ms linear, background-color 100ms linear;
+
+  &:hover:not(:disabled) {
+    background: $bg-selection;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &.chosenButton {
+    background: $accent-purple;
+    border-color: $accent-purple;
+    cursor: default;
+  }
+}

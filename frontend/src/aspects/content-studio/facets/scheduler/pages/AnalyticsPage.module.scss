@@ -1,0 +1,475 @@
+// ===================
+// © AngelaMos | 2025
+// AnalyticsPage.module.scss
+// ===================
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: $space-2xl $space-3xl;
+  background: $bg-default;
+}
+
+.inner {
+  max-width: $container-xl;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: $space-xl;
+}
+
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: $text-xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0;
+}
+
+.headerActions {
+  display: flex;
+  gap: $space-md;
+  align-items: center;
+}
+
+.periodSelect,
+.accountSelect {
+  padding: $space-sm $space-xl $space-sm $space-md;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-sm;
+  background-color: $bg-surface-100;
+  color: $text-default;
+  font-size: $text-sm;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right $space-sm center;
+  transition: border-color $transition-normal $ease-out;
+
+  &:hover {
+    border-color: $border-strong;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $accent-purple;
+  }
+
+  option {
+    background-color: $bg-surface-100;
+    color: $text-default;
+    padding: $space-sm;
+  }
+}
+
+.syncButton {
+  padding: $space-sm $space-lg;
+  background: $bg-surface-100;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: all $transition-normal $ease-out;
+
+  &:hover:not(:disabled) {
+    background: $bg-surface-200;
+    border-color: $border-strong;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.errorBanner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $space-md $space-lg;
+  background: rgba(239, 68, 68, 0.1);
+  border: $border-width-thin solid rgba(239, 68, 68, 0.3);
+  border-radius: $radius-md;
+  margin-bottom: $space-lg;
+
+  span {
+    color: #f87171;
+    font-size: $text-sm;
+  }
+
+  button {
+    padding: $space-xs $space-sm;
+    border: none;
+    background: transparent;
+    color: #f87171;
+    cursor: pointer;
+    font-size: $text-xs;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.main {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: $space-xl;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  color: $text-lighter;
+}
+
+.overviewSection {
+  margin-bottom: $space-sm;
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: $space-lg;
+}
+
+.metricCard {
+  display: flex;
+  flex-direction: column;
+  padding: $space-lg;
+  background: $bg-surface-100;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-md;
+  transition: border-color $transition-normal $ease-out;
+
+  &:hover {
+    border-color: $border-strong;
+  }
+}
+
+.metricValue {
+  font-size: $text-2xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+}
+
+.metricLabel {
+  font-size: $text-xs;
+  color: $text-lighter;
+  margin-top: $space-sm;
+}
+
+.columnsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-xl;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $space-lg;
+}
+
+.sectionTitle {
+  font-size: $text-base;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0 0 $space-lg;
+
+  .sectionHeader & {
+    margin: 0;
+  }
+}
+
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  color: $text-lighter;
+  font-size: $text-sm;
+  background: $bg-surface-100;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-md;
+}
+
+.topPostsList {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.topPostCard {
+  display: flex;
+  align-items: center;
+  gap: $space-lg;
+  padding: $space-lg;
+  background: $bg-surface-100;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-md;
+  transition: border-color $transition-normal $ease-out;
+
+  &:hover {
+    border-color: $border-strong;
+  }
+}
+
+.rank {
+  font-size: $text-sm;
+  font-weight: $font-semibold;
+  color: $text-lighter;
+  min-width: 2rem;
+}
+
+.postInfo {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  flex: 1;
+}
+
+.postPlatform {
+  align-self: flex-start;
+  padding: 3px $space-sm;
+  font-size: 10px;
+  font-weight: $font-medium;
+  text-transform: uppercase;
+  color: $text-default;
+  border-radius: $radius-xs;
+  letter-spacing: 0.025em;
+}
+
+.postStats {
+  display: flex;
+  gap: $space-lg;
+  font-size: $text-xs;
+  color: $text-light;
+}
+
+.bestTimesList {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.timeSlot {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 0.75fr;
+  gap: $space-sm;
+  align-items: center;
+  padding: $space-lg;
+  background: $bg-surface-100;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-md;
+  font-size: 13px;
+  transition: border-color $transition-normal $ease-out;
+
+  &:hover {
+    border-color: $border-strong;
+  }
+}
+
+.timeDay {
+  font-weight: $font-semibold;
+  color: $text-default;
+}
+
+.timeHour {
+  color: $text-light;
+}
+
+.timeEngagement {
+  color: $accent-purple;
+  font-weight: $font-medium;
+}
+
+.timePosts {
+  color: $text-lighter;
+  text-align: right;
+  font-size: $text-xs;
+}
+
+.followerGrowthCard {
+  padding: $space-xl;
+  background: $bg-surface-100;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-md;
+}
+
+.growthMetrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-xl;
+}
+
+.growthMetric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.growthValue {
+  font-size: $text-2xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+
+  &.positive {
+    color: #4ade80;
+  }
+
+  &.negative {
+    color: #f87171;
+  }
+}
+
+.growthLabel {
+  font-size: $text-xs;
+  color: $text-lighter;
+  margin-top: $space-sm;
+}
+
+.platformBreakdown {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: $space-md;
+}
+
+.platformStat {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+  padding: $space-md $space-lg;
+  background: $bg-surface-100;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-md;
+  transition: border-color $transition-normal $ease-out;
+
+  &:hover {
+    border-color: $border-strong;
+  }
+}
+
+.platformDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.platformName {
+  flex: 1;
+  font-size: $text-sm;
+  color: $text-default;
+}
+
+.platformCount {
+  font-size: $text-sm;
+  font-weight: $font-semibold;
+  color: $text-default;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-md;
+  background: $bg-surface-100;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+
+  th,
+  td {
+    padding: $space-md $space-lg;
+    text-align: left;
+    border-bottom: $border-width-thin solid $border-default;
+  }
+
+  th {
+    font-weight: $font-semibold;
+    color: $text-light;
+    font-size: $text-xs;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    background: $bg-surface-75;
+  }
+
+  td {
+    color: $text-default;
+  }
+
+  tbody tr {
+    transition: background $transition-normal $ease-out;
+
+    &:hover {
+      background: $bg-surface-200;
+    }
+
+    &:last-child td {
+      border-bottom: none;
+    }
+  }
+}
+
+.tablePlatform {
+  display: inline-block;
+  padding: 3px $space-sm;
+  font-size: 10px;
+  font-weight: $font-medium;
+  text-transform: uppercase;
+  color: $text-default;
+  border-radius: $radius-xs;
+  letter-spacing: 0.025em;
+}
+
+.tableAccount {
+  color: $text-light;
+}
+
+.tableFollowers {
+  font-weight: $font-semibold;
+  font-variant-numeric: tabular-nums;
+}
+
+.changePositive {
+  color: #4ade80;
+  font-weight: $font-medium;
+}
+
+.changeNegative {
+  color: #f87171;
+  font-weight: $font-medium;
+}
+
+.changeNeutral {
+  color: $text-lighter;
+}

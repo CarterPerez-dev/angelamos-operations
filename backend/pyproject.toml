@@ -1,7 +1,7 @@
 [project]
-name = "full-stack-template"
+name = "carter-os"
 version = "1.0.0"
-description = "Production grade FastAPI template with async SQLAlchemy and JWT auth"
+description = "Personal workspace website"
 requires-python = ">=3.12"
 
 dependencies = [
@@ -21,6 +21,12 @@ dependencies = [
     "structlog>=24.4.0",
     "gunicorn>=23.0.0",
     "uvicorn[standard]>=0.38.0",
+    "mcp[cli]>=1.24.0,<2.0.0",
+    "anthropic>=0.75.0,<1.0.0",
+    "jinja2>=3.1.0,<4.0.0",
+    "httpx>=0.28.0,<1.0.0",
+    "claude-agent-sdk>=0.1.16",
+    "aiofiles>=24.1.0",
 ]
 
 [project.optional-dependencies]
@@ -37,14 +43,6 @@ dev = [
     "ty>=0.0.1a32",
     "pre-commit>=4.2.0",
 ]
-
-[project.urls]
-Homepage = "https://XYZ.com"
-Documentation = "https:/XYZ/api/docs"
-Repository = "https://github.com/CarterPerez-dev/XYZ"
-Issues = "https://github.com/CarterPerez-dev/XYZ/issues"
-Changelog = "https://github.com/CarterPerez-dev/XYZ/blob/prod/doc/CHANGELOG.rst"
-
 
 [build-system]
 requires = ["hatchling"]
@@ -92,12 +90,15 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "tests/**/*.py" = ["S101", "ARG001"]
 "conftest.py" = ["S107"]
-"src/core/rate_limit.py" = ["S110"]
+"src/core/security/rate_limit/limiter.py" = ["S110"]
 "src/config.py" = ["F401"]
-"src/schemas/**/*.py" = ["RUF012"]
+"src/aspects/auth/schemas/**/*.py" = ["RUF012"]
 
 [tool.mypy]
 python_version = "3.12"
+mypy_path = "src"
+namespace_packages = true
+explicit_package_bases = true
 strict = true
 warn_return_any = true
 warn_unused_ignores = true
@@ -111,7 +112,7 @@ module = ["tests.*", "conftest"]
 ignore_errors = true
 
 [[tool.mypy.overrides]]
-module = ["src.core.logging"]
+module = ["src.core.foundation.logging"]
 disable_error_code = ["no-any-return"]
 
 [[tool.mypy.overrides]]
@@ -130,15 +131,15 @@ module = ["src.config"]
 implicit_reexport = true
 
 [[tool.mypy.overrides]]
-module = ["src.core.enums", "src.core.security"]
+module = ["src.core.foundation.enums", "src.core.security.auth.jwt"]
 disable_error_code = ["return-value", "no-any-return"]
 
 [[tool.mypy.overrides]]
-module = ["src.repositories.*"]
+module = ["src.aspects.auth.repositories.*"]
 disable_error_code = ["return-value", "no-any-return", "attr-defined"]
 
 [[tool.mypy.overrides]]
-module = ["src.factory"]
+module = ["src.app.factory"]
 disable_error_code = ["arg-type"]
 
 [tool.pydantic-mypy]
@@ -179,6 +180,7 @@ ignore-paths = [
 [tool.pylint.messages_control]
 disable = [
     "C0103",  # invalid-name
+    "C0115",  # missing-class-docstring (Pydantic models are self-documenting)
     "C0116",  # missing-function-docstring (we use minimal docs)
     "C0121",  # singleton-comparison (== False required for SQLAlchemy)
     "C0301",  # line-too-long
@@ -187,12 +189,16 @@ disable = [
     "C0304",  # final-newline-missing
     "C0305",  # trailing-newlines
     "C0411",  # wrong-import-order
+    "C0412",  # ungrouped-imports (import grouping style)
     "E0401",  # import-error (uuid6/structlog/pwdlib not found by pylint)
+    "E0611",  # no-name-in-module (false positive for config.py re-exports)
+    "E1101",  # no-member (false positive for FastAPI app object)
     "E1102",  # not-callable (false positive for SQLAlchemy func.now/count)
     "E1136",  # unsubscriptable-object (false positive for generics)
     "R0801",  # similar-lines
     "R0901",  # too-many-ancestors (SQLAlchemy inheritance)
     "R0903",  # too-few-public-methods
+    "R0911",  # too-many-return-statements (stage dispatch pattern)
     "R0917",  # too-many-positional-arguments (FastAPI patterns)
     "W0611",  # unused-import (handled by ruff, config.py re-exports)
     "W0612",  # unused-variable (handled by ruff)
@@ -262,7 +268,7 @@ unresolved-reference = "warn"
 invalid-argument-type = "warn"
 
 [[tool.ty.overrides]]
-include = ["src/repositories/**", "src/services/**"]
+include = ["src/aspects/**/repositories/**", "src/aspects/**/services/**"]
 [tool.ty.overrides.rules]
 unresolved-attribute = "warn"
 

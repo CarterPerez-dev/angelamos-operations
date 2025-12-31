@@ -1,0 +1,22 @@
+// ===================
+// © AngelaMos | 2025
+// card.module.scss
+// ===================
+
+@use '../../../styles/tokens' as *;
+
+.card {
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  padding: $space-md $space-lg;
+}
+
+.interactive {
+  cursor: pointer;
+  transition: filter $transition-fast $ease-out;
+
+  &:hover {
+    filter: brightness(1.1);
+  }
+}

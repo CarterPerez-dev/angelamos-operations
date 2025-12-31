@@ -9,7 +9,7 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from 'axios'
 import { API_ENDPOINTS, HTTP_STATUS } from '@/config'
-import { useAuthStore } from '@/core/lib'
+import { useAuthStore } from '@/core/state'
 import { ApiError, ApiErrorCode, transformAxiosError } from './errors'
 
 interface RequestConfig extends InternalAxiosRequestConfig {
@@ -27,7 +27,7 @@ const getBaseURL = (): string => {
 
 export const apiClient: AxiosInstance = axios.create({
   baseURL: getBaseURL(),
-  timeout: 15000,
+  timeout: 300000,
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
 })

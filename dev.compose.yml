@@ -40,7 +40,7 @@ services:
       - .env
     environment:
       - ENVIRONMENT=development
-      - DEBUG=true
+      - DEBUG=false
       - RELOAD=true
     depends_on:
       db:

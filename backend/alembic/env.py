@@ -10,9 +10,89 @@ from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
-from src.config import settings
-from src.models import Base
-from src.core.enums import SafeEnum
+from config import settings
+from core.infrastructure.database.Base import Base
+from core.enums import SafeEnum
+
+from aspects.auth.models.User import User  # noqa: F401
+from aspects.auth.models.RefreshToken import RefreshToken  # noqa: F401
+from core.foundation.models.identity import (  # noqa: F401
+    CoreIdentity,
+    IdentitySkill,
+    IdentityInterest,
+    IdentityCertification,
+    IdentityStrength,
+    IdentityWeakness,
+    BrandVoice,
+    BrandVoiceAvoid,
+    PlatformGoal,
+    RevenueGoal,
+    ContentPillar,
+    ContentPreference,
+)
+from aspects.content_studio.shared.models.platform_rules import (  # noqa: F401
+    PlatformRule,
+    RedditSubreddit,
+    RedditSubredditRule,
+    RedditForbiddenPattern,
+    RedditUpvoteDriver,
+    TikTokRule,
+    LinkedInRule,
+    TwitterRule,
+    YouTubeRule,
+    HashtagStrategy,
+    CrossPlatformRule,
+    ContentRepurposing,
+)
+from aspects.content_studio.shared.models.virality_tiktok import (  # noqa: F401
+    TikTokHookSystem,
+    TikTokHookFormula,
+    TikTokStructureTemplate,
+    TikTokPacing,
+    TikTokRetentionTactic,
+    TikTokCTAStrategy,
+    TikTokCommonMistake,
+    TikTokPlatformSpecific,
+)
+from aspects.content_studio.shared.models.virality_reddit import (  # noqa: F401
+    RedditPostType,
+    RedditFormatting,
+    RedditTiming,
+    RedditEngagementTactic,
+)
+from aspects.content_studio.shared.models.virality_linkedin import (  # noqa: F401
+    LinkedInPostFormat,
+    LinkedInHook,
+    LinkedInFormatting,
+)
+from aspects.content_studio.shared.models.virality_youtube import (  # noqa: F401
+    YouTubeStructureFramework,
+    YouTubeHookType,
+    YouTubePacing,
+    YouTubeSEO,
+    YouTubeViralPattern,
+)
+from aspects.content_studio.shared.models.virality_twitter import (  # noqa: F401
+    TwitterFormatStrategy,
+    TwitterHook,
+    TwitterThreadArchitecture,
+    TwitterEngagementTactic,
+    TwitterViralPattern,
+)
+from aspects.content_studio.shared.models.content_tracking import (  # noqa: F401
+    WorkflowSession,
+    ContentHistory,
+    HookList,
+    GeneratedContent,
+)
+from aspects.content_studio.shared.models.scheduling import (  # noqa: F401
+    ConnectedAccount,
+    ContentLibraryItem,
+    MediaAttachment,
+    ScheduledPost,
+    PostAnalytics,
+    FollowerStats,
+)
 
 
 config = context.config

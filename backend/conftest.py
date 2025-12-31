@@ -27,16 +27,16 @@ from sqlalchemy.ext.asyncio import (
 )
 from sqlalchemy.pool import StaticPool
 
-from src.core.security import (
+from core.security.auth.jwt import (
     hash_password,
     create_access_token,
 )
-from src.config import UserRole
-from src.core.database import get_db_session
+from config import UserRole
+from core.infrastructure.database.session import get_db_session
 
-from src.models.Base import Base
-from src.models.User import User
-from src.models.RefreshToken import RefreshToken
+from core.infrastructure.database.Base import Base
+from aspects.auth.models.User import User
+from aspects.auth.models.RefreshToken import RefreshToken
 
 
 @pytest_asyncio.fixture(scope = "session", loop_scope = "session")

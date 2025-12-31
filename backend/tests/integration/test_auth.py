@@ -6,8 +6,8 @@ test_auth.py
 import pytest
 from httpx import AsyncClient
 
-from src.models.User import User
-from src.models.RefreshToken import RefreshToken
+from aspects.auth.models.User import User
+from aspects.auth.models.RefreshToken import RefreshToken
 
 
 URL_LOGIN = "/v1/auth/login"

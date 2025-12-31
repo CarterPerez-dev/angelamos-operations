@@ -1,0 +1,63 @@
+// ===================
+// © AngelaMos | 2025
+// button.module.scss
+// ===================
+
+@use '../../../styles/tokens' as *;
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-sm;
+  height: 40px;
+  padding: 0 $space-lg;
+  border-radius: $radius-sm;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: filter $transition-normal $ease-out,
+              background-color $transition-normal $ease-out,
+              border-color $transition-normal $ease-out;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px $accent-purple-30;
+  }
+}
+
+.primary {
+  background: $accent-purple;
+  color: $text-default;
+  border: 1px solid transparent;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.2);
+  }
+}
+
+.secondary {
+  background: transparent;
+  color: $text-default;
+  border: 1px solid $border-strong;
+
+  &:hover:not(:disabled) {
+    background: $bg-selection;
+    border-color: $border-stronger;
+  }
+}
+
+.ghost {
+  background: transparent;
+  color: $text-light;
+  border: none;
+
+  &:hover:not(:disabled) {
+    color: $text-default;
+  }
+}

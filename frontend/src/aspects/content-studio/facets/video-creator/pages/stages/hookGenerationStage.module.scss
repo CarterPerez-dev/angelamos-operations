@@ -1,0 +1,122 @@
+// ===================
+// © AngelaMos | 2025
+// hookGenerationStage.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}
+
+.generateSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-lg;
+  padding: $space-2xl;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  text-align: center;
+}
+
+.prompt {
+  font-size: $text-sm;
+  color: $text-light;
+  margin: 0;
+  max-width: 400px;
+}
+
+.topicInput {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  width: 100%;
+  max-width: 500px;
+}
+
+.inputLabel {
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+  text-align: left;
+}
+
+.input {
+  width: 100%;
+  padding: $space-sm $space-md;
+  font-size: $text-sm;
+  color: $text-default;
+  background: $bg-surface-200;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  outline: none;
+  transition: border-color 100ms linear;
+
+  &::placeholder {
+    color: $text-lighter;
+  }
+
+  &:focus {
+    border-color: $accent-purple;
+  }
+}
+
+.generateButton {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  padding: $space-sm $space-lg;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+  background: $accent-purple;
+  border: 1px solid $accent-purple;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: filter 100ms linear;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.15);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+}
+
+.selectionInfo {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+  padding: $space-sm $space-md;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+}
+
+.selectionCount {
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+}
+
+.selectionHint {
+  font-size: $text-xs;
+  color: $text-lighter;
+}
+
+.hookGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-md;
+}

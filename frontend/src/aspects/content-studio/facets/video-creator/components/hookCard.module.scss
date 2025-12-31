@@ -1,0 +1,128 @@
+// ===================
+// © AngelaMos | 2025
+// hookCard.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: $space-lg;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: filter 100ms linear;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.1);
+  }
+
+  &.selected {
+    border-color: $accent-purple;
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  margin-bottom: $space-md;
+  width: 100%;
+}
+
+.hookId {
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+}
+
+.stopRate {
+  padding: $space-xs $space-sm;
+  font-size: $text-xs;
+  color: $text-lighter;
+  background: $bg-surface-200;
+  border-radius: $radius-sm;
+}
+
+.checkmark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  color: $accent-purple;
+  font-size: $text-base;
+}
+
+.hookTriplet {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: $space-md;
+  width: 100%;
+  margin-bottom: $space-md;
+}
+
+.hookSection {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
+
+.hookLabel {
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.hookText {
+  font-size: $text-sm;
+  color: $text-light;
+  margin: 0;
+  line-height: $line-height-normal;
+}
+
+.meta {
+  display: flex;
+  gap: $space-sm;
+  margin-bottom: $space-sm;
+}
+
+.metaItem {
+  font-size: $text-xs;
+  color: $text-lighter;
+}
+
+.reasoning {
+  font-size: $text-xs;
+  color: $text-lighter;
+  margin: 0 0 $space-md 0;
+  line-height: $line-height-normal;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-xs;
+  padding-top: $space-sm;
+  border-top: 1px solid $border-muted;
+  width: 100%;
+}
+
+.tag {
+  padding: $space-xs $space-sm;
+  font-size: $text-xs;
+  color: $text-lighter;
+  background: $bg-surface-200;
+  border-radius: $radius-sm;
+}

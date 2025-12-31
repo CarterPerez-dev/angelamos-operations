@@ -1,0 +1,111 @@
+// ===================
+// © AngelaMos | 2025
+// backWarningModal.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-md;
+  padding: $space-xl;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-lg;
+  max-width: 400px;
+  text-align: center;
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: $bg-surface-200;
+  border-radius: 50%;
+}
+
+.warningIcon {
+  width: 24px;
+  height: 24px;
+  color: $text-light;
+}
+
+.title {
+  font-size: $text-lg;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0;
+}
+
+.message {
+  font-size: $text-sm;
+  color: $text-light;
+  margin: 0;
+  line-height: $line-height-normal;
+
+  strong {
+    color: $text-default;
+    font-weight: $font-medium;
+  }
+}
+
+.subMessage {
+  font-size: $text-xs;
+  color: $text-lighter;
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  gap: $space-md;
+  width: 100%;
+  margin-top: $space-md;
+}
+
+.cancelButton,
+.confirmButton {
+  flex: 1;
+  padding: $space-sm $space-lg;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: filter 100ms linear, background-color 100ms linear;
+}
+
+.cancelButton {
+  color: $text-default;
+  background: transparent;
+  border: 1px solid $border-strong;
+
+  &:hover {
+    background: $bg-selection;
+  }
+}
+
+.confirmButton {
+  color: $text-default;
+  background: $bg-surface-300;
+  border: 1px solid $border-strong;
+
+  &:hover {
+    filter: brightness(1.15);
+  }
+}

@@ -7,51 +7,35 @@
 
 :global {
   [data-sonner-toaster] {
-    --normal-bg: var(--color-surface);
-    --normal-border: var(--color-border);
-    --normal-text: var(--color-text);
+    --normal-bg: #{$bg-surface-200};
+    --normal-border: #{$border-default};
+    --normal-text: #{$text-default};
 
-    --success-bg: #{$success-900};
-    --success-border: #{$success-700};
-    --success-text: #{$success-100};
-
-    --error-bg: #{$error-900};
-    --error-border: #{$error-700};
-    --error-text: #{$error-100};
-
-    --warning-bg: #{$warning-900};
-    --warning-border: #{$warning-700};
-    --warning-text: #{$warning-100};
-
-    --info-bg: #{$info-900};
-    --info-border: #{$info-700};
-    --info-text: #{$info-100};
-
-    font-family: var(--font-sans);
+    font-family: $font-sans;
   }
 
   [data-sonner-toast] {
-    border-radius: $radius-lg;
-    padding: $space-4;
-    font-size: $font-size-sm;
-    box-shadow: $shadow-lg;
+    border-radius: $radius-md;
+    padding: $space-md;
+    font-size: $text-sm;
 
     [data-title] {
-      font-weight: $font-weight-medium;
+      font-weight: $font-medium;
     }
 
     [data-description] {
-      color: inherit;
-      opacity: 0.85;
+      color: $text-light;
     }
 
     [data-close-button] {
-      @include reset-button;
-      @include transition-colors;
-      border-radius: $radius-md;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      border-radius: $radius-sm;
+      transition: background-color $transition-fast $ease-out;
 
-      @include hover {
-        background: rgb(255 255 255 / 10%);
+      &:hover {
+        background: $bg-selection;
       }
     }
   }

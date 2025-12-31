@@ -1,0 +1,88 @@
+// ===================
+// © AngelaMos | 2025
+// modeSelectionStage.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $space-3xl 0;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: $space-2xl;
+}
+
+.title {
+  font-size: $text-2xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0 0 $space-sm 0;
+  line-height: $line-height-tight;
+}
+
+.subtitle {
+  font-size: $text-sm;
+  color: $text-light;
+  margin: 0;
+}
+
+.options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-lg;
+  max-width: 600px;
+  width: 100%;
+}
+
+.optionCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: $space-lg;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  cursor: pointer;
+  text-align: left;
+  transition: filter 100ms linear;
+
+  &:hover {
+    filter: brightness(1.1);
+  }
+}
+
+.optionIcon {
+  width: 24px;
+  height: 24px;
+  color: $text-light;
+  margin-bottom: $space-md;
+}
+
+.optionTitle {
+  font-size: $text-base;
+  font-weight: $font-medium;
+  color: $text-default;
+  margin: 0 0 $space-sm 0;
+}
+
+.optionDescription {
+  font-size: $text-sm;
+  color: $text-lighter;
+  margin: 0;
+  line-height: $line-height-normal;
+}
+
+.optionTag {
+  margin-top: $space-md;
+  padding: $space-xs $space-sm;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-default;
+  background: $accent-purple;
+  border-radius: $radius-sm;
+}

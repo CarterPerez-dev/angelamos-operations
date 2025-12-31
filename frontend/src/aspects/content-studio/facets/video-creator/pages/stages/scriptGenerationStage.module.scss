@@ -1,0 +1,149 @@
+// ===================
+// © AngelaMos | 2025
+// scriptGenerationStage.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}
+
+.generateSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-lg;
+  padding: $space-xl;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+}
+
+.hookPreview {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  width: 100%;
+  max-width: 500px;
+}
+
+.previewTitle {
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-light;
+  margin: 0;
+}
+
+.hookDetails {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+  padding: $space-md;
+  background: $bg-surface-200;
+  border-radius: $radius-sm;
+}
+
+.hookLine {
+  display: flex;
+  gap: $space-sm;
+  font-size: $text-sm;
+}
+
+.hookLabel {
+  flex-shrink: 0;
+  width: 60px;
+  font-weight: $font-medium;
+  color: $text-muted;
+}
+
+.hookText {
+  color: $text-light;
+  line-height: $line-height-normal;
+}
+
+.generateButton {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  padding: $space-sm $space-lg;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+  background: $accent-purple;
+  border: 1px solid $accent-purple;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: filter 100ms linear;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.15);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+}
+
+.instruction {
+  font-size: $text-sm;
+  color: $text-light;
+  margin: 0;
+}
+
+.scriptSections {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xl;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+  padding: $space-sm $space-md;
+  background: $bg-surface-200;
+  border-radius: $radius-sm;
+}
+
+.timestamp {
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+}
+
+.energyLevel {
+  font-size: $text-xs;
+  color: $text-lighter;
+}
+
+.patternInterrupt {
+  font-size: $text-xs;
+  font-style: italic;
+  color: $text-lighter;
+  margin: 0;
+  padding: $space-sm $space-md;
+  background: $bg-overlay;
+  border-left: 2px solid $border-strong;
+  border-radius: $radius-sm;
+}
+
+.sentences {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
