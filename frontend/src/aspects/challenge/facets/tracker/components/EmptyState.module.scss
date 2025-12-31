@@ -1,0 +1,62 @@
+// ===================
+// © AngelaMos | 2025
+// EmptyState.module.scss
+// ===================
+
+@use '../../../../../styles/tokens' as *;
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: $space-lg;
+  max-width: 400px;
+}
+
+.title {
+  font-size: $text-2xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0;
+}
+
+.description {
+  font-size: $text-sm;
+  color: $text-light;
+  margin: 0;
+}
+
+.startButton {
+  background: $accent-purple;
+  border: 1px solid transparent;
+  border-radius: $radius-sm;
+  padding: $space-md $space-xl;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+  cursor: pointer;
+  transition: filter $transition-normal $ease-out;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.2);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.info {
+  font-size: $text-xs;
+  color: $text-lighter;
+  margin: 0;
+}

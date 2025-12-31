@@ -1,0 +1,525 @@
+// ===================
+// © AngelaMos | 2025
+// LibraryPage.module.scss
+// ===================
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: $space-2xl $space-3xl;
+  background: $bg-default;
+}
+
+.inner {
+  max-width: $container-xl;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+  margin-bottom: $space-xl;
+}
+
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: $text-xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0;
+}
+
+.createButton {
+  padding: $space-md $space-lg;
+  background: $accent-purple;
+  color: $text-default;
+  border: none;
+  border-radius: $radius-sm;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: background $transition-normal $ease-out;
+
+  &:hover {
+    background: $accent-purple-hover;
+  }
+}
+
+.filters {
+  display: flex;
+  gap: $space-md;
+  flex-wrap: wrap;
+  padding-top: $space-lg;
+  border-top: $border-width-thin solid $border-default;
+}
+
+.searchBox {
+  display: flex;
+  flex: 1;
+  min-width: 200px;
+  max-width: 400px;
+}
+
+.searchInput {
+  flex: 1;
+  padding: $space-sm $space-md;
+  border: $border-width-thin solid $border-default;
+  border-right: none;
+  border-radius: $radius-sm 0 0 $radius-sm;
+  background: $bg-surface-100;
+  color: $text-default;
+  font-size: $text-sm;
+
+  &::placeholder {
+    color: $text-lighter;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $accent-purple;
+  }
+}
+
+.searchButton {
+  padding: $space-sm $space-lg;
+  background: $bg-surface-200;
+  border: $border-width-thin solid $border-default;
+  border-radius: 0 $radius-sm $radius-sm 0;
+  color: $text-default;
+  cursor: pointer;
+  font-size: $text-sm;
+  transition: all $transition-normal $ease-out;
+
+  &:hover {
+    background: $bg-surface-300;
+    border-color: $border-strong;
+  }
+}
+
+.filterSelect {
+  padding: $space-sm $space-md;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-sm;
+  background: $bg-surface-100;
+  color: $text-default;
+  font-size: $text-sm;
+  cursor: pointer;
+  min-width: 140px;
+
+  &:focus {
+    outline: none;
+    border-color: $accent-purple;
+  }
+
+  option {
+    background: $bg-surface-100;
+    color: $text-default;
+  }
+}
+
+.errorBanner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $space-md $space-lg;
+  background: rgba(239, 68, 68, 0.1);
+  border: $border-width-thin solid rgba(239, 68, 68, 0.3);
+  border-radius: $radius-md;
+  margin-bottom: $space-lg;
+
+  span {
+    color: #f87171;
+    font-size: $text-sm;
+  }
+
+  button {
+    padding: $space-xs $space-sm;
+    border: none;
+    background: transparent;
+    color: #f87171;
+    cursor: pointer;
+    font-size: $text-xs;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.main {
+  flex: 1;
+  overflow: auto;
+}
+
+.loading,
+.empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  gap: $space-lg;
+  color: $text-lighter;
+}
+
+.resultCount {
+  font-size: $text-xs;
+  color: $text-lighter;
+  margin-bottom: $space-lg;
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: $space-lg;
+}
+
+.contentCard {
+  display: flex;
+  flex-direction: column;
+  padding: $space-lg;
+  background: $bg-surface-100;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: all $transition-normal $ease-out;
+
+  &:hover {
+    border-color: $border-strong;
+    background: $bg-surface-200;
+  }
+
+  &.selected {
+    border-color: $accent-purple;
+    background: $accent-purple-10;
+  }
+}
+
+.cardHeader {
+  display: flex;
+  gap: $space-sm;
+  margin-bottom: $space-md;
+}
+
+.contentType,
+.platform {
+  padding: $space-xs $space-sm;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  text-transform: uppercase;
+  border-radius: $radius-xs;
+  letter-spacing: 0.025em;
+}
+
+.contentType {
+  background: $accent-purple-10;
+  color: $text-light;
+}
+
+.platform {
+  background: $bg-surface-300;
+  color: $text-light;
+}
+
+.cardTitle {
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+  margin: 0 0 $space-sm;
+  line-height: $line-height-normal;
+}
+
+.cardBody {
+  font-size: $text-xs;
+  color: $text-light;
+  line-height: $line-height-normal;
+  margin: 0 0 $space-md;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-xs;
+  margin-bottom: $space-md;
+}
+
+.tag {
+  padding: 2px $space-sm;
+  font-size: $text-xs;
+  background: $bg-surface-300;
+  color: $text-light;
+  border-radius: $radius-xs;
+}
+
+.moreTag {
+  padding: 2px $space-sm;
+  font-size: $text-xs;
+  color: $text-lighter;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: $space-md;
+  border-top: $border-width-thin solid $border-default;
+}
+
+.date {
+  font-size: $text-xs;
+  color: $text-lighter;
+}
+
+.actions {
+  display: flex;
+  gap: $space-sm;
+}
+
+.actionButton {
+  padding: $space-sm $space-md;
+  font-size: $text-xs;
+  background: transparent;
+  border: $border-width-thin solid $border-strong;
+  border-radius: $radius-xs;
+  color: $text-light;
+  cursor: pointer;
+  transition: all $transition-normal $ease-out;
+
+  &:hover {
+    background: $bg-surface-300;
+    color: $text-default;
+  }
+
+  &.scheduleButton {
+    background: $accent-purple;
+    border-color: $accent-purple;
+    color: $text-default;
+
+    &:hover {
+      background: $accent-purple-hover;
+      border-color: $accent-purple-hover;
+    }
+  }
+
+  &.deleteButton:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #f87171;
+  }
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: $z-modal;
+  padding: $space-lg;
+}
+
+.modal {
+  background: $bg-surface-75;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-lg;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow: auto;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $space-lg $space-xl;
+  border-bottom: $border-width-thin solid $border-default;
+
+  h2 {
+    margin: 0;
+    font-size: $text-lg;
+    font-weight: $font-semibold;
+    color: $text-default;
+  }
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: $text-xl;
+  color: $text-lighter;
+  cursor: pointer;
+  line-height: 1;
+  padding: $space-xs;
+
+  &:hover {
+    color: $text-default;
+  }
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+  padding: $space-xl;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-lg;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-light;
+}
+
+.input,
+.select,
+.textarea {
+  padding: $space-md $space-md;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-sm;
+  background: $bg-control;
+  color: $text-default;
+  font-size: $text-sm;
+
+  &::placeholder {
+    color: $text-lighter;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $accent-purple;
+  }
+
+  option {
+    background: $bg-control;
+    color: $text-default;
+  }
+}
+
+.textarea {
+  resize: vertical;
+  font-family: inherit;
+}
+
+.hashtagSection {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.hashtagInput {
+  display: flex;
+  gap: $space-sm;
+
+  .input {
+    flex: 1;
+  }
+}
+
+.addButton {
+  padding: $space-md $space-lg;
+  background: $bg-surface-300;
+  border: $border-width-thin solid $border-strong;
+  border-radius: $radius-sm;
+  color: $text-default;
+  cursor: pointer;
+  font-size: $text-sm;
+  transition: all $transition-normal $ease-out;
+
+  &:hover {
+    background: $bg-selection;
+  }
+}
+
+.hashtagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-sm;
+}
+
+.hashtagItem {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-xs;
+  padding: $space-xs $space-sm;
+  background: $accent-purple-10;
+  color: $text-light;
+  border-radius: $radius-xs;
+  font-size: $text-xs;
+}
+
+.removeTag {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: $text-base;
+  line-height: 1;
+  color: $text-light;
+  cursor: pointer;
+  opacity: 0.7;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $space-md;
+  padding-top: $space-sm;
+}
+
+.cancelButton,
+.submitButton {
+  padding: $space-md $space-lg;
+  border-radius: $radius-sm;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: all $transition-normal $ease-out;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.cancelButton {
+  background: transparent;
+  border: $border-width-thin solid $border-strong;
+  color: $text-default;
+
+  &:hover:not(:disabled) {
+    background: $bg-surface-300;
+  }
+}
+
+.submitButton {
+  background: $accent-purple;
+  border: none;
+  color: $text-default;
+
+  &:hover:not(:disabled) {
+    background: $accent-purple-hover;
+  }
+}

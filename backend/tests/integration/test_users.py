@@ -6,7 +6,7 @@ test_users.py
 import pytest
 from httpx import AsyncClient
 
-from src.models.User import User
+from aspects.auth.models.User import User
 
 
 URL_USERS = "/v1/admin/users"

@@ -1,0 +1,81 @@
+// ===================
+// © AngelaMos | 2025
+// DayCell.module.scss
+// ===================
+
+@use '../../../../../styles/tokens' as *;
+
+.cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $space-xs;
+  min-width: 56px;
+  height: 56px;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: filter $transition-fast $ease-out, border-color $transition-fast $ease-out;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.15);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.number {
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+  line-height: 1;
+}
+
+.indicator {
+  width: 4px;
+  height: 4px;
+  background: $accent-purple;
+  border-radius: $radius-full;
+}
+
+.logged {
+  background: $bg-surface-200;
+
+  .indicator {
+    background: $text-light;
+  }
+}
+
+.selected {
+  border-color: $accent-purple;
+  background: $accent-purple;
+
+  .number {
+    color: $text-default;
+  }
+
+  .indicator {
+    background: $text-default;
+  }
+}
+
+.future {
+  opacity: 0.4;
+
+  .number {
+    color: $text-muted;
+  }
+}
+
+.today {
+  border-color: $border-strong;
+
+  .number {
+    font-weight: $font-semibold;
+  }
+}

@@ -1,0 +1,226 @@
+// ===================
+// © AngelaMos | 2025
+// finalReviewStage.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}
+
+.reviewSection {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}
+
+.summaryCard,
+.hookCard,
+.scriptCard,
+.checksCard,
+.notesCard,
+.predictionCard {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+  padding: $space-lg;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+}
+
+.cardTitle {
+  font-size: $text-sm;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0;
+}
+
+.summaryItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $space-sm 0;
+  border-bottom: 1px solid $border-muted;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.summaryLabel {
+  font-size: $text-sm;
+  color: $text-light;
+}
+
+.summaryValue {
+  font-size: $text-sm;
+  color: $text-default;
+}
+
+.hookLine {
+  display: flex;
+  gap: $space-sm;
+  font-size: $text-sm;
+}
+
+.hookLabel {
+  flex-shrink: 0;
+  width: 60px;
+  font-weight: $font-medium;
+  color: $text-muted;
+}
+
+.hookText {
+  color: $text-light;
+  line-height: $line-height-normal;
+}
+
+.scriptText {
+  font-size: $text-sm;
+  color: $text-light;
+  margin: 0;
+  line-height: $line-height-normal;
+}
+
+.reviewButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-sm;
+  padding: $space-md $space-xl;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+  background: $accent-purple;
+  border: 1px solid $accent-purple;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: filter 100ms linear;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.15);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+}
+
+.resultsSection {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}
+
+.decisionCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-md;
+  padding: $space-2xl;
+  border-radius: $radius-md;
+  text-align: center;
+
+  &.go {
+    background: $bg-surface-100;
+    border: 2px solid $accent-purple;
+  }
+
+  &.noGo {
+    background: $bg-surface-100;
+    border: 2px solid $border-strong;
+  }
+}
+
+.decisionIcon {
+  font-size: 48px;
+  color: $text-default;
+}
+
+.decision {
+  font-size: $text-2xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0;
+}
+
+.decisionReason {
+  font-size: $text-sm;
+  color: $text-light;
+  margin: 0;
+  max-width: 400px;
+}
+
+.checksList,
+.notesList,
+.predictionList {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.checkItem,
+.noteItem,
+.predictionItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $space-sm;
+  background: $bg-surface-200;
+  border-radius: $radius-sm;
+}
+
+.checkLabel,
+.noteLabel,
+.predictionLabel {
+  font-size: $text-sm;
+  color: $text-light;
+  text-transform: capitalize;
+}
+
+.checkValue,
+.noteValue,
+.predictionValue {
+  font-size: $text-sm;
+  color: $text-default;
+}
+
+.passIcon {
+  color: $text-default;
+}
+
+.failIcon {
+  color: $text-lighter;
+}
+
+.actionsSection {
+  display: flex;
+  justify-content: center;
+  padding-top: $space-lg;
+}
+
+.startOverButton {
+  padding: $space-sm $space-xl;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+  background: transparent;
+  border: 1px solid $border-strong;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: filter 100ms linear, background-color 100ms linear;
+
+  &:hover {
+    background: $bg-selection;
+  }
+}

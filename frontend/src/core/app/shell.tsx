@@ -1,11 +1,12 @@
-/**
- * ©AngelaMos | 2025
- * shell.tsx
- */
+// ===========================
+// ©AngelaMos | 2025
+// shell.tsx
+// ===========================
 
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Outlet } from 'react-router-dom'
+import { Header } from './header'
 import styles from './shell.module.scss'
 
 function ShellErrorFallback({ error }: { error: Error }): React.ReactElement {
@@ -24,19 +25,14 @@ function ShellLoading(): React.ReactElement {
 export function Shell(): React.ReactElement {
   return (
     <div className={styles.shell}>
-      <aside className={styles.sidebar}>{/* Sidebar content */}</aside>
-
-      <div className={styles.main}>
-        <header className={styles.header}>{/* Header content */}</header>
-
-        <main className={styles.content}>
-          <ErrorBoundary FallbackComponent={ShellErrorFallback}>
-            <Suspense fallback={<ShellLoading />}>
-              <Outlet />
-            </Suspense>
-          </ErrorBoundary>
-        </main>
-      </div>
+      <Header />
+      <main className={styles.main}>
+        <ErrorBoundary FallbackComponent={ShellErrorFallback}>
+          <Suspense fallback={<ShellLoading />}>
+            <Outlet />
+          </Suspense>
+        </ErrorBoundary>
+      </main>
     </div>
   )
 }

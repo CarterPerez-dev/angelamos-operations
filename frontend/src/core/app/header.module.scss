@@ -1,0 +1,139 @@
+// ===================
+// © AngelaMos | 2025
+// header.module.scss
+// ===================
+
+@use '@/styles' as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: $z-sticky;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  padding: 0 $space-lg;
+  background: $bg-surface-100;
+  border-bottom: 1px solid $border-default;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 28px;
+    height: 28px;
+    border-radius: $radius-full;
+  }
+}
+
+.separator {
+  color: $text-muted;
+  font-size: $text-sm;
+}
+
+.brand {
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+}
+
+.segment {
+  font-size: $text-sm;
+  color: $text-light;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: $space-lg;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  padding: $space-xs $space-sm;
+  font-size: $text-xs;
+  color: $text-light;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: color $transition-fast $ease-out,
+              background-color $transition-fast $ease-out;
+
+  &:hover {
+    color: $text-default;
+    background: $bg-selection;
+  }
+
+  svg {
+    font-size: 14px;
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: $text-light;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: color $transition-fast $ease-out,
+              background-color $transition-fast $ease-out;
+
+  &:hover {
+    color: $text-default;
+    background: $bg-selection;
+  }
+
+  svg {
+    font-size: 16px;
+  }
+}
+
+.profile {
+  position: relative;
+}
+
+.avatarButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+
+  img {
+    width: 28px;
+    height: 28px;
+    border-radius: $radius-full;
+    border: 1px solid $border-default;
+  }
+}

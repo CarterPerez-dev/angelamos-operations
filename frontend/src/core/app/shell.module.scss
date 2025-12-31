@@ -7,84 +7,51 @@
 
 .shell {
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
   min-height: 100dvh;
-}
-
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 260px;
-  background: var(--color-surface);
-  border-right: 1px solid var(--color-border);
-  overflow-y: auto;
-  z-index: $z-fixed;
-
-  @include breakpoint-down('md') {
-    transform: translateX(-100%);
-    transition: transform $duration-normal $ease-in-out;
-
-    &.open {
-      transform: translateX(0);
-    }
-  }
 }
 
 .main {
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin-left: 260px;
   min-width: 0;
-
-  @include breakpoint-down('md') {
-    margin-left: 0;
-  }
-}
-
-.header {
-  position: sticky;
-  top: 0;
-  height: 64px;
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
-  z-index: $z-sticky;
-  @include flex-between;
-  padding: 0 $space-6;
 }
 
 .content {
   flex: 1;
-  padding: $space-6;
+  padding: $space-lg;
   overflow-y: auto;
 }
 
 .loading {
   @include flex-center;
   height: 100%;
-  color: var(--color-text-muted);
+  color: $text-muted;
 }
 
 .error {
-  @include flex-column-center;
+  @include flex-column;
+  align-items: center;
+  justify-content: center;
   height: 100%;
-  gap: $space-4;
-  padding: $space-6;
-  color: var(--color-error);
+  gap: $space-lg;
+  padding: $space-xl;
+  color: $text-light;
 
   h2 {
-    font-size: $font-size-xl;
-    font-weight: $font-weight-semibold;
+    font-size: $text-xl;
+    font-weight: $font-semibold;
   }
 
   pre {
-    font-family: $font-code;
-    font-size: $font-size-sm;
-    padding: $space-4;
-    background: var(--color-bg-subtle);
-    border-radius: $radius-lg;
+    font-family: $font-mono;
+    font-size: $text-sm;
+    padding: $space-lg;
+    background: $bg-surface-100;
+    border: 1px solid $border-default;
+    border-radius: $radius-md;
     overflow-x: auto;
     max-width: 100%;
   }

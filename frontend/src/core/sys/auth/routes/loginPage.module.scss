@@ -1,0 +1,53 @@
+// ===================
+// © AngelaMos | 2025
+// loginPage.module.scss
+// ===================
+
+@use '@/styles' as *;
+
+.container {
+  @include flex-center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: $space-lg;
+  background: $bg-default;
+}
+
+.card {
+  width: 100%;
+  max-width: 360px;
+  padding: $space-xl;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+}
+
+.header {
+  @include flex-column;
+  align-items: center;
+  gap: $space-md;
+  margin-bottom: $space-xl;
+  text-align: center;
+
+  h1 {
+    font-size: $text-xl;
+    font-weight: $font-semibold;
+    color: $text-default;
+  }
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+  border-radius: $radius-full;
+}
+
+.form {
+  @include flex-column;
+  gap: $space-lg;
+
+  button {
+    width: 100%;
+    margin-top: $space-sm;
+  }
+}
