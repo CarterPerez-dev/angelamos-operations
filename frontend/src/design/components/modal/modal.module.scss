@@ -1,0 +1,34 @@
+// ===================
+// © AngelaMos | 2025
+// modal.module.scss
+// ===================
+
+@use '../../../styles/tokens' as *;
+
+.modal {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  max-width: 90vw;
+  max-height: 90vh;
+  padding: 0;
+  border: none;
+  border-radius: $radius-lg;
+  background: transparent;
+
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  &[open] {
+    display: flex;
+  }
+}
+
+.content {
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-lg;
+  padding: $space-xl;
+  overflow: auto;
+}

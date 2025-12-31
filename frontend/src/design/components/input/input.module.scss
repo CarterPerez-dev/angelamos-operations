@@ -1,0 +1,53 @@
+// ===================
+// © AngelaMos | 2025
+// input.module.scss
+// ===================
+
+@use '../../../styles/tokens' as *;
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
+
+.label {
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-light;
+}
+
+.input {
+  height: 40px;
+  padding: 0 $space-md;
+  background: $bg-control;
+  border: 1px solid $border-control;
+  border-radius: $radius-sm;
+  font-size: $text-sm;
+  color: $text-default;
+  transition: border-color $transition-fast $ease-out;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $accent-purple;
+    box-shadow: 0 0 0 2px $accent-purple-10;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.error {
+  border-color: $border-stronger;
+}
+
+.errorText {
+  font-size: $text-xs;
+  color: $text-lighter;
+}

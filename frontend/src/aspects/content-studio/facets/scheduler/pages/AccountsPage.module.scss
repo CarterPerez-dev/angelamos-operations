@@ -1,0 +1,379 @@
+// ===================
+// © AngelaMos | 2025
+// AccountsPage.module.scss
+// ===================
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: $space-2xl $space-3xl;
+  background: $bg-default;
+}
+
+.inner {
+  max-width: $container-xl;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: $space-xl;
+}
+
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $space-sm;
+}
+
+.title {
+  font-size: $text-xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: $text-sm;
+  color: $text-light;
+  margin: 0;
+}
+
+.syncButton {
+  padding: $space-md $space-lg;
+  background: $bg-surface-100;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-md;
+  color: $text-default;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: all $transition-normal $ease-out;
+
+  &:hover:not(:disabled) {
+    background: $bg-surface-200;
+    border-color: $border-strong;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.errorBanner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $space-md $space-lg;
+  background: rgba(239, 68, 68, 0.1);
+  border: $border-width-thin solid rgba(239, 68, 68, 0.3);
+  border-radius: $radius-md;
+  margin-bottom: $space-lg;
+
+  span {
+    color: #f87171;
+    font-size: $text-sm;
+  }
+
+  button {
+    padding: $space-xs $space-sm;
+    border: none;
+    background: transparent;
+    color: #f87171;
+    cursor: pointer;
+    font-size: $text-xs;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.main {
+  flex: 1;
+  overflow: auto;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  color: $text-lighter;
+}
+
+.section {
+  margin-bottom: $space-xl;
+}
+
+.sectionTitle {
+  font-size: $text-lg;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0 0 $space-lg;
+}
+
+.accountsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: $space-lg;
+}
+
+.accountCard {
+  display: flex;
+  flex-direction: column;
+  padding: $space-lg;
+  background: $bg-surface-100;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-md;
+  transition: border-color $transition-normal $ease-out;
+
+  &:hover {
+    border-color: $border-strong;
+  }
+}
+
+.accountHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: $space-lg;
+}
+
+.accountInfo {
+  display: flex;
+  gap: $space-md;
+  align-items: center;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatarFallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: $text-default;
+  font-size: $text-base;
+  font-weight: $font-medium;
+}
+
+.accountDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.displayName {
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+  line-height: $line-height-tight;
+}
+
+.username {
+  font-size: $text-xs;
+  color: $text-lighter;
+}
+
+.platformBadge {
+  padding: $space-xs $space-sm;
+  background: $bg-surface-300;
+  color: $text-light;
+  font-size: 10px;
+  font-weight: $font-medium;
+  text-transform: uppercase;
+  border-radius: $radius-xs;
+  letter-spacing: 0.025em;
+}
+
+.accountStats {
+  display: flex;
+  gap: $space-xl;
+  padding: $space-md 0;
+  margin-top: $space-md;
+  border-top: $border-width-thin solid $border-default;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.statValue {
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+}
+
+.statLabel {
+  font-size: 11px;
+  color: $text-lighter;
+}
+
+.manualFollowers {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  padding: $space-sm 0;
+  margin-top: $space-sm;
+  border-top: $border-width-thin solid $border-default;
+}
+
+.manualLabel {
+  font-size: 11px;
+  color: $text-lighter;
+}
+
+.manualValue {
+  padding: $space-xs $space-sm;
+  background: $bg-surface-300;
+  border: none;
+  border-radius: $radius-xs;
+  color: $text-light;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all $transition-normal $ease-out;
+
+  &:hover {
+    background: $bg-selection;
+    color: $text-default;
+  }
+}
+
+.manualEdit {
+  display: flex;
+  gap: $space-xs;
+}
+
+.manualInput {
+  width: 80px;
+  padding: $space-xs $space-sm;
+  background: $bg-control;
+  border: $border-width-thin solid $border-strong;
+  border-radius: $radius-xs;
+  color: $text-default;
+  font-size: 11px;
+
+  &:focus {
+    outline: none;
+    border-color: $accent-purple;
+  }
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+.manualSave {
+  padding: $space-xs $space-sm;
+  background: $accent-purple;
+  border: none;
+  border-radius: $radius-xs;
+  color: $text-default;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background $transition-normal $ease-out;
+
+  &:hover {
+    background: $accent-purple-hover;
+  }
+}
+
+.accountFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: $space-md;
+  margin-top: $space-sm;
+  border-top: $border-width-thin solid $border-default;
+}
+
+.connectedDate {
+  font-size: 11px;
+  color: $text-lighter;
+}
+
+.disconnectButton {
+  padding: $space-xs $space-md;
+  background: transparent;
+  border: $border-width-thin solid $border-strong;
+  border-radius: $radius-xs;
+  color: $text-light;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all $transition-normal $ease-out;
+
+  &:hover:not(:disabled) {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #f87171;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.platformsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: $space-sm;
+}
+
+.platformCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-xs;
+  padding: $space-lg $space-md;
+  background: $bg-surface-100;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: all $transition-normal $ease-out;
+
+  &:hover:not(:disabled):not(.connected) {
+    border-color: $border-stronger;
+    background: $bg-surface-200;
+  }
+
+  &.connected {
+    background: rgba(34, 197, 94, 0.05);
+    border-color: rgba(34, 197, 94, 0.2);
+    cursor: default;
+  }
+
+  &:disabled:not(.connected) {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.platformName {
+  font-size: 13px;
+  font-weight: $font-medium;
+  color: $text-default;
+}
+
+.platformStatus {
+  font-size: 11px;
+  color: $text-lighter;
+
+  .connected & {
+    color: #4ade80;
+  }
+}

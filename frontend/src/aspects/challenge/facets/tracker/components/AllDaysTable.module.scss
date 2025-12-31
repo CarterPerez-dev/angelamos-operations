@@ -1,0 +1,96 @@
+// ===================
+// © AngelaMos | 2025
+// AllDaysTable.module.scss
+// ===================
+
+@use '../../../../../styles/tokens' as *;
+
+.container {
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  overflow: hidden;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: $text-sm;
+}
+
+thead th {
+  background: $bg-surface-200;
+  color: $text-light;
+  font-weight: $font-normal;
+  text-align: center;
+  padding: $space-md $space-md;
+  border-bottom: 1px solid $border-default;
+  white-space: nowrap;
+}
+
+tbody tr {
+  transition: background-color $transition-fast $ease-out;
+
+  &:hover {
+    background: $bg-surface-200;
+  }
+}
+
+tbody td {
+  padding: $space-md $space-md;
+  border-bottom: 1px solid $border-muted;
+  color: $text-lighter;
+  text-align: center;
+}
+
+tfoot td {
+  background: $bg-surface-200;
+  padding: $space-md $space-md;
+  border-top: 1px solid $border-default;
+  color: $text-default;
+  font-weight: $font-semibold;
+  text-align: center;
+}
+
+.dayCol {
+  width: 80px;
+  font-weight: $font-medium;
+  color: $text-default;
+
+  thead & {
+    text-align: left;
+    padding-left: $space-xl;
+  }
+
+  tbody &,
+  tfoot & {
+    text-align: left;
+    padding-left: $space-xl;
+  }
+}
+
+.dataCol {
+  min-width: 60px;
+}
+
+.totalCol {
+  min-width: 80px;
+  font-weight: $font-medium;
+  color: $text-default;
+}
+
+.emptyRow {
+  td {
+    color: $text-muted;
+  }
+}
+
+.totalsRow {
+  td {
+    color: $text-default;
+  }
+}

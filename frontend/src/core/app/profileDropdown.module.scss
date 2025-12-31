@@ -1,0 +1,98 @@
+// ===================
+// © AngelaMos | 2025
+// profileDropdown.module.scss
+// ===================
+
+@use '@/styles' as *;
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + $space-sm);
+  right: 0;
+  min-width: 200px;
+  background: $bg-surface-200;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  z-index: $z-dropdown;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  padding: $space-md;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: $radius-full;
+}
+
+.name {
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+}
+
+.divider {
+  height: 1px;
+  background: $border-muted;
+}
+
+.sectionLabel {
+  padding: $space-sm $space-md $space-xs;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  padding: $space-xs 0;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  padding: $space-sm $space-md;
+  font-size: $text-sm;
+  color: $text-light;
+  transition: color $transition-fast $ease-out,
+              background-color $transition-fast $ease-out;
+
+  &:hover {
+    color: $text-default;
+    background: $bg-selection;
+  }
+
+  svg {
+    font-size: 14px;
+  }
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  width: 100%;
+  padding: $space-sm $space-md;
+  font-size: $text-sm;
+  color: $text-light;
+  cursor: pointer;
+  transition: color $transition-fast $ease-out,
+              background-color $transition-fast $ease-out;
+
+  &:hover {
+    color: $text-default;
+    background: $bg-selection;
+  }
+
+  svg {
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,342 @@
+// ===================
+// © AngelaMos | 2025
+// CalendarPage.module.scss
+// ===================
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: $space-2xl $space-3xl;
+  background: $bg-default;
+}
+
+.inner {
+  max-width: $container-2xl;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+  margin-bottom: $space-xl;
+}
+
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: $text-xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0;
+}
+
+.viewToggle {
+  display: flex;
+  gap: 2px;
+  background: $bg-surface-100;
+  padding: $space-xs;
+  border-radius: $radius-md;
+  border: $border-width-thin solid $border-default;
+}
+
+.viewButton {
+  padding: $space-sm $space-lg;
+  border: none;
+  background: transparent;
+  color: $text-lighter;
+  cursor: pointer;
+  border-radius: $radius-sm;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  transition: all $transition-normal $ease-out;
+
+  &:hover {
+    color: $text-default;
+    background: $bg-surface-200;
+  }
+
+  &.active {
+    background: $accent-purple;
+    color: $text-default;
+  }
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+}
+
+.navButton {
+  padding: $space-sm $space-md;
+  border: $border-width-thin solid $border-default;
+  background: $bg-surface-100;
+  color: $text-default;
+  cursor: pointer;
+  border-radius: $radius-sm;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  transition: all $transition-normal $ease-out;
+
+  &:hover {
+    background: $bg-surface-200;
+    border-color: $border-strong;
+  }
+}
+
+.todayButton {
+  padding: $space-sm $space-md;
+  background: $bg-surface-100;
+  border: $border-width-thin solid $border-default;
+  color: $text-default;
+  cursor: pointer;
+  border-radius: $radius-sm;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  transition: all $transition-normal $ease-out;
+
+  &:hover {
+    background: $bg-surface-200;
+    border-color: $border-strong;
+  }
+}
+
+.currentPeriod {
+  margin: 0 0 0 $space-lg;
+  font-size: $text-lg;
+  font-weight: $font-semibold;
+  color: $text-default;
+}
+
+.accountFilter {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+  padding-top: $space-lg;
+  border-top: $border-width-thin solid $border-default;
+}
+
+.filterLabel {
+  font-size: $text-xs;
+  color: $text-lighter;
+  font-weight: $font-medium;
+}
+
+.accountButtons {
+  display: flex;
+  gap: $space-sm;
+  flex-wrap: wrap;
+}
+
+.filterButton {
+  padding: $space-sm $space-md;
+  border: $border-width-thin solid $border-default;
+  background: $bg-surface-100;
+  color: $text-light;
+  cursor: pointer;
+  border-radius: $radius-full;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  transition: all $transition-normal $ease-out;
+
+  &:hover {
+    background: $bg-surface-200;
+    border-color: $border-strong;
+    color: $text-default;
+  }
+
+  &.active {
+    background: $bg-surface-200;
+    border-color: $accent-purple;
+    color: $text-default;
+  }
+}
+
+.errorBanner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $space-md $space-lg;
+  background: rgba(239, 68, 68, 0.1);
+  border: $border-width-thin solid rgba(239, 68, 68, 0.3);
+  border-radius: $radius-md;
+  margin-bottom: $space-lg;
+
+  span {
+    color: #f87171;
+    font-size: $text-sm;
+  }
+
+  button {
+    padding: $space-xs $space-sm;
+    border: none;
+    background: transparent;
+    color: #f87171;
+    cursor: pointer;
+    font-size: $text-xs;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.main {
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: $text-lighter;
+}
+
+.calendar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-md;
+  overflow: hidden;
+  background: $bg-surface-100;
+}
+
+.weekHeader {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: $bg-surface-75;
+  border-bottom: $border-width-thin solid $border-default;
+}
+
+.weekDay {
+  padding: $space-md;
+  text-align: center;
+  font-size: $text-xs;
+  font-weight: $font-semibold;
+  color: $text-lighter;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.daysGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: 1fr;
+  flex: 1;
+  min-height: 0;
+}
+
+.dayCell {
+  display: flex;
+  flex-direction: column;
+  padding: $space-sm;
+  border-right: $border-width-thin solid $border-default;
+  border-bottom: $border-width-thin solid $border-default;
+  min-height: 100px;
+  background: $bg-surface-100;
+  transition: background $transition-normal $ease-out;
+
+  &:nth-child(7n) {
+    border-right: none;
+  }
+
+  &:hover {
+    background: $bg-surface-200;
+  }
+
+  &.otherMonth {
+    background: $bg-surface-75;
+
+    .dayNumber {
+      color: $text-muted;
+    }
+
+    &:hover {
+      background: $bg-surface-100;
+    }
+  }
+
+  &.today {
+    background: $accent-purple-10;
+
+    &:hover {
+      background: $accent-purple-10;
+    }
+
+    .dayNumber {
+      background: $accent-purple;
+      color: $text-default;
+      border-radius: 50%;
+      width: 1.625rem;
+      height: 1.625rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: $text-xs;
+    }
+  }
+}
+
+.dayNumber {
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-light;
+  margin-bottom: $space-sm;
+}
+
+.postsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+  flex: 1;
+  overflow: hidden;
+}
+
+.postItem {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  padding: $space-xs $space-sm;
+  border-radius: $radius-xs;
+  font-size: $text-xs;
+  color: $text-default;
+  cursor: pointer;
+  overflow: hidden;
+  transition: opacity $transition-normal $ease-out;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+.postTime {
+  font-weight: $font-semibold;
+  white-space: nowrap;
+}
+
+.postPlatform {
+  text-transform: capitalize;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.moreIndicator {
+  font-size: $text-xs;
+  color: $text-lighter;
+  padding: 2px $space-sm;
+}

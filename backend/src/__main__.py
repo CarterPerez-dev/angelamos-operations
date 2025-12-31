@@ -4,8 +4,8 @@ __main__.py
 """
 import uvicorn
 
-from src.config import settings
-from src.factory import create_app
+from config import settings
+from app.factory import create_app
 
 
 app = create_app()

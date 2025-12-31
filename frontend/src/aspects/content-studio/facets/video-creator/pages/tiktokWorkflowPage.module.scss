@@ -1,0 +1,83 @@
+// ===================
+// © AngelaMos | 2025
+// tiktokWorkflowPage.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.container {
+  min-height: 100vh;
+  background: $bg-default;
+  color: $text-default;
+}
+
+.header {
+  padding: $space-lg $space-xl;
+  border-bottom: 1px solid $border-default;
+  background: $bg-surface-100;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $space-lg;
+}
+
+.title {
+  font-size: $text-xl;
+  font-weight: $font-semibold;
+  line-height: $line-height-tight;
+  color: $text-default;
+  margin: 0;
+}
+
+.resetButton {
+  padding: $space-sm $space-md;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-lighter;
+  background: transparent;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: filter 200ms linear;
+
+  &:hover {
+    filter: brightness(1.2);
+  }
+}
+
+.main {
+  padding: $space-xl;
+  max-width: $container-xl;
+  margin: 0 auto;
+}
+
+.errorBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-md $space-lg;
+  margin-bottom: $space-lg;
+  background: $bg-surface-200;
+  border: 1px solid $border-strong;
+  border-radius: $radius-md;
+  font-size: $text-sm;
+  color: $text-light;
+
+  button {
+    padding: $space-xs $space-sm;
+    font-size: $text-xs;
+    color: $text-lighter;
+    background: transparent;
+    border: 1px solid $border-default;
+    border-radius: $radius-sm;
+    cursor: pointer;
+    transition: filter 100ms linear;
+
+    &:hover {
+      filter: brightness(1.2);
+    }
+  }
+}

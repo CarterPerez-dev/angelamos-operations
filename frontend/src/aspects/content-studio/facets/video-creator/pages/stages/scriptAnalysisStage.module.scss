@@ -1,0 +1,212 @@
+// ===================
+// © AngelaMos | 2025
+// scriptAnalysisStage.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}
+
+.analyzeSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-lg;
+  padding: $space-xl;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+}
+
+.scriptPreview {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  width: 100%;
+  max-width: 600px;
+}
+
+.previewTitle {
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-light;
+  margin: 0;
+}
+
+.scriptText {
+  font-size: $text-sm;
+  color: $text-lighter;
+  margin: 0;
+  padding: $space-md;
+  background: $bg-surface-200;
+  border-radius: $radius-sm;
+  line-height: $line-height-normal;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.analyzeButton {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  padding: $space-sm $space-lg;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+  background: $accent-purple;
+  border: 1px solid $accent-purple;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: filter 100ms linear;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.15);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+}
+
+.analysisResults {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xl;
+}
+
+.overallSection,
+.feedbackSection,
+.predictionSection {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+  padding: $space-lg;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+}
+
+.sectionTitle {
+  font-size: $text-sm;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0;
+}
+
+.assessmentContent,
+.predictionContent {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: $space-md;
+}
+
+.assessmentItem,
+.predictionItem {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+  padding: $space-sm;
+  background: $bg-surface-200;
+  border-radius: $radius-sm;
+}
+
+.assessmentLabel,
+.predictionLabel {
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-muted;
+  text-transform: capitalize;
+}
+
+.assessmentValue,
+.predictionValue {
+  font-size: $text-sm;
+  color: $text-light;
+}
+
+.feedbackList {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.feedbackItem {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  padding: $space-md;
+  background: $bg-surface-200;
+  border-radius: $radius-sm;
+}
+
+.feedbackHeader {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+}
+
+.sentenceLabel {
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+}
+
+.keepSwap {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  padding: $space-xs $space-sm;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  border-radius: $radius-sm;
+
+  &.keep {
+    color: $text-default;
+    background: $bg-overlay;
+  }
+
+  &.swap {
+    color: $text-light;
+    background: $bg-surface-300;
+  }
+}
+
+.yourChoice {
+  font-size: $text-sm;
+  color: $text-default;
+  margin: 0;
+  font-style: italic;
+}
+
+.assessment {
+  font-size: $text-sm;
+  color: $text-light;
+  margin: 0;
+  line-height: $line-height-normal;
+}
+
+.whyItWorks {
+  font-size: $text-xs;
+  color: $text-lighter;
+  margin: 0;
+}
+
+.alternative {
+  font-size: $text-xs;
+  color: $text-lighter;
+  margin: 0;
+  padding: $space-sm;
+  background: $bg-overlay;
+  border-radius: $radius-sm;
+  border-left: 2px solid $border-strong;
+}

@@ -25,6 +25,12 @@ export default defineConfig(({ mode }) => {
       preprocessorOptions: {
         scss: {
           api: 'modern-compiler',
+          additionalData: (source: string, filename: string) => {
+            if (filename.includes('/styles/')) {
+              return source
+            }
+            return `@use '@/styles/tokens' as *;\n@use '@/styles/mixins' as *;\n${source}`
+          },
         },
       },
     },

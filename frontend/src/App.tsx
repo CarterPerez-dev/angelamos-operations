@@ -17,7 +17,7 @@ export default function App(): React.ReactElement {
     <QueryClientProvider client={queryClient}>
       <div className="app">
         <RouterProvider router={router} />
-        <Toaster richColors position="top-right" />
+        <Toaster theme="dark" position="top-right" duration={1000} />
       </div>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

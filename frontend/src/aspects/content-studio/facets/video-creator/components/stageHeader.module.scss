@@ -1,0 +1,25 @@
+// ===================
+// © AngelaMos | 2025
+// stageHeader.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.container {
+  margin-bottom: $space-lg;
+}
+
+.title {
+  font-size: $text-xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0 0 $space-sm 0;
+  line-height: $line-height-tight;
+}
+
+.description {
+  font-size: $text-sm;
+  color: $text-light;
+  margin: 0;
+  line-height: $line-height-normal;
+}

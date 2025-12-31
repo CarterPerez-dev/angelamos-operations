@@ -1,0 +1,55 @@
+// ===================
+// © AngelaMos | 2025
+// navigationButtons.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: $space-xl;
+  border-top: 1px solid $border-default;
+  margin-top: $space-xl;
+}
+
+.backButton,
+.nextButton {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  padding: $space-sm $space-lg;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: filter 100ms linear;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.15);
+  }
+}
+
+.backButton {
+  color: $text-light;
+  background: transparent;
+  border: 1px solid $border-default;
+}
+
+.nextButton {
+  color: $text-default;
+  background: $accent-purple;
+  border: 1px solid $accent-purple;
+  margin-left: auto;
+}
+
+.chevron {
+  font-size: $text-lg;
+  line-height: 1;
+}

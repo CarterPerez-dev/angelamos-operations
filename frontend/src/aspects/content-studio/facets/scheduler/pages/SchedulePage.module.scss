@@ -1,0 +1,485 @@
+// ===================
+// © AngelaMos | 2025
+// SchedulePage.module.scss
+// ===================
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: $space-2xl $space-3xl;
+  background: $bg-default;
+}
+
+.inner {
+  max-width: $container-2xl;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.header {
+  margin-bottom: $space-xl;
+}
+
+.title {
+  font-size: $text-xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0 0 $space-xs;
+}
+
+.subtitle {
+  font-size: $text-sm;
+  color: $text-light;
+  margin: 0;
+}
+
+.errorBanner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $space-md $space-lg;
+  background: rgba(239, 68, 68, 0.1);
+  border: $border-width-thin solid rgba(239, 68, 68, 0.3);
+  border-radius: $radius-md;
+  margin-bottom: $space-lg;
+
+  span {
+    color: #f87171;
+    font-size: $text-sm;
+  }
+
+  button {
+    padding: $space-xs $space-sm;
+    border: none;
+    background: transparent;
+    color: #f87171;
+    cursor: pointer;
+    font-size: $text-xs;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.main {
+  flex: 1;
+  overflow: hidden;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-xl;
+  height: 100%;
+}
+
+.contentSection,
+.upcomingSection {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sectionTitle {
+  font-size: $text-base;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0 0 $space-lg;
+}
+
+.contentList,
+.postsList {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+  overflow: auto;
+  flex: 1;
+}
+
+.loading,
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  color: $text-lighter;
+  font-size: $text-sm;
+}
+
+.contentItem {
+  display: flex;
+  flex-direction: column;
+  padding: $space-lg;
+  background: $bg-surface-100;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: all $transition-normal $ease-out;
+
+  &:hover {
+    border-color: $border-strong;
+    background: $bg-surface-200;
+  }
+
+  &.selected {
+    border-color: $accent-purple;
+    background: $accent-purple-10;
+  }
+}
+
+.contentHeader {
+  display: flex;
+  gap: $space-sm;
+  margin-bottom: $space-sm;
+}
+
+.contentType {
+  padding: 2px $space-sm;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  text-transform: uppercase;
+  background: $bg-surface-300;
+  color: $text-light;
+  border-radius: $radius-xs;
+}
+
+.platform {
+  padding: 2px $space-sm;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  text-transform: uppercase;
+  color: $text-default;
+  border-radius: $radius-xs;
+}
+
+.contentTitle {
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+  margin: 0 0 $space-md;
+  line-height: $line-height-normal;
+}
+
+.scheduleButton {
+  align-self: flex-start;
+  padding: $space-sm $space-md;
+  background: $accent-purple;
+  border: none;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: background $transition-normal $ease-out;
+
+  &:hover:not(:disabled) {
+    background: $accent-purple-hover;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.postCard {
+  display: flex;
+  flex-direction: column;
+  padding: $space-lg;
+  background: $bg-surface-100;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-md;
+}
+
+.postHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $space-sm;
+}
+
+.postPlatform {
+  padding: 2px $space-sm;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  text-transform: uppercase;
+  color: $text-default;
+  border-radius: $radius-xs;
+}
+
+.postStatus {
+  font-size: $text-xs;
+  font-weight: $font-medium;
+}
+
+.postContent {
+  margin-bottom: $space-sm;
+}
+
+.postTitle {
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+  margin: 0 0 $space-xs;
+}
+
+.postAccount {
+  font-size: $text-xs;
+  color: $text-light;
+}
+
+.postSchedule {
+  margin-bottom: $space-md;
+}
+
+.scheduledFor {
+  font-size: $text-xs;
+  color: $text-lighter;
+}
+
+.postActions {
+  display: flex;
+  gap: $space-sm;
+}
+
+.publishButton,
+.cancelButton {
+  padding: $space-xs $space-sm;
+  font-size: $text-xs;
+  border-radius: $radius-xs;
+  cursor: pointer;
+  transition: all $transition-normal $ease-out;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.publishButton {
+  background: rgba(34, 197, 94, 0.1);
+  border: $border-width-thin solid rgba(34, 197, 94, 0.3);
+  color: #4ade80;
+
+  &:hover:not(:disabled) {
+    background: rgba(34, 197, 94, 0.2);
+  }
+}
+
+.cancelButton {
+  background: transparent;
+  border: $border-width-thin solid $border-default;
+  color: $text-light;
+
+  &:hover:not(:disabled) {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #f87171;
+  }
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: $z-modal;
+  padding: $space-lg;
+}
+
+.modal {
+  background: $bg-surface-75;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-lg;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow: auto;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $space-lg $space-xl;
+  border-bottom: $border-width-thin solid $border-default;
+
+  h2 {
+    margin: 0;
+    font-size: $text-lg;
+    font-weight: $font-semibold;
+    color: $text-default;
+  }
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: $text-xl;
+  color: $text-lighter;
+  cursor: pointer;
+  line-height: 1;
+
+  &:hover {
+    color: $text-default;
+  }
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+  padding: $space-xl;
+}
+
+.contentPreview {
+  padding: $space-lg;
+  background: $bg-surface-100;
+  border-radius: $radius-md;
+
+  h4 {
+    font-size: $text-sm;
+    font-weight: $font-medium;
+    color: $text-default;
+    margin: 0 0 $space-sm;
+  }
+
+  p {
+    font-size: $text-xs;
+    color: $text-light;
+    margin: 0;
+    line-height: $line-height-normal;
+  }
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+}
+
+.accountSelection {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.accountOption {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+  padding: $space-md;
+  background: $bg-surface-100;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: all $transition-normal $ease-out;
+
+  &:hover {
+    border-color: $border-strong;
+  }
+
+  &.selected {
+    border-color: $accent-purple;
+    background: $accent-purple-10;
+  }
+}
+
+.checkbox {
+  width: 1rem;
+  height: 1rem;
+  accent-color: $accent-purple;
+}
+
+.accountPlatform {
+  padding: $space-xs $space-sm;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  text-transform: uppercase;
+  color: $text-default;
+  border-radius: $radius-xs;
+}
+
+.accountUsername {
+  font-size: $text-sm;
+  color: $text-light;
+}
+
+.dateInput {
+  padding: $space-md $space-md;
+  border: $border-width-thin solid $border-default;
+  border-radius: $radius-sm;
+  background: $bg-control;
+  color: $text-default;
+  font-size: $text-sm;
+  color-scheme: dark;
+
+  &:focus {
+    outline: none;
+    border-color: $accent-purple;
+  }
+}
+
+.timezone {
+  font-size: $text-xs;
+  color: $text-lighter;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $space-md;
+  padding-top: $space-sm;
+}
+
+.cancelModalButton,
+.submitButton {
+  padding: $space-md $space-lg;
+  border-radius: $radius-sm;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: all $transition-normal $ease-out;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.cancelModalButton {
+  background: transparent;
+  border: $border-width-thin solid $border-strong;
+  color: $text-default;
+
+  &:hover:not(:disabled) {
+    background: $bg-surface-300;
+  }
+}
+
+.submitButton {
+  background: $accent-purple;
+  border: none;
+  color: $text-default;
+
+  &:hover:not(:disabled) {
+    background: $accent-purple-hover;
+  }
+}

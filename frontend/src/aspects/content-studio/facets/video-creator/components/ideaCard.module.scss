@@ -1,0 +1,103 @@
+// ===================
+// © AngelaMos | 2025
+// ideaCard.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: $space-lg;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  cursor: pointer;
+  text-align: left;
+  transition: filter 100ms linear;
+
+  &:hover {
+    filter: brightness(1.1);
+  }
+
+  &.selected {
+    border-color: $accent-purple;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  margin-bottom: $space-sm;
+  width: 100%;
+}
+
+.category {
+  padding: $space-xs $space-sm;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-light;
+  background: $bg-surface-200;
+  border-radius: $radius-sm;
+}
+
+.risk {
+  padding: $space-xs $space-sm;
+  font-size: $text-xs;
+  color: $text-lighter;
+  background: $bg-surface-200;
+  border-radius: $radius-sm;
+  margin-left: auto;
+}
+
+.topic {
+  font-size: $text-base;
+  font-weight: $font-medium;
+  color: $text-default;
+  margin: 0 0 $space-sm 0;
+  line-height: $line-height-tight;
+}
+
+.meta {
+  display: flex;
+  gap: $space-sm;
+  margin-bottom: $space-sm;
+}
+
+.metaItem {
+  font-size: $text-xs;
+  color: $text-lighter;
+}
+
+.engagement {
+  font-size: $text-sm;
+  color: $text-light;
+  margin: 0 0 $space-sm 0;
+}
+
+.reasoning {
+  font-size: $text-xs;
+  color: $text-lighter;
+  margin: 0 0 $space-md 0;
+  line-height: $line-height-normal;
+}
+
+.hookStyle {
+  display: flex;
+  gap: $space-xs;
+  padding-top: $space-sm;
+  border-top: 1px solid $border-muted;
+  width: 100%;
+}
+
+.hookLabel {
+  font-size: $text-xs;
+  color: $text-muted;
+}
+
+.hookValue {
+  font-size: $text-xs;
+  color: $text-light;
+}

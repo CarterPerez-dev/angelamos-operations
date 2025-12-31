@@ -3,6 +3,8 @@
 // _reset.scss
 // ===================
 
+@use 'tokens' as *;
+
 *,
 *::before,
 *::after {
@@ -23,17 +25,15 @@ html {
   overflow-x: hidden;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    interpolate-size: allow-keywords;
-    scroll-behavior: smooth;
-  }
-}
-
 body {
   min-height: 100vh;
   min-height: 100dvh;
-  line-height: 1.5;
+  font-family: $font-sans;
+  font-size: $text-sm;
+  font-weight: $font-normal;
+  line-height: $line-height-normal;
+  color: $text-default;
+  background: $bg-default;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -46,14 +46,13 @@ h3,
 h4,
 h5,
 h6 {
-  line-height: 1.1;
-  text-wrap: balance;
-  overflow-wrap: break-word;
+  font-weight: $font-semibold;
+  line-height: $line-height-tight;
+  color: $text-default;
 }
 
 p {
-  text-wrap: pretty;
-  overflow-wrap: break-word;
+  color: $text-light;
 }
 
 ul,
@@ -61,18 +60,10 @@ ol {
   list-style: none;
 }
 
-ul[role='list'],
-ol[role='list'] {
-  list-style: none;
-}
-
 a {
   color: inherit;
   text-decoration: none;
-}
-
-a:not([class]) {
-  text-decoration-skip-ink: auto;
+  transition: color $transition-fast $ease-out;
 }
 
 img,
@@ -93,19 +84,6 @@ select {
   color: inherit;
 }
 
-input[type='text'],
-input[type='email'],
-input[type='password'],
-input[type='search'],
-input[type='number'],
-input[type='tel'],
-input[type='url'],
-textarea,
-select {
-  font-size: 1rem;
-  appearance: none;
-}
-
 button {
   background: none;
   border: none;
@@ -121,19 +99,12 @@ fieldset {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-}
-
-textarea:not([rows]) {
-  min-height: 10em;
-}
-
-:target {
-  scroll-margin-block: 5ex;
+  font-size: $text-sm;
 }
 
 :focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
+  outline: none;
+  box-shadow: 0 0 0 2px $accent-purple-30;
 }
 
 :focus:not(:focus-visible) {
@@ -146,21 +117,13 @@ textarea:not([rows]) {
 
 [disabled] {
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 dialog {
   padding: 0;
   border: none;
   background: transparent;
-}
-
-summary {
-  cursor: pointer;
-}
-
-progress {
-  vertical-align: baseline;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -170,20 +133,12 @@ progress {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-@supports (padding: max(0px)) {
-  body {
-    padding-left: max(0px, env(safe-area-inset-left));
-    padding-right: max(0px, env(safe-area-inset-right));
   }
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -191,14 +146,15 @@ progress {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgb(255 255 255 / 20%);
-  border-radius: 4px;
+  background: $text-muted;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(255 255 255 / 30%);
+  background: $text-lighter;
 }
 
 ::selection {
-  background-color: rgb(255 255 255 / 20%);
+  background-color: $accent-purple-30;
+  color: $text-default;
 }

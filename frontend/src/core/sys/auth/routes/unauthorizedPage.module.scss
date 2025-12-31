@@ -1,0 +1,64 @@
+// ===================
+// © AngelaMos | 2025
+// unauthorizedPage.module.scss
+// ===================
+
+@use '@/styles' as *;
+
+.container {
+  @include flex-center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: $space-lg;
+  background: $bg-default;
+}
+
+.card {
+  @include flex-column;
+  align-items: center;
+  width: 100%;
+  max-width: 360px;
+  padding: $space-xl;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  text-align: center;
+
+  h1 {
+    margin-bottom: $space-sm;
+    font-size: $text-xl;
+    font-weight: $font-semibold;
+    color: $text-default;
+  }
+
+  p {
+    margin-bottom: $space-xl;
+    font-size: $text-sm;
+    color: $text-light;
+  }
+}
+
+.icon {
+  @include flex-center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: $space-lg;
+  color: $text-muted;
+
+  svg {
+    font-size: 32px;
+  }
+}
+
+.actions {
+  width: 100%;
+
+  a {
+    display: block;
+    width: 100%;
+  }
+
+  button {
+    width: 100%;
+  }
+}

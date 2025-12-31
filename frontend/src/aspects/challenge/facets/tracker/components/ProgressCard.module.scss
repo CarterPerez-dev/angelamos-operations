@@ -1,0 +1,68 @@
+// ===================
+// © AngelaMos | 2025
+// ProgressCard.module.scss
+// ===================
+
+@use '../../../../../styles/tokens' as *;
+
+.card {
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  padding: $space-xl $space-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.title {
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-lighter;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stats {
+  display: flex;
+  align-items: baseline;
+  gap: $space-xs;
+}
+
+.current {
+  font-size: $text-2xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+  line-height: $line-height-tight;
+}
+
+.separator {
+  font-size: $text-lg;
+  color: $text-muted;
+}
+
+.goal {
+  font-size: $text-lg;
+  color: $text-light;
+}
+
+.progressBar {
+  height: 6px;
+  background: $border-muted;
+  border-radius: $radius-full;
+  overflow: hidden;
+  margin-top: $space-xs;
+}
+
+.progressFill {
+  height: 100%;
+  background: $accent-purple;
+  border-radius: $radius-full;
+  transition: width $transition-normal $ease-out;
+}
+
+.percentage {
+  font-size: $text-sm;
+  color: $text-light;
+  font-weight: $font-medium;
+}
