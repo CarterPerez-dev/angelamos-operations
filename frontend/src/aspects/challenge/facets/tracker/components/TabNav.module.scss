@@ -1,0 +1,38 @@
+// ===================
+// © AngelaMos | 2025
+// TabNav.module.scss
+// ===================
+
+@use '../../../../../styles/tokens' as *;
+
+.tabs {
+  display: inline-flex;
+  gap: $space-xs;
+  background: $bg-surface-75;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  padding: $space-xs;
+}
+
+.tab {
+  background: transparent;
+  border: none;
+  border-radius: $radius-sm;
+  padding: $space-sm $space-lg;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-light;
+  cursor: pointer;
+  transition:
+    background-color $transition-fast $ease-out,
+    color $transition-fast $ease-out;
+
+  &:hover:not(.active) {
+    color: $text-default;
+  }
+}
+
+.active {
+  background: $bg-surface-100;
+  color: $text-default;
+}

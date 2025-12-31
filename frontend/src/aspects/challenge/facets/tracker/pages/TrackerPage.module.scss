@@ -1,0 +1,97 @@
+// ===================
+// © AngelaMos | 2025
+// TrackerPage.module.scss
+// ===================
+
+@use '../../../../../styles/tokens' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xl;
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: $space-xl $space-2xl;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  font-size: $text-sm;
+  color: $text-lighter;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-xl;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: $space-lg;
+}
+
+.title {
+  font-size: $text-xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0;
+}
+
+.dayBadge {
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-lighter;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  padding: $space-xs $space-sm;
+}
+
+.restartButton {
+  background: transparent;
+  border: 1px solid $border-strong;
+  border-radius: $radius-sm;
+  padding: $space-sm $space-lg;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-light;
+  cursor: pointer;
+  transition:
+    background-color $transition-fast $ease-out,
+    border-color $transition-fast $ease-out;
+
+  &:hover:not(:disabled) {
+    background: $bg-selection;
+    border-color: $border-stronger;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xl;
+}
+
+.progressCards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-xl;
+}
+
+.allDays {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}

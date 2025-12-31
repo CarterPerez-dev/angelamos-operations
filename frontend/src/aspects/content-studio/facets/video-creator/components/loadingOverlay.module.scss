@@ -1,0 +1,51 @@
+// ===================
+// © AngelaMos | 2025
+// loadingOverlay.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: $z-overlay;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-lg;
+  padding: $space-2xl;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  max-width: 400px;
+  text-align: center;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 2px solid $border-default;
+  border-top-color: $text-default;
+  border-radius: $radius-full;
+  animation: spin 800ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.message {
+  font-size: $text-sm;
+  color: $text-light;
+  line-height: $line-height-normal;
+  margin: 0;
+}

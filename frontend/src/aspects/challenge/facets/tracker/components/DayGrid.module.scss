@@ -1,0 +1,58 @@
+// ===================
+// © AngelaMos | 2025
+// DayGrid.module.scss
+// ===================
+
+@use '../../../../../styles/tokens' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-light;
+}
+
+.legend {
+  display: flex;
+  gap: $space-lg;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  font-size: $text-xs;
+  color: $text-lighter;
+}
+
+.legendDot {
+  width: 8px;
+  height: 8px;
+  background: $bg-surface-200;
+  border-radius: $radius-full;
+}
+
+.legendEmpty {
+  width: 8px;
+  height: 8px;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-full;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: $space-md;
+}

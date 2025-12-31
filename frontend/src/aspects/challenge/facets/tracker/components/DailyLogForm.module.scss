@@ -1,0 +1,120 @@
+// ===================
+// © AngelaMos | 2025
+// DailyLogForm.module.scss
+// ===================
+
+@use '../../../../../styles/tokens' as *;
+
+.form {
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  padding: $space-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
+
+.dayLabel {
+  font-size: $text-lg;
+  font-weight: $font-semibold;
+  color: $text-default;
+}
+
+.dateLabel {
+  font-size: $text-sm;
+  color: $text-lighter;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.sectionTitle {
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-lighter;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.inputGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-sm;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
+
+.label {
+  font-size: $text-xs;
+  color: $text-light;
+}
+
+.input {
+  background: $bg-control;
+  border: 1px solid $border-control;
+  border-radius: $radius-sm;
+  padding: $space-sm $space-md;
+  font-size: $text-sm;
+  color: $text-default;
+  width: 100%;
+  transition: border-color $transition-fast $ease-out;
+
+  &:focus {
+    outline: none;
+    border-color: $accent-purple;
+  }
+
+  &::placeholder {
+    color: $text-muted;
+  }
+}
+
+.subtotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: $space-sm;
+  border-top: 1px solid $border-muted;
+  font-size: $text-sm;
+  color: $text-light;
+}
+
+.subtotalValue {
+  font-weight: $font-semibold;
+  color: $text-default;
+}
+
+.submitButton {
+  background: $accent-purple;
+  border: 1px solid transparent;
+  border-radius: $radius-sm;
+  padding: $space-sm $space-lg;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+  cursor: pointer;
+  transition: filter $transition-normal $ease-out;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.2);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

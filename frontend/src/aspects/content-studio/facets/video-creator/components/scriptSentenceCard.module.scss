@@ -1,0 +1,103 @@
+// ===================
+// © AngelaMos | 2025
+// scriptSentenceCard.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+  padding: $space-lg;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+}
+
+.sentenceNumber {
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+}
+
+.purpose {
+  padding: $space-xs $space-sm;
+  font-size: $text-xs;
+  color: $text-lighter;
+  background: $bg-surface-200;
+  border-radius: $radius-sm;
+}
+
+.variations {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.variation {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+  padding: $space-md;
+  background: $bg-surface-200;
+  border: 1px solid $border-muted;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  text-align: left;
+  transition: filter 100ms linear, border-color 100ms linear;
+
+  &:hover {
+    filter: brightness(1.1);
+  }
+
+  &.selected {
+    border-color: $accent-purple;
+  }
+
+  &.recommended {
+    background: $bg-overlay;
+  }
+}
+
+.variationHeader {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+}
+
+.variationIndex {
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-muted;
+}
+
+.recommendedBadge {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  padding: $space-xs $space-sm;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-default;
+  background: $accent-purple;
+  border-radius: $radius-sm;
+}
+
+.starIcon {
+  width: 12px;
+  height: 12px;
+}
+
+.variationText {
+  font-size: $text-sm;
+  color: $text-light;
+  margin: 0;
+  line-height: $line-height-normal;
+}

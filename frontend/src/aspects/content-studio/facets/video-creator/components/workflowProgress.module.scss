@@ -1,0 +1,90 @@
+// ===================
+// © AngelaMos | 2025
+// workflowProgress.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.container {
+  width: 100%;
+}
+
+.steps {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  flex: 1;
+
+  &:not(:last-child)::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: $border-default;
+    margin-left: $space-sm;
+  }
+}
+
+.indicator {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-full;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  flex-shrink: 0;
+  border: 1px solid $border-default;
+  background: $bg-surface-100;
+  color: $text-muted;
+}
+
+.label {
+  font-size: $text-xs;
+  color: $text-muted;
+  white-space: nowrap;
+}
+
+.completed {
+  .indicator {
+    background: $accent-purple;
+    border-color: $accent-purple;
+    color: $text-default;
+  }
+
+  .label {
+    color: $text-light;
+  }
+
+  &::after {
+    background: $accent-purple;
+  }
+}
+
+.current {
+  .indicator {
+    border-color: $accent-purple;
+    color: $text-default;
+  }
+
+  .label {
+    color: $text-default;
+    font-weight: $font-medium;
+  }
+}
+
+.pending {
+  .indicator {
+    opacity: 0.5;
+  }
+
+  .label {
+    opacity: 0.5;
+  }
+}

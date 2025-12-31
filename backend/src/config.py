@@ -19,7 +19,7 @@ from pydantic_settings import (
     SettingsConfigDict,
 )
 
-from src.core.constants import (
+from core.constants import (
     API_PREFIX,
     API_VERSION,
     DEVICE_ID_MAX_LENGTH,
@@ -32,7 +32,7 @@ from src.core.constants import (
     PASSWORD_MIN_LENGTH,
     TOKEN_HASH_LENGTH,
 )
-from src.core.enums import (
+from core.enums import (
     Environment,
     HealthStatus,
     SafeEnum,
@@ -81,9 +81,18 @@ class Settings(BaseSettings):
     SECRET_KEY: SecretStr = Field(..., min_length = 32)
     JWT_ALGORITHM: Literal["HS256", "HS384", "HS512"] = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(default = 15, ge = 5, le = 60)
-    REFRESH_TOKEN_EXPIRE_DAYS: int = Field(default = 7, ge = 1, le = 30)
+    REFRESH_TOKEN_EXPIRE_DAYS: int = Field(default = 30, ge = 1, le = 90)
 
     REDIS_URL: RedisDsn | None = None
+    REDIS_MAX_CONNECTIONS: int = Field(default = 50, ge = 10, le = 200)
+    REDIS_SOCKET_TIMEOUT: float = Field(default = 5.0, ge = 1.0)
+    REDIS_SOCKET_CONNECT_TIMEOUT: float = Field(default = 2.0, ge = 0.5)
+    REDIS_HEALTH_CHECK_INTERVAL: int = Field(default = 30, ge = 10)
+    REDIS_DECODE_RESPONSES: bool = True
+
+    CACHE_DEFAULT_TTL: int = Field(default = 300, ge = 60)
+    CACHE_VERSION: str = "v1"
+    CACHE_KEY_PREFIX: str = "carteros"
 
     CORS_ORIGINS: list[str] = [
         "http://localhost",
@@ -113,6 +122,13 @@ class Settings(BaseSettings):
                        "ERROR",
                        "CRITICAL"] = "INFO"
     LOG_JSON_FORMAT: bool = True
+
+    CLAUDE_CODE_OAUTH_TOKEN: SecretStr | None = None
+    MCP_SERVER_URL: str = "http://localhost:8000/mcp"
+    LATER_DEV_API_KEY: SecretStr | None = None
+
+    UPLOAD_DIR: Path = Path("/app/uploads")
+    UPLOAD_MAX_SIZE_MB: int = Field(default=50, ge=1, le=500)
 
     @model_validator(mode = "after")
     def validate_production_settings(self) -> "Settings":

@@ -1,0 +1,53 @@
+// ===================
+// © AngelaMos | 2025
+// ideaGenerationStage.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xl;
+}
+
+.generateSection {
+  display: flex;
+  justify-content: center;
+  padding: $space-2xl 0;
+}
+
+.generateButton {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  padding: $space-md $space-xl;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+  background: $accent-purple;
+  border: 1px solid $accent-purple;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: filter 200ms linear;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.2);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.buttonIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.ideasGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-lg;
+}
