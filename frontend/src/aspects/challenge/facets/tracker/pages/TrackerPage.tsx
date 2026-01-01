@@ -43,7 +43,7 @@ export function TrackerPage() {
     <div className={styles.page}>
       <header className={styles.header}>
         <div className={styles.titleRow}>
-          <h1 className={styles.title}>1,500/1,000 Challenge</h1>
+          <h1 className={styles.title}>30 Day Focus Challenge</h1>
           <span className={styles.dayBadge}>Day {challenge.current_day} of 30</span>
         </div>
         <button

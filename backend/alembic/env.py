@@ -93,6 +93,12 @@ from aspects.content_studio.shared.models.scheduling import (  # noqa: F401
     PostAnalytics,
     FollowerStats,
 )
+from aspects.challenge.facets.tracker.models import Challenge, ChallengeLog  # noqa: F401
+from aspects.life_manager.facets.planner.models import (  # noqa: F401
+    TimeBlock,
+    NoteFolder,
+    Note,
+)
 
 
 config = context.config

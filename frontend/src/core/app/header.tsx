@@ -57,15 +57,15 @@ export function Header() {
         <nav className={styles.nav}>
           <Link to="/challenge/tracker" className={styles.navLink}>
             <GiHouse />
-            <span>Dashboard</span>
+            <span>Challenge</span>
           </Link>
-          <Link to="/content-studio/scheduler/calendar" className={styles.navLink}>
+          <Link to="/life/planner" className={styles.navLink}>
             <GiCalendar />
-            <span>Calendar</span>
+            <span>Planner</span>
           </Link>
-          <Link to="/content-studio/scheduler/analytics" className={styles.navLink}>
-            <GiChart />
-            <span>Analytics</span>
+          <Link to="/life/notes" className={styles.navLink}>
+            <GiBookshelf />
+            <span>Notes</span>
           </Link>
           <Link to="/content-studio/tiktok/new" className={styles.navLink}>
             <GiBrain />

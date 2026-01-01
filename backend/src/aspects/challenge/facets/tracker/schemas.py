@@ -42,12 +42,12 @@ class ChallengeStart(BaseSchema):
         description = "Start date of the challenge (defaults to today)"
     )
     content_goal: int = Field(
-        default = 1500,
+        default = 450,
         ge = 1,
         description = "Content creation goal"
     )
     jobs_goal: int = Field(
-        default = 1000,
+        default = 150,
         ge = 1,
         description = "Job applications goal"
     )

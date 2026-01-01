@@ -1,0 +1,265 @@
+// ===================
+// © AngelaMos | 2025
+// DayPlannerPage.module.scss
+// ===================
+
+@use '../../../../../styles/tokens' as *;
+
+.page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: $space-2xl $space-xl;
+}
+
+.header {
+  margin-bottom: $space-2xl;
+}
+
+.title {
+  font-size: $text-2xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin-bottom: $space-lg;
+}
+
+.dateNav {
+  display: flex;
+  align-items: center;
+  gap: $space-lg;
+}
+
+.navBtn {
+  padding: $space-sm $space-lg;
+  background: $bg-surface-200;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-light;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: all $transition-fast $ease-out;
+
+  &:hover {
+    background: $bg-surface-300;
+    color: $text-default;
+  }
+}
+
+.currentDate {
+  font-size: $text-lg;
+  font-weight: $font-medium;
+  color: $text-default;
+}
+
+.addSection {
+  padding: $space-xl;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  margin-bottom: $space-2xl;
+}
+
+.timeInputs {
+  display: flex;
+  align-items: flex-end;
+  gap: $space-lg;
+  margin-bottom: $space-xl;
+  flex-wrap: wrap;
+}
+
+.timeGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.timeLabel {
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-lighter;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.timeFields {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+}
+
+.hourInput,
+.minInput {
+  width: 52px;
+  padding: $space-md;
+  background: $bg-surface-200;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-lg;
+  font-family: $font-mono;
+  text-align: center;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $border-strong;
+    background: $bg-surface-300;
+  }
+}
+
+.colon {
+  color: $text-lighter;
+  font-size: $text-lg;
+  font-weight: $font-medium;
+}
+
+.periodToggle {
+  display: flex;
+  margin-left: $space-sm;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  overflow: hidden;
+}
+
+.periodBtn {
+  padding: $space-sm $space-md;
+  background: $bg-surface-200;
+  border: none;
+  color: $text-light;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: all $transition-fast $ease-out;
+
+  &:first-child {
+    border-right: 1px solid $border-default;
+  }
+
+  &:hover {
+    background: $bg-surface-300;
+  }
+
+  &.active {
+    background: $bg-selection;
+    color: $text-default;
+  }
+}
+
+.toLabel {
+  color: $text-lighter;
+  font-size: $text-base;
+  font-weight: $font-medium;
+  padding-bottom: $space-md;
+}
+
+.taskRow {
+  display: flex;
+  gap: $space-md;
+}
+
+.titleInput {
+  flex: 1;
+  padding: $space-md $space-lg;
+  background: $bg-surface-200;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-base;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $border-strong;
+    background: $bg-surface-300;
+  }
+}
+
+.addBtn {
+  padding: $space-md $space-xl;
+  background: $bg-surface-300;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-base;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: all $transition-fast $ease-out;
+  white-space: nowrap;
+
+  &:hover {
+    background: $bg-selection;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.blockList {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.empty {
+  text-align: center;
+  padding: $space-3xl;
+  color: $text-muted;
+  font-size: $text-base;
+}
+
+.block {
+  display: flex;
+  align-items: center;
+  gap: $space-xl;
+  padding: $space-lg $space-xl;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  transition: background-color $transition-fast $ease-out;
+
+  &:hover {
+    background: $bg-surface-200;
+
+    .deleteBtn {
+      opacity: 1;
+    }
+  }
+}
+
+.blockTime {
+  min-width: 180px;
+  font-size: $text-base;
+  color: $text-light;
+  font-family: $font-mono;
+}
+
+.blockTitle {
+  flex: 1;
+  font-size: $text-base;
+  color: $text-default;
+}
+
+.deleteBtn {
+  padding: $space-sm $space-md;
+  background: transparent;
+  border: 1px solid $border-muted;
+  border-radius: $radius-sm;
+  color: $text-muted;
+  font-size: $text-sm;
+  cursor: pointer;
+  opacity: 0;
+  transition: all $transition-fast $ease-out;
+
+  &:hover {
+    border-color: hsl(0, 50%, 40%);
+    color: hsl(0, 50%, 55%);
+  }
+}

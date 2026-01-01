@@ -34,6 +34,9 @@ from aspects.content_studio.facets.scheduler.routes import (
 from aspects.challenge.facets.tracker.routes import (
     router as challenge_router,
 )
+from aspects.life_manager.facets.planner.routes import (
+    router as planner_router,
+)
 from core.foundation.logging import get_logger
 
 
@@ -185,6 +188,10 @@ def create_app() -> FastAPI:
     )
     app.include_router(
         challenge_router,
+        prefix = API_PREFIX
+    )
+    app.include_router(
+        planner_router,
         prefix = API_PREFIX
     )
 

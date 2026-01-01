@@ -10,6 +10,7 @@ import { Shell } from './shell'
 import { videoCreatorRoutes } from '@/aspects/content-studio/facets/video-creator/routes'
 import { schedulerRoutes } from '@/aspects/content-studio/facets/scheduler/routes'
 import { trackerRoutes } from '@/aspects/challenge/facets/tracker/routes'
+import { plannerRoutes } from '@/aspects/life-manager/facets/planner/routes'
 
 const routes: RouteObject[] = [
   {
@@ -48,6 +49,16 @@ const routes: RouteObject[] = [
           {
             path: 'challenge',
             children: [...trackerRoutes],
+          },
+          {
+            path: 'life',
+            children: [
+              {
+                index: true,
+                element: <Navigate to="planner" replace />,
+              },
+              ...plannerRoutes,
+            ],
           },
         ],
       },

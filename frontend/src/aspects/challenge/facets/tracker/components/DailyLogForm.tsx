@@ -23,12 +23,8 @@ export function DailyLogForm({ selectedDate, existingLog }: DailyLogFormProps) {
     tiktok: 0,
     instagram_reels: 0,
     youtube_shorts: 0,
-    twitter: 0,
     reddit: 0,
     linkedin_personal: 0,
-    linkedin_company: 0,
-    youtube_full: 0,
-    medium: 0,
     jobs_applied: 0,
   })
 
@@ -38,12 +34,8 @@ export function DailyLogForm({ selectedDate, existingLog }: DailyLogFormProps) {
         tiktok: existingLog.tiktok,
         instagram_reels: existingLog.instagram_reels,
         youtube_shorts: existingLog.youtube_shorts,
-        twitter: existingLog.twitter,
         reddit: existingLog.reddit,
         linkedin_personal: existingLog.linkedin_personal,
-        linkedin_company: existingLog.linkedin_company,
-        youtube_full: existingLog.youtube_full,
-        medium: existingLog.medium,
         jobs_applied: existingLog.jobs_applied,
       })
     } else {
@@ -51,12 +43,8 @@ export function DailyLogForm({ selectedDate, existingLog }: DailyLogFormProps) {
         tiktok: 0,
         instagram_reels: 0,
         youtube_shorts: 0,
-        twitter: 0,
         reddit: 0,
         linkedin_personal: 0,
-        linkedin_company: 0,
-        youtube_full: 0,
-        medium: 0,
         jobs_applied: 0,
       })
     }
