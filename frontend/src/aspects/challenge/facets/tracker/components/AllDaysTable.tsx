@@ -45,12 +45,8 @@ export function AllDaysTable({ challenge }: AllDaysTableProps) {
       tiktok: 0,
       instagram_reels: 0,
       youtube_shorts: 0,
-      twitter: 0,
       reddit: 0,
       linkedin_personal: 0,
-      linkedin_company: 0,
-      youtube_full: 0,
-      medium: 0,
     }
 
     let jobsTotal = 0
