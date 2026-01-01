@@ -46,7 +46,7 @@ class Challenge(Base, UUIDMixin, TimestampMixin):
 
     name: Mapped[str] = mapped_column(
         String(CHALLENGE_NAME_MAX_LENGTH),
-        default="1500/1000 Challenge",
+        default="30 Day Focus Challenge",
         nullable=False,
     )
     start_date: Mapped[date] = mapped_column(
@@ -64,12 +64,12 @@ class Challenge(Base, UUIDMixin, TimestampMixin):
     )
     content_goal: Mapped[int] = mapped_column(
         Integer,
-        default=1500,
+        default=450,
         nullable=False,
     )
     jobs_goal: Mapped[int] = mapped_column(
         Integer,
-        default=1000,
+        default=150,
         nullable=False,
     )
 

@@ -1,0 +1,321 @@
+// ===================
+// © AngelaMos | 2025
+// NotesPage.module.scss
+// ===================
+
+@use '../../../../../styles/tokens' as *;
+
+.page {
+  display: grid;
+  grid-template-columns: 220px 300px 1fr;
+  height: calc(100vh - 60px);
+  background: $bg-default;
+  overflow: hidden;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid $border-default;
+  background: $bg-surface-100;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sidebarHeader {
+  padding: $space-lg;
+  border-bottom: 1px solid $border-muted;
+}
+
+.sidebarTitle {
+  font-size: $text-sm;
+  font-weight: $font-semibold;
+  color: $text-light;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.folderList {
+  flex: 1;
+  overflow-y: auto;
+  padding: $space-sm;
+  min-height: 0;
+}
+
+.folderRow {
+  display: flex;
+  align-items: center;
+}
+
+.folderItem {
+  flex: 1;
+  padding: $space-sm $space-md;
+  background: transparent;
+  border: none;
+  border-radius: $radius-sm;
+  color: $text-light;
+  font-size: $text-sm;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color $transition-fast $ease-out;
+
+  &:hover {
+    background: $bg-surface-200;
+  }
+
+  &.active {
+    background: $bg-surface-300;
+    color: $text-default;
+  }
+}
+
+.deleteFolderBtn {
+  padding: $space-xs;
+  background: transparent;
+  border: none;
+  color: $text-muted;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity $transition-fast $ease-out;
+
+  .folderRow:hover & {
+    opacity: 1;
+  }
+
+  &:hover {
+    color: hsl(0, 60%, 60%);
+  }
+}
+
+.addFolder {
+  display: flex;
+  gap: $space-xs;
+  padding: $space-md;
+  border-top: 1px solid $border-muted;
+  flex-shrink: 0;
+}
+
+.addFolderInput {
+  flex: 1;
+  padding: $space-sm $space-md;
+  background: $bg-surface-200;
+  border: 1px solid $border-muted;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-sm;
+  min-width: 0;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $border-strong;
+  }
+}
+
+.addFolderBtn {
+  padding: $space-sm $space-md;
+  background: $bg-surface-300;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-light;
+  font-size: $text-sm;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  &:hover {
+    background: $bg-selection;
+    color: $text-default;
+  }
+}
+
+.notesList {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid $border-default;
+  background: $bg-surface-100;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.notesHeader {
+  padding: $space-lg;
+  border-bottom: 1px solid $border-muted;
+}
+
+.notesTitle {
+  font-size: $text-sm;
+  font-weight: $font-semibold;
+  color: $text-light;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.addNote {
+  display: flex;
+  gap: $space-sm;
+  padding: $space-md;
+  border-bottom: 1px solid $border-muted;
+  flex-shrink: 0;
+}
+
+.addNoteInput {
+  flex: 1;
+  padding: $space-sm;
+  background: $bg-surface-200;
+  border: 1px solid $border-muted;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-sm;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $border-strong;
+  }
+}
+
+.addNoteBtn {
+  padding: $space-sm $space-md;
+  background: $accent-purple;
+  border: none;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.notes {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.noteItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-md $space-lg;
+  border-bottom: 1px solid $border-muted;
+  cursor: pointer;
+  transition: background-color $transition-fast $ease-out;
+
+  &:hover {
+    background: $bg-surface-200;
+  }
+
+  &.active {
+    background: $bg-surface-300;
+  }
+}
+
+.noteTitle {
+  font-size: $text-sm;
+  color: $text-default;
+}
+
+.deleteNoteBtn {
+  padding: $space-xs $space-sm;
+  background: transparent;
+  border: none;
+  color: $text-muted;
+  font-size: $text-xs;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity $transition-fast $ease-out;
+
+  .noteItem:hover & {
+    opacity: 1;
+  }
+
+  &:hover {
+    color: hsl(0, 60%, 60%);
+  }
+}
+
+.loading,
+.empty {
+  padding: $space-2xl;
+  text-align: center;
+  color: $text-muted;
+  font-size: $text-sm;
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  background: $bg-default;
+}
+
+.editorHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-lg $space-xl;
+  border-bottom: 1px solid $border-default;
+}
+
+.editorTitle {
+  font-size: $text-lg;
+  font-weight: $font-medium;
+  color: $text-default;
+}
+
+.saveBtn {
+  padding: $space-sm $space-lg;
+  background: $accent-purple;
+  border: none;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.editorTextarea {
+  flex: 1;
+  padding: $space-xl;
+  background: transparent;
+  border: none;
+  color: $text-default;
+  font-size: $text-base;
+  font-family: inherit;
+  line-height: 1.6;
+  resize: none;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.editorEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: $text-muted;
+  font-size: $text-sm;
+}

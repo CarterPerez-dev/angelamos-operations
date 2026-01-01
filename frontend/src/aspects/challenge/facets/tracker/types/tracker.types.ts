@@ -86,12 +86,8 @@ export type PlatformKey =
   | 'tiktok'
   | 'instagram_reels'
   | 'youtube_shorts'
-  | 'twitter'
   | 'reddit'
   | 'linkedin_personal'
-  | 'linkedin_company'
-  | 'youtube_full'
-  | 'medium'
 
 export interface PlatformInfo {
   key: PlatformKey
