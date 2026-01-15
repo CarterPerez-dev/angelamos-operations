@@ -49,6 +49,31 @@ async def execute_query(sql: str) -> list[dict]:
 
 
 @mcp.tool()
+async def execute_write(sql: str) -> dict:
+    """
+    Execute write SQL (INSERT, UPDATE, DELETE) against CarterOS database.
+    Use for modifying data. Returns affected row count.
+    For INSERTs with RETURNING, also returns the inserted data.
+    """
+    async with sessionmanager.session() as session:
+        result = await session.execute(text(sql))
+        await session.commit()
+
+        try:
+            rows = result.mappings().all()
+            return {
+                "success": True,
+                "rows_affected": result.rowcount,
+                "returned_data": [dict(row) for row in rows],
+            }
+        except Exception:
+            return {
+                "success": True,
+                "rows_affected": result.rowcount,
+            }
+
+
+@mcp.tool()
 async def list_tables() -> list[str]:
     """
     List all tables in the CarterOS database.
