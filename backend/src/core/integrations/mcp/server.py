@@ -30,10 +30,7 @@ from aspects.life_manager.facets.career.job_app_tracker.schemas import (
 from aspects.challenge.facets.tracker.service import ChallengeService
 from aspects.challenge.facets.tracker.schemas import LogCreate
 
-mcp = FastMCP(
-    "carteros",
-    description="CarterOS life management system - notes, planner, jobs, challenges",
-)
+mcp = FastMCP("carteros")
 
 CARTER_USER_ID = UUID("00000000-0000-0000-0000-000000000001")
 
