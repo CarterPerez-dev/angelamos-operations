@@ -76,6 +76,7 @@ export const THINKING_DEEP_KEYWORDS = thinkingDeepKeywordsStr
 export const TELEGRAM_MESSAGE_LIMIT = 4096;
 export const TELEGRAM_SAFE_LIMIT = 4000;
 export const STREAMING_THROTTLE_MS = 500;
+export const MEDIA_GROUP_TIMEOUT = 1000;
 
 export const SESSION_FILE = "/tmp/carter-telegram-session.json";
 export const RESTART_FILE = "/tmp/carter-telegram-restart.json";

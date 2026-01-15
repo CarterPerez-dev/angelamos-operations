@@ -44,3 +44,11 @@ export interface WhisperResult {
   text: string;
   duration_ms: number;
 }
+
+export interface PendingMediaGroup {
+  items: string[];
+  ctx: import("grammy").Context;
+  caption?: string;
+  statusMsg?: import("grammy/types").Message;
+  timeout: ReturnType<typeof setTimeout>;
+}
