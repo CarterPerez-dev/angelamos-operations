@@ -18,6 +18,9 @@ import {
   handleRestart,
   handleRetry,
   handleText,
+  handleVoice,
+  handlePhoto,
+  handleDocument,
 } from "./handlers";
 
 const bot = new Bot(TELEGRAM_TOKEN);
@@ -46,6 +49,9 @@ bot.command("restart", handleRestart);
 bot.command("retry", handleRetry);
 
 bot.on("message:text", handleText);
+bot.on("message:voice", handleVoice);
+bot.on("message:photo", handlePhoto);
+bot.on("message:document", handleDocument);
 
 bot.catch((err) => {
   console.error("Bot error:", err);
