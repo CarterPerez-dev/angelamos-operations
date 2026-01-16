@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holophyly - Docker Project Manager</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Holophyly</h1>
+        <p>Docker Project Manager</p>
+    </header>
+
+    <main>
+        <section class="controls">
+            <button hx-get="/api/projects" hx-target="#projects" hx-swap="innerHTML">
+                Refresh Projects
+            </button>
+            <button hx-get="/api/system/info" hx-target="#system-info" hx-swap="innerHTML">
+                System Info
+            </button>
+            <button hx-get="/api/system/storage" hx-target="#storage-info" hx-swap="innerHTML">
+                Storage Info
+            </button>
+        </section>
+
+        <section class="port-check">
+            <input type="number" id="port-input" placeholder="Check port..." min="1" max="65535">
+            <button onclick="checkPort()">Check</button>
+            <span id="port-result"></span>
+        </section>
+
+        <section id="system-info" class="info-panel"></section>
+        <section id="storage-info" class="info-panel"></section>
+
+        <section id="projects" hx-get="/api/projects" hx-trigger="load" hx-swap="innerHTML">
+            Loading projects...
+        </section>
+    </main>
+
+    <template id="project-template">
+        <article class="project">
+            <header>
+                <span class="status"></span>
+                <h2 class="name"></h2>
+                <span class="env"></span>
+                <span class="protected"></span>
+            </header>
+            <p class="path"></p>
+            <div class="services"></div>
+            <div class="actions"></div>
+        </article>
+    </template>
+
+    <script>
+        document.body.addEventListener('htmx:afterSwap', function(evt) {
+            if (evt.detail.target.id === 'projects') {
+                renderProjects(JSON.parse(evt.detail.xhr.responseText));
+            }
+            if (evt.detail.target.id === 'system-info') {
+                renderSystemInfo(JSON.parse(evt.detail.xhr.responseText));
+            }
+            if (evt.detail.target.id === 'storage-info') {
+                renderStorageInfo(JSON.parse(evt.detail.xhr.responseText));
+            }
+        });
+
+        function renderProjects(projects) {
+            const container = document.getElementById('projects');
+            if (!projects || projects.length === 0) {
+                container.innerHTML = '<p>No projects found. Check your scan paths.</p>';
+                return;
+            }
+
+            container.innerHTML = projects.map(p => `
+                <article class="project ${p.status}">
+                    <header>
+                        <span class="status-dot ${p.status}"></span>
+                        <h2>${p.name}</h2>
+                        <span class="env ${p.environment}">${p.environment}</span>
+                        ${p.protected ? '<span class="protected-badge">PROTECTED</span>' : ''}
+                    </header>
+                    <p class="path">${p.path}</p>
+                    <p class="compose-file">${p.compose_file}</p>
+                    <div class="services">
+                        ${p.services ? p.services.map(s => `<span class="service">${s}</span>`).join('') : ''}
+                    </div>
+                    <div class="containers">
+                        ${p.containers ? p.containers.map(c => `
+                            <div class="container ${c.state}">
+                                <span class="container-name">${c.name}</span>
+                                <span class="container-state">${c.state}</span>
+                                <button onclick="getLogs('${c.id}')">Logs</button>
+                            </div>
+                        `).join('') : '<p>No containers</p>'}
+                    </div>
+                    <div class="actions">
+                        ${p.status === 'stopped' ?
+                            `<button onclick="startProject('${p.id}')">Start</button>` :
+                            `<button onclick="stopProject('${p.id}', ${p.protected})">Stop</button>`
+                        }
+                        <button onclick="toggleProtection('${p.id}', ${!p.protected})">
+                            ${p.protected ? 'Unprotect' : 'Protect'}
+                        </button>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        function renderSystemInfo(info) {
+            const container = document.getElementById('system-info');
+            container.innerHTML = `
+                <h3>Docker System</h3>
+                <p>Version: ${info.docker_version} (API: ${info.api_version})</p>
+                <p>OS: ${info.os} / ${info.arch}</p>
+                <p>Containers: ${info.containers_running} running, ${info.containers_stopped} stopped</p>
+                <p>Images: ${info.images}</p>
+            `;
+        }
+
+        function renderStorageInfo(info) {
+            const container = document.getElementById('storage-info');
+            const mb = (bytes) => (bytes / 1024 / 1024).toFixed(2);
+            const gb = (bytes) => (bytes / 1024 / 1024 / 1024).toFixed(2);
+            container.innerHTML = `
+                <h3>Storage</h3>
+                <p>Total: ${gb(info.total_size)} GB</p>
+                <p>Images: ${mb(info.images_size)} MB</p>
+                <p>Containers: ${mb(info.containers_size)} MB</p>
+                <p>Volumes: ${mb(info.volumes_size)} MB</p>
+                <p>Build Cache: ${mb(info.build_cache_size)} MB</p>
+                <p>Reclaimable: ${gb(info.reclaimable)} GB</p>
+                <button onclick="prune()">Prune Unused</button>
+            `;
+        }
+
+        async function startProject(id) {
+            const resp = await fetch(`/api/projects/${id}/start`, { method: 'POST' });
+            if (resp.ok) {
+                htmx.trigger('#projects', 'htmx:load');
+            } else {
+                alert('Failed to start: ' + (await resp.json()).error);
+            }
+        }
+
+        async function stopProject(id, isProtected) {
+            if (isProtected) {
+                if (!confirm('This project is PROTECTED. Are you sure you want to stop it?')) return;
+            }
+            const force = isProtected ? '?force=true' : '';
+            const resp = await fetch(`/api/projects/${id}/stop${force}`, { method: 'POST' });
+            if (resp.ok) {
+                htmx.trigger('#projects', 'htmx:load');
+            } else {
+                alert('Failed to stop: ' + (await resp.json()).error);
+            }
+        }
+
+        async function toggleProtection(id, protect) {
+            const resp = await fetch(`/api/projects/${id}/protect`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ protected: protect, reason: 'user_marked' })
+            });
+            if (resp.ok) {
+                htmx.trigger('#projects', 'htmx:load');
+            }
+        }
+
+        async function getLogs(containerId) {
+            const resp = await fetch(`/api/containers/${containerId}/logs?tail=50`);
+            const logs = await resp.json();
+            alert('STDOUT:\n' + logs.stdout + '\n\nSTDERR:\n' + logs.stderr);
+        }
+
+        async function checkPort() {
+            const port = document.getElementById('port-input').value;
+            if (!port) return;
+            const resp = await fetch(`/api/system/port/${port}`);
+            const result = await resp.json();
+            const el = document.getElementById('port-result');
+            if (result.available) {
+                el.textContent = `Port ${port} is available`;
+                el.className = 'available';
+            } else {
+                el.textContent = `Port ${port} in use by ${result.process || 'unknown'}`;
+                el.className = 'in-use';
+            }
+        }
+
+        async function prune() {
+            if (!confirm('This will remove unused containers, images, and build cache. Continue?')) return;
+            const resp = await fetch('/api/system/prune', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ images: true, build_cache: true })
+            });
+            const result = await resp.json();
+            alert(`Reclaimed ${result.reclaimed_mb.toFixed(2)} MB`);
+            htmx.trigger('#storage-info', 'htmx:load');
+        }
+    </script>
+</body>
+</html>

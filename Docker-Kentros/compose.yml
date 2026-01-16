@@ -1,0 +1,42 @@
+# =============================================================================
+# AngelaMos | 2026
+# compose.yml
+# =============================================================================
+
+services:
+  docker-proxy:
+    image: tecnativa/docker-socket-proxy:latest
+    container_name: holophyly-docker-proxy
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      CONTAINERS: 1
+      IMAGES: 1
+      INFO: 1
+      NETWORKS: 1
+      VOLUMES: 1
+      POST: 1
+      BUILD: 1
+      EXEC: 0
+      SWARM: 0
+    networks:
+      - holophyly-internal
+
+  holophyly:
+    build: .
+    container_name: holophyly
+    restart: unless-stopped
+    ports:
+      - "9001:9001"
+    environment:
+      DOCKER_HOST: tcp://docker-proxy:2375
+      HOLOPHYLY_SERVER_HOST: "0.0.0.0"
+    depends_on:
+      - docker-proxy
+    networks:
+      - holophyly-internal
+
+networks:
+  holophyly-internal:
+    driver: bridge

@@ -1,0 +1,341 @@
+/*
+AngelaMos | 2026
+style.css
+*/
+
+:root {
+    --bg-primary: #0f0f0f;
+    --bg-secondary: #1a1a1a;
+    --bg-tertiary: #252525;
+    --text-primary: #e0e0e0;
+    --text-secondary: #888;
+    --accent: #3b82f6;
+    --accent-hover: #2563eb;
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --border: #333;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+header {
+    background: var(--bg-secondary);
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+}
+
+header h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+header p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+section {
+    margin-bottom: 2rem;
+}
+
+.controls {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+button {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.15s ease;
+}
+
+button:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+.port-check {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.port-check input {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    width: 140px;
+    font-size: 0.875rem;
+}
+
+.port-check input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+#port-result {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+#port-result.available {
+    color: var(--success);
+}
+
+#port-result.in-use {
+    color: var(--danger);
+}
+
+.info-panel {
+    background: var(--bg-secondary);
+    padding: 1.25rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.info-panel h3 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    color: var(--accent);
+}
+
+.info-panel p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.info-panel button {
+    margin-top: 0.75rem;
+}
+
+#projects {
+    display: grid;
+    gap: 1rem;
+}
+
+.project {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    transition: border-color 0.15s ease;
+}
+
+.project:hover {
+    border-color: var(--accent);
+}
+
+.project.running {
+    border-left: 3px solid var(--success);
+}
+
+.project.stopped {
+    border-left: 3px solid var(--text-secondary);
+}
+
+.project.partial {
+    border-left: 3px solid var(--warning);
+}
+
+.project header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0;
+    background: transparent;
+    border: none;
+    margin-bottom: 0.75rem;
+}
+
+.project h2 {
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.status-dot.running {
+    background: var(--success);
+    box-shadow: 0 0 6px var(--success);
+}
+
+.status-dot.stopped {
+    background: var(--text-secondary);
+}
+
+.status-dot.partial {
+    background: var(--warning);
+    box-shadow: 0 0 6px var(--warning);
+}
+
+.env {
+    font-size: 0.75rem;
+    padding: 0.125rem 0.5rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.env.development {
+    background: rgba(59, 130, 246, 0.15);
+    color: var(--accent);
+}
+
+.env.production {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--danger);
+}
+
+.protected-badge {
+    font-size: 0.625rem;
+    padding: 0.125rem 0.375rem;
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--warning);
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.project .path,
+.project .compose-file {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    font-family: "SF Mono", Monaco, "Cascadia Code", monospace;
+    margin-bottom: 0.25rem;
+}
+
+.services {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.75rem 0;
+}
+
+.service {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+    color: var(--text-secondary);
+}
+
+.containers {
+    margin: 1rem 0;
+    padding: 0.75rem;
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.container:last-child {
+    border-bottom: none;
+}
+
+.container.running .container-state {
+    color: var(--success);
+}
+
+.container.exited .container-state,
+.container.dead .container-state {
+    color: var(--danger);
+}
+
+.container-name {
+    font-family: "SF Mono", Monaco, monospace;
+    font-size: 0.8125rem;
+    flex: 1;
+}
+
+.container-state {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.containers p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+}
+
+.actions button {
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    main {
+        padding: 1rem;
+    }
+
+    .controls {
+        flex-direction: column;
+    }
+
+    .controls button {
+        width: 100%;
+    }
+
+    .port-check {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .port-check input {
+        width: 100%;
+    }
+}

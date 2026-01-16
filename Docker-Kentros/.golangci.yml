@@ -1,0 +1,41 @@
+# ⒸAngelaMos | 2026 | CarterPerez-dev
+version: "2"
+
+run:
+  timeout: 5m
+
+formatters:
+  enable:
+    - gci        # Groups imports
+    - gofumpt    # Whitespace
+    - golines    # Vertical wrap
+  settings:
+    golines:
+      max-len: 80
+      reformat-tags: true
+    gci:
+      sections:
+        - standard
+        - default
+        - prefix(github.com/carterperez-dev)
+      custom-order: true
+    gofumpt:
+      extra-rules: true
+
+linters:
+  default: none
+  enable:
+    - staticcheck # Logic integrity
+    - errcheck    # Error handling
+    - revive      # Style/Idioms
+    - gocritic    # Opinionated/Deep checks
+    - misspell    # Typos
+  settings:
+    revive:
+      rules:
+        - name: indent-error-flow
+
+issues:
+  exclude-use-default: false
+  max-issues-per-linter: 0
+  max-same-issues: 0
