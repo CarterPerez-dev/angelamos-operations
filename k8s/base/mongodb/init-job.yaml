@@ -1,0 +1,73 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mongodb-init-replica
+  namespace: mongodb
+spec:
+  ttlSecondsAfterFinished: 300
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: mongo-init
+          image: mongo:7.0
+          command:
+            - /bin/bash
+            - -c
+            - |
+              echo "Waiting for MongoDB pods to be ready..."
+
+              for i in 0 1 2; do
+                until mongosh --host mongodb-$i.mongodb-headless.mongodb.svc.cluster.local \
+                  --username "$MONGO_USER" --password "$MONGO_PASSWORD" \
+                  --authenticationDatabase admin --eval "db.adminCommand('ping')" 2>/dev/null; do
+                  echo "Waiting for mongodb-$i..."
+                  sleep 5
+                done
+                echo "mongodb-$i is ready!"
+              done
+
+              echo "All pods ready. Checking replica set status..."
+
+              RS_STATUS=$(mongosh --host mongodb-0.mongodb-headless.mongodb.svc.cluster.local \
+                --username "$MONGO_USER" --password "$MONGO_PASSWORD" \
+                --authenticationDatabase admin --eval "rs.status().ok" --quiet 2>/dev/null || echo "0")
+
+              if [ "$RS_STATUS" = "1" ]; then
+                echo "Replica set already initialized!"
+                exit 0
+              fi
+
+              echo "Initializing replica set..."
+              mongosh --host mongodb-0.mongodb-headless.mongodb.svc.cluster.local \
+                --username "$MONGO_USER" --password "$MONGO_PASSWORD" \
+                --authenticationDatabase admin --eval '
+                rs.initiate({
+                  _id: "rs0",
+                  members: [
+                    { _id: 0, host: "mongodb-0.mongodb-headless.mongodb.svc.cluster.local:27017", priority: 2 },
+                    { _id: 1, host: "mongodb-1.mongodb-headless.mongodb.svc.cluster.local:27017", priority: 1 },
+                    { _id: 2, host: "mongodb-2.mongodb-headless.mongodb.svc.cluster.local:27017", priority: 1 }
+                  ]
+                });
+              '
+
+              echo "Waiting for replica set to stabilize..."
+              sleep 10
+
+              mongosh --host mongodb-0.mongodb-headless.mongodb.svc.cluster.local \
+                --username "$MONGO_USER" --password "$MONGO_PASSWORD" \
+                --authenticationDatabase admin --eval "rs.status()"
+
+              echo "Replica set initialization complete!"
+          env:
+            - name: MONGO_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secrets
+                  key: MONGO_USER
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secrets
+                  key: MONGO_PASSWORD
