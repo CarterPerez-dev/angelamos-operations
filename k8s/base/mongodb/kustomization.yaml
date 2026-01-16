@@ -8,3 +8,4 @@ resources:
   - statefulset.yaml
   - services.yaml
   - init-job.yaml
+  - mongo-express.yaml
