@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oneisnun-frontend
+  namespace: oneisnun
+  labels:
+    app: oneisnun-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oneisnun-frontend
+  template:
+    metadata:
+      labels:
+        app: oneisnun-frontend
+    spec:
+      containers:
+        - name: react
+          image: oneisnun-frontend:dev
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5173
+              name: http
+          env:
+            - name: VITE_API_URL
+              value: "http://oneisnun-backend.oneisnun.svc.cluster.local:8080"
+          volumeMounts:
+            - name: app-code
+              mountPath: /app
+            - name: node-modules
+              mountPath: /app/node_modules
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+      volumes:
+        - name: app-code
+          hostPath:
+            path: /home/yoshi/dev/operations/angelamos-operations/CertGamesDB-Argos/react-scss
+            type: Directory
+        - name: node-modules
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: oneisnun-frontend
+  namespace: oneisnun
+  labels:
+    app: oneisnun-frontend
+spec:
+  selector:
+    app: oneisnun-frontend
+  ports:
+    - port: 5173
+      targetPort: 5173
+      name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: oneisnun-frontend-external
+  namespace: oneisnun
+  labels:
+    app: oneisnun-frontend
+spec:
+  type: NodePort
+  selector:
+    app: oneisnun-frontend
+  ports:
+    - port: 5173
+      targetPort: 5173
+      nodePort: 30080
+      name: http

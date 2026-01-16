@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oneisnun-backend
+  namespace: oneisnun
+  labels:
+    app: oneisnun-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oneisnun-backend
+  template:
+    metadata:
+      labels:
+        app: oneisnun-backend
+    spec:
+      containers:
+        - name: go-backend
+          image: oneisnun-backend:dev
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+              name: http
+          env:
+            - name: ENVIRONMENT
+              value: development
+            - name: MONGO_USER
+              valueFrom:
+                secretKeyRef:
+                  name: oneisnun-secrets
+                  key: MONGO_USER
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: oneisnun-secrets
+                  key: MONGO_PASSWORD
+            - name: MONGODB_URI
+              value: "mongodb://$(MONGO_USER):$(MONGO_PASSWORD)@mongodb-0.mongodb-headless.mongodb.svc.cluster.local:27017,mongodb-1.mongodb-headless.mongodb.svc.cluster.local:27017,mongodb-2.mongodb-headless.mongodb.svc.cluster.local:27017/?replicaSet=rs0&authSource=admin"
+            - name: MONGODB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: oneisnun-secrets
+                  key: MONGO_DB
+            - name: SQLITE_PATH
+              value: /app/data/dashboard.db
+            - name: BACKUP_OUTPUT_DIR
+              value: /app/backups
+            - name: LOG_LEVEL
+              value: debug
+            - name: LOG_FORMAT
+              value: text
+          volumeMounts:
+            - name: app-code
+              mountPath: /app
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "1000m"
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+      volumes:
+        - name: app-code
+          hostPath:
+            path: /home/yoshi/dev/operations/angelamos-operations/CertGamesDB-Argos/go-backend
+            type: Directory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: oneisnun-backend
+  namespace: oneisnun
+  labels:
+    app: oneisnun-backend
+spec:
+  selector:
+    app: oneisnun-backend
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: http
