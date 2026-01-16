@@ -1,0 +1,104 @@
+// ===================
+// © AngelaMos | 2025
+// jobTrackerPage.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xl;
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: $space-xl $space-2xl;
+  min-height: 100%;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  font-size: $text-sm;
+  color: $text-lighter;
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $space-md;
+  min-height: 400px;
+  font-size: $text-sm;
+  color: $text-light;
+}
+
+.retryButton {
+  padding: $space-sm $space-lg;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+  background: $accent-purple;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: filter $transition-fast $ease-out;
+
+  &:hover {
+    filter: brightness(1.15);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-xl;
+}
+
+.titleSection {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
+
+.title {
+  font-size: $text-xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: $text-sm;
+  color: $text-lighter;
+  margin: 0;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  padding: $space-sm $space-lg;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+  background: $accent-purple;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: filter $transition-fast $ease-out;
+
+  &:hover {
+    filter: brightness(1.15);
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xl;
+}

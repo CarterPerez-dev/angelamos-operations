@@ -1,0 +1,162 @@
+// ===================
+// © AngelaMos | 2025
+// lifeManagerHub.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2xl;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $space-2xl;
+  min-height: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.title {
+  font-size: $text-2xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: $text-sm;
+  color: $text-lighter;
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-lg;
+
+  @media (max-width: $breakpoint-lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+  padding: $space-xl;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-lg;
+  text-decoration: none;
+  transition:
+    border-color $transition-fast $ease-out,
+    transform $transition-fast $ease-out,
+    box-shadow $transition-fast $ease-out;
+
+  &:hover {
+    border-color: $border-strong;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.cardDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+
+  &:hover {
+    border-color: $border-default;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+.cardIcon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $text-xl;
+  background: $bg-surface-200;
+  border-radius: $radius-md;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
+
+.cardTitle {
+  font-size: $text-base;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0;
+}
+
+.cardDescription {
+  font-size: $text-sm;
+  color: $text-light;
+  line-height: $line-height-normal;
+  margin: 0;
+}
+
+.cardBadge {
+  align-self: flex-start;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-lighter;
+  background: $bg-surface-200;
+  padding: $space-xs $space-sm;
+  border-radius: $radius-sm;
+  margin-top: $space-xs;
+}
+
+.jobBoardsSection {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.sectionTitle {
+  font-size: $text-lg;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0;
+}
+
+.jobBoardsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-sm;
+}
+
+.jobBoardLink {
+  display: inline-flex;
+  align-items: center;
+  padding: $space-sm $space-md;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  font-size: $text-sm;
+  color: $text-light;
+  text-decoration: none;
+  transition: border-color $transition-fast $ease-out,
+              color $transition-fast $ease-out;
+
+  &:hover {
+    border-color: $border-strong;
+    color: $text-default;
+  }
+}

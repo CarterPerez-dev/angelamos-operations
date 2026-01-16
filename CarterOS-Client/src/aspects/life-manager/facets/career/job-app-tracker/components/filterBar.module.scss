@@ -1,0 +1,92 @@
+// ===================
+// © AngelaMos | 2025
+// filterBar.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-lg;
+  flex-wrap: wrap;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  flex-wrap: wrap;
+}
+
+.search {
+  width: 240px;
+  padding: $space-sm $space-md;
+  font-size: $text-sm;
+  color: $text-default;
+  background: $bg-control;
+  border: 1px solid $border-control;
+  border-radius: $radius-sm;
+  outline: none;
+  transition: border-color $transition-fast $ease-out;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    border-color: $border-stronger;
+  }
+}
+
+.select {
+  padding: $space-sm $space-lg $space-sm $space-md;
+  font-size: $text-sm;
+  color: $text-default;
+  background: $bg-control;
+  border: 1px solid $border-control;
+  border-radius: $radius-sm;
+  outline: none;
+  cursor: pointer;
+  transition: border-color $transition-fast $ease-out;
+
+  &:focus {
+    border-color: $border-stronger;
+  }
+}
+
+.clearButton {
+  padding: $space-sm $space-md;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-light;
+  background: transparent;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition:
+    background-color $transition-fast $ease-out,
+    border-color $transition-fast $ease-out;
+
+  &:hover {
+    background: $bg-selection;
+    border-color: $border-strong;
+  }
+}
+
+.addButton {
+  padding: $space-sm $space-lg;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+  background: $accent-purple;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: filter $transition-fast $ease-out;
+
+  &:hover {
+    filter: brightness(1.15);
+  }
+}

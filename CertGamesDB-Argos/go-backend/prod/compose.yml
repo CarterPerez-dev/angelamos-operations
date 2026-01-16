@@ -1,0 +1,56 @@
+# AngelaMos | 2026
+# compose.yml - Production compose (backend only)
+# MongoDB runs separately via mongo.yml or mongo-rs.yml
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: oneisnun_api
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - ENVIRONMENT=production
+      - MONGODB_URI=mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongodb_local:27017/?authSource=admin
+      - MONGODB_DATABASE=${MONGO_DB}
+      - SQLITE_PATH=/app/data/dashboard.db
+      - BACKUP_OUTPUT_DIR=/app/backups
+      - LOG_LEVEL=info
+      - LOG_FORMAT=json
+    volumes:
+      - api_data:/app/data
+      - api_backups:/app/backups
+    networks:
+      - mongo_network
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 128M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  api_data:
+    driver: local
+  api_backups:
+    driver: local
+
+networks:
+  mongo_network:
+    external: true
+    name: oneisnun__mongo_network

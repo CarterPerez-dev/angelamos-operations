@@ -1,0 +1,57 @@
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Go
+go-backend/tmp/
+go-backend/data/
+go-backend/backups/
+go-backend/keys/
+
+# React
+react-scss/node_modules/
+react-scss/dist/
+react-scss/.pnpm-store/
+react-scss/.vite/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# MongoDB
+scripts/keyfile
+*.bson
+*.gz
+backups/
+
+# SQLite databases
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+data/
+
+# Coverage
+coverage/
+*.coverprofile

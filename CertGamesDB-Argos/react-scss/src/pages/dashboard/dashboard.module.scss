@@ -1,0 +1,206 @@
+// ===================
+// AngelaMos | 2026
+// dashboard.module.scss
+// ===================
+
+@use '@/styles' as *;
+
+.page {
+  min-height: calc(100vh - 56px);
+  padding: $space-6;
+  background-color: $bg-default;
+  background-image: radial-gradient(circle, $border-default 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.loading,
+.error {
+  @include flex-center;
+  min-height: 200px;
+  font-size: $font-size-sm;
+  color: $text-light;
+}
+
+.error {
+  color: $error-default;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: $space-6;
+  padding-bottom: $space-4;
+  border-bottom: 1px solid $border-default;
+}
+
+.serverInfo {
+  @include flex-column;
+  gap: $space-1;
+}
+
+.host {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $text-default;
+}
+
+.version {
+  font-size: $font-size-sm;
+  color: $success-400;
+}
+
+.connectionBadge {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-1-5 $space-3;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-full;
+  font-size: $font-size-sm;
+  color: $text-light;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: $radius-full;
+  background: $text-muted;
+
+  &.live {
+    background: $success-500;
+  }
+}
+
+.section {
+  margin-bottom: $space-8;
+}
+
+.sectionTitle {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-light;
+  text-transform: uppercase;
+  letter-spacing: $tracking-wide;
+  margin-bottom: $space-4;
+}
+
+.grid {
+  display: grid;
+  gap: $space-3;
+  grid-template-columns: repeat(2, 1fr);
+
+  @include breakpoint-up('sm') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include breakpoint-up('lg') {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.metricCard {
+  @include flex-column;
+  gap: $space-1;
+  padding: $space-3;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+}
+
+.metricLabel {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $text-lighter;
+  text-transform: uppercase;
+  letter-spacing: $tracking-wide;
+}
+
+.metricValue {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $text-default;
+
+  &.highlight {
+    color: $success-400;
+  }
+}
+
+.metricSub {
+  font-size: $font-size-xs;
+  color: $text-muted;
+
+  &.highlight {
+    color: $success-400;
+  }
+}
+
+.opsTable {
+  overflow-x: auto;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead {
+    background: $bg-surface-200;
+    border-bottom: 1px solid $border-default;
+
+    th {
+      padding: $space-2-5 $space-3;
+      text-align: left;
+      font-size: $font-size-xs;
+      font-weight: $font-weight-medium;
+      color: $text-lighter;
+      text-transform: uppercase;
+      letter-spacing: $tracking-wide;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid $border-default;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background: $bg-overlay;
+      }
+    }
+
+    td {
+      padding: $space-2-5 $space-3;
+      font-size: $font-size-sm;
+      color: $text-default;
+    }
+  }
+
+  .collection {
+    font-weight: $font-weight-medium;
+    color: $text-default;
+  }
+
+  .opType {
+    color: $text-light;
+    text-transform: uppercase;
+    font-size: $font-size-xs;
+  }
+
+  .speed {
+    font-family: monospace;
+    color: $success-400;
+    font-weight: $font-weight-medium;
+  }
+
+  .client {
+    color: $text-muted;
+    font-size: $font-size-xs;
+  }
+}

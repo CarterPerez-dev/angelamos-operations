@@ -1,0 +1,92 @@
+// ===================
+// © AngelaMos | 2025
+// systemInfoCard.module.scss
+// ===================
+
+.card {
+  background: hsl(0, 0%, 12.2%);
+  border: 1px solid hsl(0, 0%, 18%);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid hsl(0, 0%, 14.1%);
+}
+
+.headerIcon {
+  width: 18px;
+  height: 18px;
+  color: #36d7b7;
+}
+
+.title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: hsl(0, 0%, 98%);
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 0.5rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.label {
+  font-size: 0.75rem;
+  color: hsl(0, 0%, 53.7%);
+}
+
+.value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(0, 0%, 98%);
+}
+
+.valueHighlight {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #36d7b7;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid hsl(0, 0%, 14.1%);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.sectionIcon {
+  width: 14px;
+  height: 14px;
+  color: hsl(0, 0%, 70.6%);
+}
+
+.sectionTitle {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: hsl(0, 0%, 70.6%);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}

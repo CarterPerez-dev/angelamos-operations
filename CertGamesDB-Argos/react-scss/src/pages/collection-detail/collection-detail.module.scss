@@ -1,0 +1,255 @@
+// ===================
+// AngelaMos | 2026
+// collection-detail.module.scss
+// ===================
+
+@use '@/styles' as *;
+
+.page {
+  min-height: calc(100vh - 56px);
+  padding: $space-6;
+  background-color: $bg-default;
+  background-image: radial-gradient(circle, $border-default 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.loading {
+  @include flex-center;
+  min-height: 200px;
+  font-size: $font-size-sm;
+  color: $text-light;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+  margin-bottom: $space-6;
+  padding-bottom: $space-4;
+  border-bottom: 1px solid $border-default;
+}
+
+.headerIcon {
+  width: 32px;
+  height: 32px;
+  color: $text-lighter;
+}
+
+.headerInfo {
+  @include flex-column;
+  gap: $space-1;
+}
+
+.title {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $text-default;
+  font-family: $font-mono;
+}
+
+.subtitle {
+  font-size: $font-size-sm;
+  color: $text-lighter;
+  font-family: $font-mono;
+}
+
+.statsGrid {
+  display: grid;
+  gap: $space-4;
+  grid-template-columns: repeat(2, 1fr);
+  margin-bottom: $space-8;
+
+  @include breakpoint-up('md') {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.statCard {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  padding: $space-4;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+}
+
+.statIcon {
+  width: 20px;
+  height: 20px;
+  color: $text-lighter;
+}
+
+.statContent {
+  @include flex-column;
+  gap: $space-0-5;
+}
+
+.statValue {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $text-default;
+}
+
+.statLabel {
+  font-size: $font-size-xs;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: $tracking-wide;
+}
+
+.sections {
+  @include flex-column;
+  gap: $space-8;
+}
+
+.section {
+  @include flex-column;
+  gap: $space-4;
+}
+
+.sectionTitle {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-light;
+  text-transform: uppercase;
+  letter-spacing: $tracking-wide;
+}
+
+.schemaTable {
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  overflow: hidden;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: $space-3 $space-4;
+    text-align: left;
+    font-size: $font-size-sm;
+  }
+
+  th {
+    background: $bg-surface-200;
+    color: $text-lighter;
+    font-weight: $font-weight-regular;
+    text-transform: uppercase;
+    font-size: $font-size-xs;
+    letter-spacing: $tracking-wide;
+    border-bottom: 1px solid $border-default;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid $border-muted;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  td {
+    color: $text-light;
+  }
+}
+
+.fieldName {
+  font-family: $font-mono;
+  color: $text-default !important;
+}
+
+.fieldTypes {
+  display: flex;
+  gap: $space-2;
+  flex-wrap: wrap;
+}
+
+.typeBadge {
+  padding: $space-0-5 $space-2;
+  background: $bg-surface-300;
+  border-radius: $radius-sm;
+  font-size: $font-size-xs;
+  color: $text-light;
+  font-family: $font-mono;
+}
+
+.coverage {
+  font-family: $font-mono;
+  color: $text-lighter !important;
+}
+
+.indexList {
+  @include flex-column;
+  gap: $space-3;
+}
+
+.indexCard {
+  padding: $space-4;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+}
+
+.indexHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $space-3;
+}
+
+.indexName {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-default;
+  font-family: $font-mono;
+}
+
+.indexFlags {
+  display: flex;
+  gap: $space-2;
+}
+
+.flag {
+  padding: $space-0-5 $space-2;
+  background: $bg-surface-300;
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  color: $text-lighter;
+}
+
+.indexKeys {
+  display: flex;
+  gap: $space-2;
+  flex-wrap: wrap;
+}
+
+.keyBadge {
+  padding: $space-1 $space-2;
+  background: $bg-surface-200;
+  border: 1px solid $border-muted;
+  border-radius: $radius-sm;
+  font-size: $font-size-xs;
+  color: $text-light;
+  font-family: $font-mono;
+}
+
+.documents {
+  @include flex-column;
+  gap: $space-3;
+}
+
+.document {
+  padding: $space-4;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  color: $text-light;
+  overflow-x: auto;
+  line-height: $line-height-relaxed;
+}

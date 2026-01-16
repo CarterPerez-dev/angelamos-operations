@@ -1,0 +1,301 @@
+// ===================
+// AngelaMos | 2026
+// slow-queries.module.scss
+// ===================
+
+@use '@/styles' as *;
+
+.page {
+  min-height: calc(100vh - 56px);
+  padding: $space-6;
+  background-color: $bg-default;
+  background-image: radial-gradient(circle, $border-default 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.loading {
+  @include flex-center;
+  min-height: 200px;
+  font-size: $font-size-sm;
+  color: $text-light;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: $space-6;
+}
+
+.headerInfo {
+  @include flex-column;
+  gap: $space-1;
+}
+
+.title {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $text-default;
+}
+
+.subtitle {
+  font-size: $font-size-sm;
+  color: $text-lighter;
+}
+
+.profilingBadge {
+  @include flex-column;
+  align-items: flex-end;
+  gap: $space-1;
+}
+
+.profilingLabel {
+  font-size: $font-size-xs;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: $tracking-wide;
+}
+
+.profilingValue {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $text-default;
+}
+
+.section {
+  margin-bottom: $space-8;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-light;
+  text-transform: uppercase;
+  letter-spacing: $tracking-wide;
+  margin-bottom: $space-4;
+}
+
+.sectionIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.empty {
+  @include flex-column-center;
+  padding: $space-12 $space-6;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  color: $text-lighter;
+  gap: $space-2;
+
+  p {
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    color: $text-light;
+  }
+
+  span {
+    font-size: $font-size-sm;
+  }
+}
+
+.suggestions {
+  @include flex-column;
+  gap: $space-4;
+}
+
+.suggestionCard {
+  padding: $space-4;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+}
+
+.suggestionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $space-2;
+}
+
+.suggestionCollection {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-default;
+  font-family: $font-mono;
+}
+
+.occurrences {
+  font-size: $font-size-xs;
+  color: $text-muted;
+}
+
+.reason {
+  font-size: $font-size-sm;
+  color: $text-light;
+  margin-bottom: $space-3;
+}
+
+.indexCommand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  padding: $space-3;
+  background: $bg-surface-200;
+  border-radius: $radius-sm;
+
+  code {
+    font-family: $font-mono;
+    font-size: $font-size-xs;
+    color: $text-default;
+    flex: 1;
+    overflow-x: auto;
+  }
+}
+
+.copyBtn {
+  width: 28px;
+  height: 28px;
+  border-radius: $radius-sm;
+  color: $text-lighter;
+  @include flex-center;
+  flex-shrink: 0;
+  @include transition-fast;
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  @include hover {
+    background: $bg-surface-300;
+    color: $text-default;
+  }
+}
+
+.collectionsGrid {
+  display: grid;
+  gap: $space-3;
+  grid-template-columns: repeat(1, 1fr);
+
+  @include breakpoint-up('sm') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include breakpoint-up('lg') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.collectionCard {
+  @include flex-column;
+  gap: $space-2;
+  padding: $space-4;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+}
+
+.collectionName {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-default;
+  font-family: $font-mono;
+  @include truncate;
+}
+
+.collectionStats {
+  display: flex;
+  gap: $space-4;
+  font-size: $font-size-xs;
+  color: $text-lighter;
+}
+
+.queriesTable {
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  overflow: hidden;
+  overflow-x: auto;
+
+  table {
+    width: 100%;
+    min-width: 700px;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: $space-3 $space-4;
+    text-align: left;
+    font-size: $font-size-sm;
+  }
+
+  th {
+    background: $bg-surface-200;
+    color: $text-lighter;
+    font-weight: $font-weight-regular;
+    text-transform: uppercase;
+    font-size: $font-size-xs;
+    letter-spacing: $tracking-wide;
+    border-bottom: 1px solid $border-default;
+    white-space: nowrap;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid $border-muted;
+    @include transition-fast;
+
+    @include hover {
+      background: $bg-surface-75;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  td {
+    color: $text-light;
+  }
+}
+
+.time {
+  font-family: $font-mono;
+  font-size: $font-size-xs !important;
+  color: $text-lighter !important;
+  white-space: nowrap;
+}
+
+.op {
+  text-transform: uppercase;
+  font-weight: $font-weight-medium;
+}
+
+.namespace {
+  font-family: $font-mono;
+  color: $text-default !important;
+}
+
+.duration {
+  font-family: $font-mono;
+  font-weight: $font-weight-medium;
+  color: $text-default !important;
+}
+
+.docs {
+  font-family: $font-mono;
+}
+
+.plan {
+  font-family: $font-mono;
+  font-size: $font-size-xs !important;
+  color: $text-muted !important;
+  @include truncate;
+  max-width: 200px;
+}

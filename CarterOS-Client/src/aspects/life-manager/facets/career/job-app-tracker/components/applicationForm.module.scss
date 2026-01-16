@@ -1,0 +1,203 @@
+// ===================
+// © AngelaMos | 2025
+// applicationForm.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: $space-2xl;
+  overflow-y: auto;
+  z-index: $z-modal;
+}
+
+.modal {
+  width: 100%;
+  max-width: 720px;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-lg;
+  margin: $space-2xl 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-lg $space-xl;
+  border-bottom: 1px solid $border-muted;
+}
+
+.title {
+  font-size: $text-lg;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0;
+}
+
+.closeButton {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $text-xl;
+  color: $text-lighter;
+  background: transparent;
+  border: none;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: color $transition-fast $ease-out;
+
+  &:hover {
+    color: $text-default;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+  padding: $space-xl;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.sectionTitle {
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-lighter;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-lg;
+
+  @media (max-width: $breakpoint-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
+
+.label {
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-light;
+}
+
+.input,
+.select {
+  padding: $space-sm $space-md;
+  font-size: $text-sm;
+  color: $text-default;
+  background: $bg-control;
+  border: 1px solid $border-control;
+  border-radius: $radius-sm;
+  outline: none;
+  transition: border-color $transition-fast $ease-out;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    border-color: $border-stronger;
+  }
+}
+
+.select {
+  cursor: pointer;
+}
+
+.textarea {
+  padding: $space-sm $space-md;
+  font-size: $text-sm;
+  font-family: $font-sans;
+  color: $text-default;
+  background: $bg-control;
+  border: 1px solid $border-control;
+  border-radius: $radius-sm;
+  outline: none;
+  resize: vertical;
+  min-height: 100px;
+  transition: border-color $transition-fast $ease-out;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    border-color: $border-stronger;
+  }
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: $space-md;
+  padding-top: $space-lg;
+  border-top: 1px solid $border-muted;
+}
+
+.cancelButton {
+  padding: $space-sm $space-lg;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-light;
+  background: transparent;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition:
+    background-color $transition-fast $ease-out,
+    border-color $transition-fast $ease-out;
+
+  &:hover {
+    background: $bg-selection;
+    border-color: $border-strong;
+  }
+}
+
+.submitButton {
+  padding: $space-sm $space-xl;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-default;
+  background: $accent-purple;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: filter $transition-fast $ease-out;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.15);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

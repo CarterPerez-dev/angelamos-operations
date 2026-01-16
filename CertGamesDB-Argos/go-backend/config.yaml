@@ -1,0 +1,52 @@
+# AngelaMos | 2026
+# config.yaml - Default configuration (env vars override these)
+
+app:
+  name: "MongoDB Dashboard"
+  version: "1.0.0"
+  environment: "development"
+
+server:
+  host: "0.0.0.0"
+  port: 8080
+  read_timeout: 30s
+  write_timeout: 30s
+  idle_timeout: 120s
+  shutdown_timeout: 15s
+
+mongodb:
+  database: "admin"
+  max_pool_size: 100
+  min_pool_size: 10
+  connect_timeout: 10s
+
+sqlite:
+  path: "./data/dashboard.db"
+
+backup:
+  output_dir: "./backups"
+  mongodump_path: "mongodump"
+  mongorestore_path: "mongorestore"
+  retention_days: 30
+
+cors:
+  allowed_origins:
+    - "http://localhost:5173"
+    - "http://localhost:3000"
+  allowed_methods:
+    - "GET"
+    - "POST"
+    - "PUT"
+    - "PATCH"
+    - "DELETE"
+    - "OPTIONS"
+  allowed_headers:
+    - "Accept"
+    - "Content-Type"
+    - "X-Request-ID"
+  allow_credentials: true
+  max_age: 300
+
+log:
+  level: "info"
+  format: "json"

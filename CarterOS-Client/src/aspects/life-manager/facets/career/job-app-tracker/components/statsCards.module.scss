@@ -1,0 +1,42 @@
+// ===================
+// © AngelaMos | 2025
+// statsCards.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $space-lg;
+
+  @media (max-width: $breakpoint-lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $space-xs;
+  padding: $space-lg;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+}
+
+.value {
+  font-size: $text-xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+}
+
+.label {
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-lighter;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}

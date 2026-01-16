@@ -1,266 +1,175 @@
-# =============================================================================
-# AngelaMos | 2025
-# Justfile
-# =============================================================================
-
-set dotenv-load
-set export
 set shell := ["bash", "-uc"]
-set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
-
-project := file_name(justfile_directory())
-version := `git describe --tags --always 2>/dev/null || echo "dev"`
-
-# =============================================================================
-# Default
-# =============================================================================
+set dotenv-load
 
 default:
     @just --list --unsorted
 
 # =============================================================================
-# Linting and Formatting
+# SKAFFOLD - Development
 # =============================================================================
 
-[group('lint')]
-ruff *ARGS:
-    ruff check backend/ {{ARGS}}
+dev:
+    skaffold dev --port-forward --tail
 
-[group('lint')]
-ruff-fix:
-    ruff check backend/ --fix
-    ruff format backend/
+dev-no-sync:
+    skaffold dev --port-forward --tail --auto-sync=false
 
-[group('lint')]
-ruff-format:
-    ruff format backend/
+build:
+    skaffold build
 
-[group('lint')]
-pylint *ARGS:
-    pylint backend/src {{ARGS}}
-
-[group('lint')]
-lint: ruff pylint
+delete:
+    skaffold delete
 
 # =============================================================================
-# Frontend Linting
+# KUBECTL - Manual Deploy
 # =============================================================================
 
-[group('frontend')]
-biome *ARGS:
-    cd frontend && pnpm biome check . {{ARGS}}
+apply:
+    kubectl apply -k overlays/dev
 
-[group('frontend')]
-biome-fix:
-    cd frontend && pnpm biome check --write .
+apply-prod:
+    kubectl apply -k overlays/prod
 
-[group('frontend')]
-stylelint *ARGS:
-    cd frontend && pnpm stylelint '**/*.scss' {{ARGS}}
-
-[group('frontend')]
-stylelint-fix:
-    cd frontend && pnpm stylelint '**/*.scss' --fix
-
-[group('frontend')]
-tsc *ARGS:
-    cd frontend && pnpm tsc --noEmit {{ARGS}}
+destroy:
+    kubectl delete -k overlays/dev
 
 # =============================================================================
-# Type Checking
+# SECRETS - Create from env files
 # =============================================================================
 
-[group('types')]
-mypy *ARGS:
-    mypy backend/src {{ARGS}}
+create-secrets:
+    @echo "Creating MongoDB secrets..."
+    kubectl create secret generic mongodb-secrets \
+      --from-env-file=../CertGamesDB-Argos/.env \
+      --namespace=mongodb \
+      --dry-run=client -o yaml | kubectl apply -f -
+    @echo "Creating CarterOS secrets..."
+    kubectl create secret generic carteros-secrets \
+      --from-env-file=../.env \
+      --namespace=carteros \
+      --dry-run=client -o yaml | kubectl apply -f -
+    @echo "Creating OneisuNun secrets..."
+    kubectl create secret generic oneisnun-secrets \
+      --from-env-file=../CertGamesDB-Argos/.env \
+      --namespace=oneisnun \
+      --dry-run=client -o yaml | kubectl apply -f -
 
-[group('types')]
-ty *ARGS:
-    cd backend && ty check {{ARGS}}
-
-[group('types')]
-typecheck: mypy
-
-# =============================================================================
-# Testing
-# =============================================================================
-
-[group('test')]
-pytest *ARGS:
-    pytest backend/tests {{ARGS}}
-
-[group('test')]
-test: pytest
-
-[group('test')]
-test-cov:
-    pytest backend/tests --cov=backend/src --cov-report=term-missing --cov-report=html
+create-mongodb-keyfile:
+    kubectl create secret generic mongodb-keyfile \
+      --from-file=keyfile=../CertGamesDB-Argos/scripts/keyfile \
+      --namespace=mongodb \
+      --dry-run=client -o yaml | kubectl apply -f -
 
 # =============================================================================
-# CI / Quality
+# DATABASE - Migrations
 # =============================================================================
 
-[group('ci')]
-ci: lint typecheck test
-
-[group('ci')]
-check: ruff mypy
-
-# =============================================================================
-# Docker Compose (Production)
-# =============================================================================
-
-[group('docker')]
-up *ARGS:
-    docker compose up {{ARGS}}
-
-[group('docker')]
-start *ARGS:
-    docker compose up -d {{ARGS}}
-
-[group('docker')]
-down *ARGS:
-    docker compose down {{ARGS}}
-
-[group('docker')]
-stop:
-    docker compose stop
-
-[group('docker')]
-build *ARGS:
-    docker compose build {{ARGS}}
-
-[group('docker')]
-rebuild:
-    docker compose build --no-cache
-
-[group('docker')]
-logs *SERVICE:
-    docker compose logs -f {{SERVICE}}
-
-[group('docker')]
-ps:
-    docker compose ps
-
-[group('docker')]
-shell service='backend':
-    docker compose exec -it {{service}} /bin/bash
-
-# =============================================================================
-# Docker Compose (Dev)
-# =============================================================================
-
-[group('dev')]
-dev-up *ARGS:
-    docker compose -f dev.compose.yml up {{ARGS}}
-
-[group('dev')]
-dev-start *ARGS:
-    docker compose -f dev.compose.yml up -d {{ARGS}}
-
-[group('dev')]
-dev-down *ARGS:
-    docker compose -f dev.compose.yml down {{ARGS}}
-
-[group('dev')]
-dev-stop:
-    docker compose -f dev.compose.yml stop
-
-[group('dev')]
-dev-build *ARGS:
-    docker compose -f dev.compose.yml build {{ARGS}}
-
-[group('dev')]
-dev-rebuild:
-    docker compose -f dev.compose.yml build --no-cache
-
-[group('dev')]
-dev-logs *SERVICE:
-    docker compose -f dev.compose.yml logs -f {{SERVICE}}
-
-[group('dev')]
-dev-ps:
-    docker compose -f dev.compose.yml ps
-
-[group('dev')]
-dev-shell service='backend':
-    docker compose -f dev.compose.yml exec -it {{service}} /bin/bash
-
-# =============================================================================
-# Database (Docker)
-# =============================================================================
-
-[group('db')]
 migrate *ARGS:
-    docker compose exec backend alembic upgrade {{ARGS}}
+    kubectl exec -it deployment/carteros-backend -n carteros -- alembic upgrade {{ARGS}}
 
-[group('db')]
-migration message:
-    docker compose exec backend alembic revision --autogenerate -m "{{message}}"
+migrate-head:
+    kubectl exec -it deployment/carteros-backend -n carteros -- alembic upgrade head
 
-[group('db')]
-rollback:
-    docker compose exec backend alembic downgrade -1
-
-[group('db')]
-db-history:
-    docker compose exec backend alembic history --verbose
-
-[group('db')]
-db-current:
-    docker compose exec backend alembic current
+migrate-down:
+    kubectl exec -it deployment/carteros-backend -n carteros -- alembic downgrade -1
 
 # =============================================================================
-# Database (Local - no Docker)
+# MONGODB - Management
 # =============================================================================
 
-[group('db-local')]
-migrate-local *ARGS:
-    cd backend && uv run alembic upgrade {{ARGS}}
+mongo-shell:
+    kubectl exec -it mongodb-0 -n mongodb -- mongosh -u yoshi --authenticationDatabase admin
 
-[group('db-local')]
-migration-local message:
-    cd backend && uv run alembic revision --autogenerate -m "{{message}}"
+mongo-status:
+    kubectl exec -it mongodb-0 -n mongodb -- mongosh -u yoshi --authenticationDatabase admin --eval "rs.status()"
 
-[group('db-local')]
-rollback-local:
-    cd backend && uv run alembic downgrade -1
+init-replica:
+    kubectl apply -f base/mongodb/init-job.yaml
+    kubectl wait --for=condition=complete job/mongodb-init-replica -n mongodb --timeout=120s
 
-[group('db-local')]
-db-history-local:
-    cd backend && uv run alembic history --verbose
+backup-mongo:
+    #!/usr/bin/env bash
+    TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+    kubectl exec mongodb-0 -n mongodb -- mongodump --archive --gzip \
+      -u yoshi -p --authenticationDatabase admin > backup_${TIMESTAMP}.gz
+    echo "Backup saved: backup_${TIMESTAMP}.gz"
 
-[group('db-local')]
-db-current-local:
-    cd backend && uv run alembic current
-
-# =============================================================================
-# Setup
-# =============================================================================
-
-[group('setup')]
-setup:
-    @chmod +x setup.sh && ./setup.sh
-
-[group('setup')]
-clean-templates:
-    @rm -rf docs/templates && echo "Removed docs/templates/"
+restore-mongo file:
+    kubectl exec -i mongodb-0 -n mongodb -- mongorestore --archive --gzip \
+      -u yoshi -p --authenticationDatabase admin < {{file}}
 
 # =============================================================================
-# Utilities
+# LOGS
 # =============================================================================
 
-[group('util')]
-info:
-    @echo "Project: {{project}}"
-    @echo "Version: {{version}}"
-    @echo "OS: {{os()}} ({{arch()}})"
+logs-backend:
+    kubectl logs -f -n carteros -l app=carteros-backend
 
-[group('util')]
-clean:
-    -rm -rf backend/.mypy_cache
-    -rm -rf backend/.pytest_cache
-    -rm -rf backend/.ruff_cache
-    -rm -rf backend/htmlcov
-    -rm -rf backend/.coverage
-    @echo "Cache directories cleaned"
+logs-frontend:
+    kubectl logs -f -n carteros -l app=carteros-frontend
+
+logs-mongo:
+    kubectl logs -f -n mongodb -l app=mongodb
+
+logs-oneisnun:
+    kubectl logs -f -n oneisnun -l app=oneisnun-backend
+
+# =============================================================================
+# STATUS
+# =============================================================================
+
+pods:
+    kubectl get pods -A -o wide
+
+services:
+    kubectl get services -A
+
+status:
+    @echo "=== PODS ==="
+    @kubectl get pods -A
+    @echo ""
+    @echo "=== SERVICES ==="
+    @kubectl get services -A
+    @echo ""
+    @echo "=== PVCs ==="
+    @kubectl get pvc -A
+
+watch:
+    watch -n 2 kubectl get pods -A
+
+# =============================================================================
+# DEBUG - Shell Access
+# =============================================================================
+
+shell-backend:
+    kubectl exec -it -n carteros deployment/carteros-backend -- /bin/bash
+
+shell-frontend:
+    kubectl exec -it -n carteros deployment/carteros-frontend -- /bin/sh
+
+shell-mongo:
+    kubectl exec -it -n mongodb mongodb-0 -- /bin/bash
+
+shell-oneisnun:
+    kubectl exec -it -n oneisnun deployment/oneisnun-backend -- /bin/sh
+
+events:
+    kubectl get events -A --sort-by='.lastTimestamp'
+
+describe pod namespace='carteros':
+    kubectl describe pod {{pod}} -n {{namespace}}
+
+# =============================================================================
+# CLEANUP
+# =============================================================================
+
+cleanup-failed:
+    kubectl delete pods --field-selector=status.phase=Failed -A
+
+cleanup-evicted:
+    kubectl delete pods --field-selector=status.phase=Evicted -A
+
+nuke:
+    @echo "WARNING: This will delete EVERYTHING in all namespaces!"
+    @read -p "Are you sure? (y/N) " confirm && [ "$$confirm" = "y" ]
+    kubectl delete namespace carteros mongodb oneisnun --ignore-not-found

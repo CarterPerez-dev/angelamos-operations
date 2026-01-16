@@ -1,0 +1,49 @@
+# AngelaMos | 2026
+# MongoDB Development Instance
+# Standalone instance on port 1011, completely isolated from production
+
+services:
+  mongodb_dev:
+    image: mongo:7.0
+    container_name: mongodb_dev
+    restart: unless-stopped
+    ports:
+      - "1011:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_INITDB_DATABASE=xploitcraft_dev
+    volumes:
+      - mongo_dev_data:/data/db
+      - mongo_dev_config:/data/configdb
+    networks:
+      - mongo_dev_network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  mongo_dev_data:
+    driver: local
+  mongo_dev_config:
+    driver: local
+
+networks:
+  mongo_dev_network:
+    driver: bridge

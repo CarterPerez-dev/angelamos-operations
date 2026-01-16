@@ -1,0 +1,135 @@
+// ===================
+// © AngelaMos | 2025
+// applicationTable.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.wrapper {
+  overflow-x: auto;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: $text-sm;
+
+  th,
+  td {
+    padding: $space-md $space-lg;
+    text-align: left;
+    border-bottom: 1px solid $border-muted;
+  }
+
+  th {
+    font-size: $text-xs;
+    font-weight: $font-medium;
+    color: $text-lighter;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: $bg-surface-100;
+  }
+
+  tbody tr {
+    background: $bg-surface-100;
+    transition: background-color $transition-fast $ease-out;
+
+    &:hover {
+      background: $bg-surface-200;
+    }
+
+    &:last-child td {
+      border-bottom: none;
+    }
+  }
+}
+
+.company {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
+
+.companyName {
+  font-weight: $font-medium;
+  color: $text-default;
+}
+
+.location {
+  font-size: $text-xs;
+  color: $text-lighter;
+}
+
+.position {
+  display: block;
+  color: $text-default;
+}
+
+.remote {
+  display: inline-block;
+  margin-top: $space-xs;
+  font-size: $text-xs;
+  color: $text-lighter;
+  text-transform: capitalize;
+}
+
+.badge {
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  text-transform: capitalize;
+}
+
+.center {
+  text-align: center;
+}
+
+.source {
+  color: $text-light;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.actions {
+  display: flex;
+  gap: $space-sm;
+  justify-content: flex-end;
+}
+
+.actionButton {
+  padding: $space-xs $space-sm;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-light;
+  background: transparent;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition:
+    background-color $transition-fast $ease-out,
+    border-color $transition-fast $ease-out;
+
+  &:hover {
+    background: $bg-selection;
+    border-color: $border-strong;
+  }
+}
+
+.deleteButton {
+  padding: $space-xs $space-sm;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-lighter;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: color $transition-fast $ease-out;
+
+  &:hover {
+    color: #ef4444;
+  }
+}

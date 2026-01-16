@@ -1,9 +1,10 @@
-CertGames.com
-=============
+# oneIsNun_ 
 
-2026 \| ©AngelaMos
-
-----
+- MongoDB Management Dashboard
+- backups
+- profiling
+- analytics
+- redundency
 
 ::
 
@@ -26,10 +27,7 @@ CertGames.com
      ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣿⡿⣿⣿⣿⣿⣿⣿⡿⠋⠉⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
      ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠙⠁⠘⢮⣛⡽⠛⠿⡿⠥⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 
+[CertGames.com](https://certgames.com)
 
-`CertGames.com <https://certgames.com>`_
 
----
-
-©AngelaMos LLC Operations · 2026
-
+© 2026 CertGames · AngelaMos

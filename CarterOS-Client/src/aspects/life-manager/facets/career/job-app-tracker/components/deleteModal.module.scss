@@ -1,0 +1,95 @@
+// ===================
+// © AngelaMos | 2025
+// deleteModal.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $space-xl;
+  z-index: $z-modal;
+}
+
+.modal {
+  width: 100%;
+  max-width: 400px;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-lg;
+  padding: $space-xl;
+}
+
+.title {
+  font-size: $text-lg;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0 0 $space-md;
+}
+
+.message {
+  font-size: $text-sm;
+  color: $text-light;
+  line-height: $line-height-normal;
+  margin: 0 0 $space-xl;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: $space-md;
+}
+
+.cancelButton {
+  padding: $space-sm $space-lg;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-light;
+  background: transparent;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition:
+    background-color $transition-fast $ease-out,
+    border-color $transition-fast $ease-out;
+
+  &:hover:not(:disabled) {
+    background: $bg-selection;
+    border-color: $border-strong;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.deleteButton {
+  padding: $space-sm $space-lg;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: #fafafa;
+  background: #dc2626;
+  border: 1px solid #dc2626;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: filter $transition-fast $ease-out;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.1);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

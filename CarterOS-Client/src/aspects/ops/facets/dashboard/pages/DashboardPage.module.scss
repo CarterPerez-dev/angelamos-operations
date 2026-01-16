@@ -1,0 +1,106 @@
+// ===================
+// © AngelaMos | 2025
+// DashboardPage.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2xl;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: $space-2xl;
+  min-height: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  margin-bottom: $space-xl;
+}
+
+.title {
+  font-size: $text-2xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: $text-sm;
+  color: $text-lighter;
+  margin: 0;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}
+
+.sectionTitle {
+  font-size: $text-lg;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: $space-lg;
+
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  padding: $space-md $space-lg;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  text-decoration: none;
+  cursor: pointer;
+  transition: filter $transition-normal $ease-out;
+
+  &:hover {
+    filter: brightness(1.15);
+  }
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+}
+
+.cardIcon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.cardTitle {
+  font-size: $text-base;
+  font-weight: $font-medium;
+  color: $text-default;
+  margin: 0;
+}
+
+.cardDescription {
+  font-size: $text-sm;
+  color: $text-light;
+  line-height: $line-height-normal;
+  margin: 0;
+}

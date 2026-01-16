@@ -1,0 +1,30 @@
+# CarterBot Telegram
+
+# Start the bot (foreground)
+start:
+    bun run start
+
+# Dev mode with auto-reload
+dev:
+    bun run dev
+
+# TypeScript type check
+typecheck:
+    bun run typecheck
+
+# Service commands
+status:
+    systemctl --user status carterbot
+
+restart:
+    systemctl --user restart carterbot
+
+stop:
+    systemctl --user stop carterbot
+
+logs:
+    journalctl --user -u carterbot -f
+
+# Install dependencies
+install:
+    bun install

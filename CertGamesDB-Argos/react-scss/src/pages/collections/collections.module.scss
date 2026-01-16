@@ -1,0 +1,165 @@
+// ===================
+// AngelaMos | 2026
+// collections.module.scss
+// ===================
+
+@use '@/styles' as *;
+
+.page {
+  min-height: calc(100vh - 56px);
+  padding: $space-6;
+  background-color: $bg-default;
+  background-image: radial-gradient(circle, $border-default 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.loading,
+.error {
+  @include flex-center;
+  min-height: 200px;
+  font-size: $font-size-sm;
+  color: $text-light;
+}
+
+.error {
+  color: $error-default;
+}
+
+.header {
+  margin-bottom: $space-6;
+}
+
+.headerInfo {
+  @include flex-column;
+  gap: $space-1;
+}
+
+.title {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $text-default;
+}
+
+.subtitle {
+  font-size: $font-size-sm;
+  color: $success-400;
+}
+
+.empty {
+  @include flex-column-center;
+  padding: $space-16 $space-6;
+  color: $text-lighter;
+  gap: $space-2;
+
+  p {
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    color: $text-light;
+  }
+
+  span {
+    font-size: $font-size-sm;
+  }
+}
+
+.emptyIcon {
+  width: 48px;
+  height: 48px;
+  color: $text-muted;
+  margin-bottom: $space-2;
+}
+
+.grid {
+  display: grid;
+  gap: $space-4;
+  grid-template-columns: 1fr;
+
+  @include breakpoint-up('sm') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include breakpoint-up('lg') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  display: block;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  @include transition-fast;
+
+  @include hover {
+    border-color: $border-strong;
+
+    .chevron {
+      transform: translateX(2px);
+    }
+  }
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  padding: $space-4;
+  border-bottom: 1px solid $border-muted;
+}
+
+.cardIcon {
+  width: 18px;
+  height: 18px;
+  color: $success-400;
+  flex-shrink: 0;
+}
+
+.cardName {
+  flex: 1;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-default;
+  font-family: $font-mono;
+  @include truncate;
+}
+
+.chevron {
+  width: 16px;
+  height: 16px;
+  color: $text-muted;
+  flex-shrink: 0;
+  transition: transform $duration-fast $ease-out;
+}
+
+.cardStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-2;
+  padding: $space-4;
+}
+
+.stat {
+  @include flex-column;
+  align-items: center;
+  gap: $space-0-5;
+}
+
+.statValue {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $success-400;
+}
+
+.statLabel {
+  font-size: $font-size-xs;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: $tracking-wide;
+}
+
+.cardFooter {
+  padding: $space-3 $space-4;
+  border-top: 1px solid $border-muted;
+  font-size: $font-size-xs;
+  color: $text-lighter;
+}

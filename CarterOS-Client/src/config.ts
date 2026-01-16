@@ -1,0 +1,171 @@
+// ===================
+// © AngelaMos | 2025
+// config.ts
+// ===================
+
+const API_VERSION = 'v1'
+
+export const API_ENDPOINTS = {
+  AUTH: {
+    LOGIN: `/${API_VERSION}/auth/login`,
+    REFRESH: `/${API_VERSION}/auth/refresh`,
+    LOGOUT: `/${API_VERSION}/auth/logout`,
+    LOGOUT_ALL: `/${API_VERSION}/auth/logout-all`,
+    ME: `/${API_VERSION}/auth/me`,
+    CHANGE_PASSWORD: `/${API_VERSION}/auth/change-password`,
+  },
+  USERS: {
+    BASE: `/${API_VERSION}/users`,
+    BY_ID: (id: string) => `/${API_VERSION}/users/${id}`,
+    ME: `/${API_VERSION}/users/me`,
+    REGISTER: `/${API_VERSION}/users`,
+  },
+  ADMIN: {
+    USERS: {
+      LIST: `/${API_VERSION}/admin/users`,
+      CREATE: `/${API_VERSION}/admin/users`,
+      BY_ID: (id: string) => `/${API_VERSION}/admin/users/${id}`,
+      UPDATE: (id: string) => `/${API_VERSION}/admin/users/${id}`,
+      DELETE: (id: string) => `/${API_VERSION}/admin/users/${id}`,
+    },
+  },
+  CHALLENGE: {
+    ACTIVE: `/${API_VERSION}/challenge/active`,
+    START: `/${API_VERSION}/challenge/start`,
+    HISTORY: `/${API_VERSION}/challenge/history`,
+    LOGS: {
+      CREATE: `/${API_VERSION}/challenge/logs`,
+      BY_DATE: (date: string) => `/${API_VERSION}/challenge/logs/${date}`,
+      UPDATE: (date: string) => `/${API_VERSION}/challenge/logs/${date}`,
+    },
+  },
+  JOB_TRACKER: {
+    LIST: `/${API_VERSION}/career/jobs`,
+    STATS: `/${API_VERSION}/career/jobs/stats`,
+    FOLLOWUPS: `/${API_VERSION}/career/jobs/followups`,
+    BY_STATUS: (status: string) => `/${API_VERSION}/career/jobs/by-status/${status}`,
+    BY_OUTCOME: (outcome: string) => `/${API_VERSION}/career/jobs/by-outcome/${outcome}`,
+    BY_ID: (id: string) => `/${API_VERSION}/career/jobs/${id}`,
+    CREATE: `/${API_VERSION}/career/jobs`,
+    UPDATE: (id: string) => `/${API_VERSION}/career/jobs/${id}`,
+    DELETE: (id: string) => `/${API_VERSION}/career/jobs/${id}`,
+  },
+} as const
+
+export const ROUTES = {
+  ROOT: '/root',
+  LOGIN: '/login',
+  UNAUTHORIZED: '/unauthorized',
+  ADMIN: {
+    DASHBOARD: '/admin',
+    USERS: '/admin/users',
+    USER_DETAIL: (id: string) => `/admin/users/${id}`,
+  },
+  CHALLENGE: {
+    TRACKER: '/challenge/tracker',
+  },
+  DEV_WORKSPACE: {
+    DOCKER_MANAGER: '/dev-workspace/docker-manager',
+  },
+} as const
+
+export const QUERY_KEYS = {
+  AUTH: {
+    ALL: ['auth'] as const,
+    ME: () => [...QUERY_KEYS.AUTH.ALL, 'me'] as const,
+  },
+  USERS: {
+    ALL: ['users'] as const,
+    BY_ID: (id: string) => [...QUERY_KEYS.USERS.ALL, 'detail', id] as const,
+    ME: () => [...QUERY_KEYS.USERS.ALL, 'me'] as const,
+  },
+  ADMIN: {
+    ALL: ['admin'] as const,
+    USERS: {
+      ALL: () => [...QUERY_KEYS.ADMIN.ALL, 'users'] as const,
+      LIST: (page: number, size: number) =>
+        [...QUERY_KEYS.ADMIN.USERS.ALL(), 'list', { page, size }] as const,
+      BY_ID: (id: string) =>
+        [...QUERY_KEYS.ADMIN.USERS.ALL(), 'detail', id] as const,
+    },
+  },
+  CHALLENGE: {
+    ALL: ['challenge'] as const,
+    ACTIVE: () => [...QUERY_KEYS.CHALLENGE.ALL, 'active'] as const,
+    HISTORY: (page?: number, size?: number) =>
+      [...QUERY_KEYS.CHALLENGE.ALL, 'history', { page, size }] as const,
+    LOG: (date: string) => [...QUERY_KEYS.CHALLENGE.ALL, 'log', date] as const,
+  },
+  JOB_TRACKER: {
+    ALL: ['job-tracker'] as const,
+    LIST: (skip?: number, limit?: number) =>
+      [...QUERY_KEYS.JOB_TRACKER.ALL, 'list', { skip, limit }] as const,
+    STATS: () => [...QUERY_KEYS.JOB_TRACKER.ALL, 'stats'] as const,
+    FOLLOWUPS: () => [...QUERY_KEYS.JOB_TRACKER.ALL, 'followups'] as const,
+    BY_STATUS: (status: string) =>
+      [...QUERY_KEYS.JOB_TRACKER.ALL, 'by-status', status] as const,
+    BY_OUTCOME: (outcome: string) =>
+      [...QUERY_KEYS.JOB_TRACKER.ALL, 'by-outcome', outcome] as const,
+    BY_ID: (id: string) =>
+      [...QUERY_KEYS.JOB_TRACKER.ALL, 'detail', id] as const,
+  },
+} as const
+
+export const STORAGE_KEYS = {
+  AUTH: 'auth-storage',
+  AUTH_UI: 'auth-ui-storage',
+} as const
+
+export const QUERY_CONFIG = {
+  STALE_TIME: {
+    USER: 1000 * 60 * 5,
+    STATIC: Infinity,
+    FREQUENT: 1000 * 30,
+  },
+  GC_TIME: {
+    DEFAULT: 1000 * 60 * 30,
+    LONG: 1000 * 60 * 60,
+  },
+  RETRY: {
+    DEFAULT: 3,
+    NONE: 0,
+  },
+} as const
+
+export const HTTP_STATUS = {
+  OK: 200,
+  CREATED: 201,
+  NO_CONTENT: 204,
+  BAD_REQUEST: 400,
+  UNAUTHORIZED: 401,
+  FORBIDDEN: 403,
+  NOT_FOUND: 404,
+  CONFLICT: 409,
+  TOO_MANY_REQUESTS: 429,
+  INTERNAL_SERVER: 500,
+} as const
+
+export const PASSWORD_CONSTRAINTS = {
+  MIN_LENGTH: 8,
+  MAX_LENGTH: 128,
+} as const
+
+export const PAGINATION = {
+  DEFAULT_PAGE: 1,
+  DEFAULT_SIZE: 20,
+  MAX_SIZE: 100,
+} as const
+
+export const APP = {
+  NAME: 'CarterOS',
+  LOGO: '/assets/logo.webp',
+} as const
+
+export const USER = {
+  NAME: 'CarterPerez-dev',
+  AVATAR: '/assets/user.webp',
+} as const
+
+export type ApiEndpoint = typeof API_ENDPOINTS
+export type QueryKey = typeof QUERY_KEYS
+export type Route = typeof ROUTES

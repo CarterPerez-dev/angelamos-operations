@@ -1,0 +1,21 @@
+# AngelaMos | 2026
+# Dockerfile.dev - Development with hot reload
+
+FROM golang:1.25-bookworm
+
+WORKDIR /app
+
+RUN go install github.com/air-verse/air@latest
+
+RUN apt-get update && apt-get install -y wget curl gnupg && \
+    curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | gpg --dearmor -o /usr/share/keyrings/mongodb-server-7.0.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg] http://repo.mongodb.org/apt/debian bookworm/mongodb-org/7.0 main" > /etc/apt/sources.list.d/mongodb-org-7.0.list && \
+    apt-get update && apt-get install -y mongodb-database-tools && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY go.mod go.sum ./
+RUN go mod download
+
+EXPOSE 8080
+
+CMD ["air", "-c", ".air.toml"]

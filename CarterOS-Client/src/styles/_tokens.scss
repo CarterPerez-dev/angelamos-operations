@@ -1,0 +1,143 @@
+// ===================
+// © AngelaMos | 2025
+// _tokens.scss
+// ===================
+
+// ============================================================================
+// COLORS - SUPABASE PALETTE
+// Accent: #C06648 (CarterOS purple)
+// ============================================================================
+
+// Backgrounds
+$bg-default: hsl(0, 0%, 7.1%);              // #121212 - Main background
+$bg-alternative: hsl(0, 0%, 5.9%);          // #0f0f0f - Darker alternative
+$bg-surface-75: hsl(0, 0%, 9%);             // #171717 - Slightly lighter
+$bg-surface-100: hsl(0, 0%, 12.2%);         // #1f1f1f - Cards/panels (PRIMARY)
+$bg-surface-200: hsl(0, 0%, 12.9%);         // #212121 - Elevated surface
+$bg-surface-300: hsl(0, 0%, 16.1%);         // #292929 - Highest (dropdowns)
+$bg-control: hsl(0, 0%, 14.1%);             // #242424 - Input backgrounds
+$bg-selection: hsl(0, 0%, 19.2%);           // #313131 - Selected state
+$bg-overlay: hsl(0, 0%, 14.1%);             // #242424 - Overlay background
+$bg-overlay-hover: hsl(0, 0%, 18%);         // #2e2e2e - Overlay hover
+
+// Borders
+$border-muted: hsl(0, 0%, 14.1%);           // #242424 - Subtle dividers
+$border-default: hsl(0, 0%, 18%);           // #2e2e2e - Standard (MOST COMMON)
+$border-strong: hsl(0, 0%, 21.2%);          // #363636 - Emphasized
+$border-stronger: hsl(0, 0%, 27.1%);        // #454545 - Strongest
+$border-control: hsl(0, 0%, 22.4%);         // #393939 - Input borders
+$border-overlay: hsl(0, 0%, 20%);           // #333333 - Overlay borders
+
+// Text/Foreground
+$text-default: hsl(0, 0%, 98%);             // #fafafa - Primary text
+$text-light: hsl(0, 0%, 70.6%);             // #b4b4b4 - Secondary text
+$text-lighter: hsl(0, 0%, 53.7%);           // #898989 - Tertiary text
+$text-muted: hsl(0, 0%, 30.2%);             // #4d4d4d - Muted/disabled text
+
+// Accent
+$accent-purple: #C06648;                     // CarterOS brand purple
+$accent-purple-hover: #e89b82;               // Lighter for hovers
+$accent-purple-active: #d13d0d;              // Darker for active states
+$accent-purple-30: rgba(192, 102, 72, 0.3);    // 30% opacity for focus rings
+$accent-purple-10: rgba(192, 102, 72, 0.1);    // 10% opacity for subtle
+
+// Dotted Grid Backgrounds 
+$bg-dot-page: hsl(0, 0%, 12%);               // Lighter dots for main pages
+$bg-dot-surface: hsl(0, 0%, 16.5%);          // Dots for cards/panels
+$bg-dot-dark: hsl(0, 0%, 12.5%);              // Dots for darker surfaces
+
+// ============================================================================
+// TYPOGRAPHY
+// ============================================================================
+
+// Font Family
+$font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+$font-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Droid Sans Mono', 'Source Code Pro', monospace;
+
+// Font Sizes
+$text-xs: 0.75rem;                          // 12px - labels, captions
+$text-sm: 0.875rem;                         // 14px - BODY TEXT (MOST COMMON)
+$text-base: 1rem;                           // 16px - headings, rare body
+$text-lg: 1.125rem;                         // 18px - section headings
+$text-xl: 1.25rem;                          // 20px - page titles
+$text-2xl: 1.5rem;                          // 24px - major headings
+
+// Font Weights
+$font-normal: 400;                          // Regular - most text
+$font-medium: 500;                          // Medium - buttons, labels
+$font-semibold: 600;                        // Semibold - headings only
+
+// Line Heights
+$line-height-tight: 1.2;                    // Headings
+$line-height-normal: 1.5;                   // Body text
+
+// ============================================================================
+// SPACING
+// ============================================================================
+$space-xs: 0.25rem;                         // 4px
+$space-sm: 0.5rem;                          // 8px  (gap-2)
+$space-md: 0.75rem;                         // 12px (card padding)
+$space-lg: 1rem;                            // 16px (gap-4, MOST COMMON)
+$space-xl: 1.5rem;                          // 24px (section spacing)
+$space-2xl: 2rem;                           // 32px (gap-8, major sections)
+$space-3xl: 4rem;                           // 64px (page-level, rare)
+
+// ============================================================================
+// BORDERS
+// ============================================================================
+
+// Border Radius
+$radius-xs: 2px;
+$radius-sm: 4px;                            // MOST COMMON (buttons, inputs)
+$radius-md: 6px;                            // Cards
+$radius-lg: 8px;                            // Modals
+$radius-xl: 16px;                           // Rare
+$radius-full: 9999px;
+
+// Border Width
+$border-width-thin: 1px;                    // Standard (99% of cases)
+$border-width-thick: 2px;                   // Rare exceptions
+
+// ============================================================================
+// TRANSITIONS
+// ============================================================================
+$transition-fast: 100ms;
+$transition-normal: 200ms;                  // Supabase standard
+$transition-slow: 300ms;                    // Rare
+
+$ease-out: ease-out;                        // Supabase standard
+$ease-linear: linear;                       // Acceptable
+
+// ============================================================================
+// Z-INDEX SCALE
+// ============================================================================
+$z-hide: -1;
+$z-base: 0;
+$z-dropdown: 100;
+$z-sticky: 200;
+$z-fixed: 300;
+$z-overlay: 400;
+$z-modal: 500;
+$z-popover: 600;
+$z-tooltip: 700;
+$z-toast: 800;
+$z-max: 9999;
+
+// ============================================================================
+// BREAKPOINTS
+// ============================================================================
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-2xl: 1536px;
+
+// ============================================================================
+// CONTAINER WIDTHS
+// ============================================================================
+$container-sm: 640px;
+$container-md: 768px;
+$container-lg: 1024px;
+$container-xl: 1200px;                      // Standard content
+$container-2xl: 1400px;                     // Wide content (dashboards)
+$container-full: 100%;

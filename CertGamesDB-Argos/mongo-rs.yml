@@ -1,0 +1,207 @@
+# AngelaMos | 2026
+# MongoDB Replica Set - 3 Node Cluster
+# Primary (1010) + Secondary1 (1012) + Secondary2 (1013)
+
+services:
+  mongodb_primary:
+    image: mongo:7.0
+    container_name: mongodb_primary
+    restart: unless-stopped
+    ports:
+      - "1010:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_INITDB_DATABASE=${MONGO_DB}
+    command: >
+      mongod
+      --replSet rs0
+      --bind_ip_all
+      --keyFile /etc/mongo/keyfile
+    volumes:
+      - mongo_data:/data/db
+      - mongo_config:/data/configdb
+      - ./scripts/keyfile:/etc/mongo/keyfile:ro
+    networks:
+      - mongo_network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  mongodb_secondary1:
+    image: mongo:7.0
+    container_name: mongodb_secondary1
+    restart: unless-stopped
+    ports:
+      - "1012:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+    command: >
+      mongod
+      --replSet rs0
+      --bind_ip_all
+      --keyFile /etc/mongo/keyfile
+    volumes:
+      - mongo_data_secondary1:/data/db
+      - mongo_config_secondary1:/data/configdb
+      - ./scripts/keyfile:/etc/mongo/keyfile:ro
+    networks:
+      - mongo_network
+    depends_on:
+      mongodb_primary:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  mongodb_secondary2:
+    image: mongo:7.0
+    container_name: mongodb_secondary2
+    restart: unless-stopped
+    ports:
+      - "1013:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+    command: >
+      mongod
+      --replSet rs0
+      --bind_ip_all
+      --keyFile /etc/mongo/keyfile
+    volumes:
+      - mongo_data_secondary2:/data/db
+      - mongo_config_secondary2:/data/configdb
+      - ./scripts/keyfile:/etc/mongo/keyfile:ro
+    networks:
+      - mongo_network
+    depends_on:
+      mongodb_primary:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  mongo_init:
+    image: mongo:7.0
+    container_name: mongo_rs_init
+    restart: "no"
+    depends_on:
+      mongodb_primary:
+        condition: service_healthy
+      mongodb_secondary1:
+        condition: service_healthy
+      mongodb_secondary2:
+        condition: service_healthy
+    environment:
+      - MONGO_USER=${MONGO_USER}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+    volumes:
+      - ./scripts/init-replica-set.sh:/init-replica-set.sh:ro
+    entrypoint: ["/bin/bash", "/init-replica-set.sh"]
+    networks:
+      - mongo_network
+
+  mongo_express:
+    image: mongo-express:1.0.2-20-alpine3.19
+    container_name: mongo_express
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:1469:8081"
+    environment:
+      - ME_CONFIG_MONGODB_URL=mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongodb_primary:27017,mongodb_secondary1:27017,mongodb_secondary2:27017/?replicaSet=rs0&authSource=admin
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_BASICAUTH_ENABLED=true
+      - ME_CONFIG_BASICAUTH_USERNAME=${MONGO_USER}
+      - ME_CONFIG_BASICAUTH_PASSWORD=${MONGO_PASSWORD}
+      - ME_CONFIG_OPTIONS_READONLY=false
+    depends_on:
+      mongodb_primary:
+        condition: service_healthy
+    networks:
+      - mongo_network
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:8081 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  mongo_data:
+    external: true
+    name: oneisnun__mongo_data
+  mongo_config:
+    external: true
+    name: oneisnun__mongo_config
+  mongo_data_secondary1:
+    driver: local
+  mongo_config_secondary1:
+    driver: local
+  mongo_data_secondary2:
+    driver: local
+  mongo_config_secondary2:
+    driver: local
+
+networks:
+  mongo_network:
+    external: true
+    name: oneisnun__mongo_network

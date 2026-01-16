@@ -1,0 +1,224 @@
+// ===================
+// AngelaMos | 2026
+// settings.module.scss
+// ===================
+
+@use '@/styles' as *;
+
+.page {
+  min-height: calc(100vh - 56px);
+  padding: $space-6;
+  background-color: $bg-default;
+  background-image: radial-gradient(circle, $border-default 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.container {
+  max-width: 640px;
+}
+
+.header {
+  margin-bottom: $space-8;
+}
+
+.title {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $text-default;
+  margin-bottom: $space-1;
+}
+
+.subtitle {
+  font-size: $font-size-sm;
+  color: $text-lighter;
+}
+
+.section {
+  margin-bottom: $space-8;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-light;
+  text-transform: uppercase;
+  letter-spacing: $tracking-wide;
+  margin-bottom: $space-4;
+}
+
+.sectionIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.loading {
+  padding: $space-6;
+  text-align: center;
+  color: $text-lighter;
+  font-size: $font-size-sm;
+}
+
+.infoCard {
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  overflow: hidden;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $space-3 $space-4;
+  border-bottom: 1px solid $border-muted;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.infoLabel {
+  font-size: $font-size-sm;
+  color: $text-lighter;
+}
+
+.infoValue {
+  font-size: $font-size-sm;
+  color: $text-default;
+  font-family: $font-mono;
+}
+
+.profilingCard {
+  @include flex-column;
+  gap: $space-6;
+  padding: $space-5;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+}
+
+.formGroup {
+  @include flex-column;
+  gap: $space-2;
+}
+
+.label {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-default;
+}
+
+.levelOptions {
+  display: grid;
+  gap: $space-3;
+  grid-template-columns: repeat(3, 1fr);
+
+  @include breakpoint-down('sm') {
+    grid-template-columns: 1fr;
+  }
+}
+
+.levelBtn {
+  @include flex-column;
+  align-items: flex-start;
+  gap: $space-1;
+  padding: $space-4;
+  background: $bg-surface-200;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  text-align: left;
+  @include transition-fast;
+
+  @include hover {
+    border-color: $border-strong;
+  }
+
+  &.active {
+    border-color: $text-lighter;
+    background: $bg-surface-300;
+  }
+}
+
+.levelValue {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $text-default;
+}
+
+.levelLabel {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-light;
+}
+
+.levelDesc {
+  font-size: $font-size-xs;
+  color: $text-muted;
+}
+
+.input {
+  padding: $space-2-5 $space-3;
+  background: $bg-control;
+  border: 1px solid $border-strong;
+  border-radius: $radius-sm;
+  font-size: $font-size-sm;
+  color: $text-default;
+  width: 100%;
+  max-width: 200px;
+  @include transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: $text-lighter;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &::placeholder {
+    color: $text-muted;
+  }
+}
+
+.hint {
+  font-size: $font-size-xs;
+  color: $text-muted;
+}
+
+.actions {
+  padding-top: $space-4;
+  border-top: 1px solid $border-muted;
+}
+
+.saveBtn {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-2-5 $space-4;
+  background: $bg-surface-200;
+  border: 1px solid $border-strong;
+  border-radius: $radius-sm;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-default;
+  @include transition-fast;
+
+  @include hover {
+    background: $bg-surface-300;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.btnIcon {
+  width: 16px;
+  height: 16px;
+}
