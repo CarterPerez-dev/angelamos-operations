@@ -1,7 +1,7 @@
 CertGames.com
 =============
 
-2026 \| ©AngelaMos
+2026 \| ©AngelaMos llc
 
 ----
 
@@ -31,5 +31,5 @@ CertGames.com
 
 ---
 
-©AngelaMos LLC Operations · 2026
+©AngelaMos Operations · 2026
 
