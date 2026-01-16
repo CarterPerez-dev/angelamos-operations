@@ -6,7 +6,6 @@ venv
 *.env
 *.cache
 *.egg
-docs/research/
 
 __pycache__/
 *.py[cod]
@@ -39,3 +38,10 @@ dmypy.json
 
 .DS_Store
 
+# K8s Secrets
+**/secrets.yaml
+**/secrets.yml
+**/*-secrets.yaml
+**/*-secrets.yml
+**/sealed-secrets.yaml
+k8s/overlays/*/secrets.env
