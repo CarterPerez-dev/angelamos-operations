@@ -1,0 +1,110 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: carteros-platform
+
+build:
+  local:
+    useBuildkit: true
+    concurrency: 0
+    tryImportMissing: true
+    push: false
+
+  artifacts:
+    - image: carteros-backend
+      context: ../CarterOS-Server
+      docker:
+        dockerfile: ../infra/docker/fastapi.dev
+      sync:
+        manual:
+          - src: "src/**/*.py"
+            dest: /app/src
+          - src: "alembic/**/*.py"
+            dest: /app/alembic
+
+    - image: carteros-frontend
+      context: ../CarterOS-Client
+      docker:
+        dockerfile: ../infra/docker/vite.dev
+      sync:
+        infer:
+          - "src/**/*.tsx"
+          - "src/**/*.ts"
+          - "src/**/*.scss"
+          - "src/**/*.css"
+
+    - image: oneisnun-backend
+      context: ../CertGamesDB-Argos/go-backend
+      docker:
+        dockerfile: Dockerfile.dev
+      sync:
+        manual:
+          - src: "**/*.go"
+            dest: /app
+
+    - image: oneisnun-frontend
+      context: ../CertGamesDB-Argos/react-scss
+      docker:
+        dockerfile: Dockerfile.dev
+      sync:
+        infer:
+          - "src/**/*"
+
+deploy:
+  kustomize:
+    paths:
+      - ./overlays/dev
+
+portForward:
+  - resourceType: service
+    resourceName: carteros-backend
+    namespace: carteros
+    port: 8000
+    localPort: 5420
+
+  - resourceType: service
+    resourceName: carteros-frontend
+    namespace: carteros
+    port: 5173
+    localPort: 3420
+
+  - resourceType: service
+    resourceName: oneisnun-backend
+    namespace: oneisnun
+    port: 8080
+    localPort: 8080
+
+  - resourceType: service
+    resourceName: oneisnun-frontend
+    namespace: oneisnun
+    port: 5173
+    localPort: 5173
+
+  - resourceType: service
+    resourceName: mongo-express
+    namespace: mongodb
+    port: 8081
+    localPort: 1469
+
+  - resourceType: service
+    resourceName: postgres
+    namespace: carteros
+    port: 5432
+    localPort: 4420
+
+profiles:
+  - name: prod
+    build:
+      artifacts:
+        - image: carteros-backend
+          context: ../CarterOS-Server
+          docker:
+            dockerfile: ../infra/docker/fastapi.prod
+        - image: carteros-frontend
+          context: ../CarterOS-Client
+          docker:
+            dockerfile: ../infra/docker/frontend-builder.prod
+    deploy:
+      kustomize:
+        paths:
+          - ./overlays/prod

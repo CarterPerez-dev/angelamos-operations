@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: placeholder
+spec:
+  template:
+    spec:
+      containers:
+        - name: "*"
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
