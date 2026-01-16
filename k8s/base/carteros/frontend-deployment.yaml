@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: carteros-frontend
+  namespace: carteros
+  labels:
+    app: carteros-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: carteros-frontend
+  template:
+    metadata:
+      labels:
+        app: carteros-frontend
+    spec:
+      hostAliases:
+        - ip: "192.168.1.183"
+          hostnames:
+            - "docker-host"
+      containers:
+        - name: vite
+          image: carteros-frontend:dev
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5173
+              name: http
+          env:
+            - name: VITE_API_URL
+              value: "/api"
+            - name: VITE_APP_TITLE
+              value: "CarterOS"
+            - name: VITE_DOCKER_API_URL
+              value: "http://docker-host:7771"
+          volumeMounts:
+            - name: app-code
+              mountPath: /app
+            - name: node-modules
+              mountPath: /app/node_modules
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+      volumes:
+        - name: app-code
+          hostPath:
+            path: /home/yoshi/dev/operations/angelamos-operations/CarterOS-Client
+            type: Directory
+        - name: node-modules
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: carteros-frontend
+  namespace: carteros
+  labels:
+    app: carteros-frontend
+spec:
+  selector:
+    app: carteros-frontend
+  ports:
+    - port: 5173
+      targetPort: 5173
+      name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: carteros-frontend-external
+  namespace: carteros
+  labels:
+    app: carteros-frontend
+spec:
+  type: NodePort
+  selector:
+    app: carteros-frontend
+  ports:
+    - port: 5173
+      targetPort: 5173
+      nodePort: 30173
+      name: http
