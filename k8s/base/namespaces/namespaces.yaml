@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: carteros
+  labels:
+    app.kubernetes.io/name: carteros
+    app.kubernetes.io/part-of: carteros-platform
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mongodb
+  labels:
+    app.kubernetes.io/name: mongodb
+    app.kubernetes.io/part-of: carteros-platform
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: oneisnun
+  labels:
+    app.kubernetes.io/name: oneisnun
+    app.kubernetes.io/part-of: carteros-platform
