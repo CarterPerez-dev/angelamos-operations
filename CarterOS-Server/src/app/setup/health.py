@@ -1,5 +1,5 @@
 """
-ⒸAngelaMos | 2025
+ⒸAngelaMos | 2026
 health.py
 """
 
@@ -13,7 +13,7 @@ from config import (
     settings,
     HealthStatus,
 )
-from aspects.auth.schemas.common import (
+from core.foundation.schemas.common import (
     HealthResponse,
     HealthDetailedResponse,
 )

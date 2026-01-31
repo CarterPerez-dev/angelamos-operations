@@ -1,5 +1,5 @@
 """
-ⒸAngelaMos | 2025
+ⒸAngelaMos | 2026
 env.py
 """
 import asyncio
@@ -31,14 +31,12 @@ from core.foundation.models.identity import (  # noqa: F401
     ContentPreference,
 )
 from aspects.challenge.facets.tracker.models import Challenge, ChallengeLog  # noqa: F401
-from aspects.life_manager.facets.planner.models import (  # noqa: F401
-    TimeBlock,
-    NoteFolder,
-    Note,
-)
+from aspects.life_manager.facets.planner.models import TimeBlock  # noqa: F401
+from aspects.life_manager.facets.notes.models import NoteFolder, Note  # noqa: F401
 from aspects.life_manager.facets.career.job_app_tracker.models import (  # noqa: F401
     JobApplication,
 )
+from aspects.analytics.facets.data_input.models import TikTokVideo  # noqa: F401
 
 
 config = context.config

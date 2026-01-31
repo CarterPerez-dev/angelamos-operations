@@ -12,6 +12,7 @@ import (
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 type MetricsRepository struct {
@@ -247,4 +248,172 @@ func (r *MetricsRepository) GetTruePaidSubscribers(ctx context.Context, dbName s
 		return 0, fmt.Errorf("count paid subscribers: %w", err)
 	}
 	return count, nil
+}
+
+type ConversionUser struct {
+	CreatedAt            time.Time `bson:"createdAt"`
+	SubscriptionActive   bool      `bson:"subscriptionActive"`
+	SubscriptionPlatform string    `bson:"subscriptionPlatform"`
+}
+
+type ConversionUserWithSubDate struct {
+	CreatedAt            time.Time `bson:"createdAt"`
+	SubscriptionActive   bool      `bson:"subscriptionActive"`
+	SubscriptionPlatform string    `bson:"subscriptionPlatform"`
+	SubscriptionStartDate *time.Time `bson:"subscriptionStartDate"`
+}
+
+func (r *MetricsRepository) GetUsersForConversion(ctx context.Context, dbName string, startDate time.Time) ([]ConversionUser, error) {
+	excludedEmails := []string{
+		"daleneumeister@gmail.com",
+		"testflight@gmail.com",
+		"admin@gmail.com",
+		"brandonbaldwin1987@gmail.com",
+		"carterperez4433@gmail.com",
+	}
+
+	filter := bson.D{
+		{Key: "createdAt", Value: bson.D{{Key: "$gte", Value: startDate}}},
+		{Key: "email", Value: bson.D{{Key: "$nin", Value: excludedEmails}}},
+		{Key: "tags", Value: bson.D{{Key: "$ne", Value: "PROMO"}}},
+	}
+
+	opts := options.Find().
+		SetSort(bson.D{{Key: "createdAt", Value: 1}}).
+		SetProjection(bson.D{
+			{Key: "createdAt", Value: 1},
+			{Key: "subscriptionActive", Value: 1},
+			{Key: "subscriptionPlatform", Value: 1},
+		})
+
+	cursor, err := r.client.Database(dbName).Collection("mainusers").Find(ctx, filter, opts)
+	if err != nil {
+		return nil, fmt.Errorf("find users for conversion: %w", err)
+	}
+	defer cursor.Close(ctx)
+
+	var users []ConversionUser
+	if err := cursor.All(ctx, &users); err != nil {
+		return nil, fmt.Errorf("decode conversion users: %w", err)
+	}
+
+	return users, nil
+}
+
+type WeeklyCohort struct {
+	Year            int   `bson:"year"`
+	Week            int   `bson:"week"`
+	TotalUsers      int   `bson:"totalUsers"`
+	SubscribedUsers int   `bson:"subscribedUsers"`
+	ConversionRate  float64 `bson:"conversionRate"`
+}
+
+func (r *MetricsRepository) GetWeeklyCohorts(ctx context.Context, dbName string, startDate time.Time, weeks int) ([]WeeklyCohort, error) {
+	excludedEmails := []string{
+		"daleneumeister@gmail.com",
+		"testflight@gmail.com",
+		"admin@gmail.com",
+		"brandonbaldwin1987@gmail.com",
+		"carterperez4433@gmail.com",
+	}
+
+	pipeline := mongo.Pipeline{
+		{{Key: "$match", Value: bson.D{
+			{Key: "createdAt", Value: bson.D{{Key: "$gte", Value: startDate}}},
+			{Key: "email", Value: bson.D{{Key: "$nin", Value: excludedEmails}}},
+			{Key: "tags", Value: bson.D{{Key: "$ne", Value: "PROMO"}}},
+		}}},
+		{{Key: "$group", Value: bson.D{
+			{Key: "_id", Value: bson.D{
+				{Key: "year", Value: bson.D{{Key: "$year", Value: "$createdAt"}}},
+				{Key: "week", Value: bson.D{{Key: "$week", Value: "$createdAt"}}},
+			}},
+			{Key: "totalUsers", Value: bson.D{{Key: "$sum", Value: 1}}},
+			{Key: "subscribedUsers", Value: bson.D{
+				{Key: "$sum", Value: bson.D{
+					{Key: "$cond", Value: bson.A{
+						bson.D{
+							{Key: "$and", Value: bson.A{
+								bson.D{{Key: "$eq", Value: bson.A{"$subscriptionActive", true}}},
+								bson.D{{Key: "$ne", Value: bson.A{"$subscriptionPlatform", "promo"}}},
+							}},
+						},
+						1,
+						0,
+					}},
+				}},
+			}},
+		}}},
+		{{Key: "$project", Value: bson.D{
+			{Key: "_id", Value: 0},
+			{Key: "year", Value: "$_id.year"},
+			{Key: "week", Value: "$_id.week"},
+			{Key: "totalUsers", Value: 1},
+			{Key: "subscribedUsers", Value: 1},
+			{Key: "conversionRate", Value: bson.D{
+				{Key: "$multiply", Value: bson.A{
+					bson.D{{Key: "$divide", Value: bson.A{"$subscribedUsers", "$totalUsers"}}},
+					100,
+				}},
+			}},
+		}}},
+		{{Key: "$sort", Value: bson.D{
+			{Key: "year", Value: -1},
+			{Key: "week", Value: -1},
+		}}},
+		{{Key: "$limit", Value: weeks}},
+	}
+
+	cursor, err := r.client.Database(dbName).Collection("mainusers").Aggregate(ctx, pipeline)
+	if err != nil {
+		return nil, fmt.Errorf("aggregate weekly cohorts: %w", err)
+	}
+	defer cursor.Close(ctx)
+
+	var cohorts []WeeklyCohort
+	if err := cursor.All(ctx, &cohorts); err != nil {
+		return nil, fmt.Errorf("decode weekly cohorts: %w", err)
+	}
+
+	return cohorts, nil
+}
+
+func (r *MetricsRepository) GetUsersWithSubscriptionDate(ctx context.Context, dbName string, startDate time.Time) ([]ConversionUserWithSubDate, error) {
+	excludedEmails := []string{
+		"daleneumeister@gmail.com",
+		"testflight@gmail.com",
+		"admin@gmail.com",
+		"brandonbaldwin1987@gmail.com",
+		"carterperez4433@gmail.com",
+	}
+
+	filter := bson.D{
+		{Key: "createdAt", Value: bson.D{{Key: "$gte", Value: startDate}}},
+		{Key: "subscriptionActive", Value: true},
+		{Key: "subscriptionPlatform", Value: bson.D{{Key: "$ne", Value: "promo"}}},
+		{Key: "subscriptionStartDate", Value: bson.D{{Key: "$exists", Value: true}}},
+		{Key: "email", Value: bson.D{{Key: "$nin", Value: excludedEmails}}},
+		{Key: "tags", Value: bson.D{{Key: "$ne", Value: "PROMO"}}},
+	}
+
+	opts := options.Find().
+		SetProjection(bson.D{
+			{Key: "createdAt", Value: 1},
+			{Key: "subscriptionActive", Value: 1},
+			{Key: "subscriptionPlatform", Value: 1},
+			{Key: "subscriptionStartDate", Value: 1},
+		})
+
+	cursor, err := r.client.Database(dbName).Collection("mainusers").Find(ctx, filter, opts)
+	if err != nil {
+		return nil, fmt.Errorf("find users with subscription date: %w", err)
+	}
+	defer cursor.Close(ctx)
+
+	var users []ConversionUserWithSubDate
+	if err := cursor.All(ctx, &users); err != nil {
+		return nil, fmt.Errorf("decode users with subscription date: %w", err)
+	}
+
+	return users, nil
 }

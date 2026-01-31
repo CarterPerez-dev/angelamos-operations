@@ -1,5 +1,5 @@
 """
-ⒸAngelaMos | 2025
+ⒸAngelaMos | 2026
 repository.py
 """
 
@@ -9,6 +9,7 @@ from uuid import UUID
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from core.foundation.repositories.base import BaseRepository
 from aspects.life_manager.facets.career.job_app_tracker.models import JobApplication
 from aspects.life_manager.facets.career.job_app_tracker.enums import (
     ApplicationStatus,
@@ -16,21 +17,11 @@ from aspects.life_manager.facets.career.job_app_tracker.enums import (
 )
 
 
-class JobApplicationRepository:
+class JobApplicationRepository(BaseRepository[JobApplication]):
     """
     Repository for JobApplication operations
     """
-
-    @classmethod
-    async def get_by_id(
-        cls,
-        session: AsyncSession,
-        application_id: UUID,
-    ) -> JobApplication | None:
-        """
-        Get job application by ID
-        """
-        return await session.get(JobApplication, application_id)
+    model = JobApplication
 
     @classmethod
     async def get_by_user(
@@ -128,50 +119,6 @@ class JobApplicationRepository:
         )
         return result.scalars().all()
 
-    @classmethod
-    async def create(
-        cls,
-        session: AsyncSession,
-        user_id: UUID,
-        **kwargs,
-    ) -> JobApplication:
-        """
-        Create a job application
-        """
-        application = JobApplication(user_id=user_id, **kwargs)
-        session.add(application)
-        await session.flush()
-        await session.refresh(application)
-        return application
-
-    @classmethod
-    async def update(
-        cls,
-        session: AsyncSession,
-        application: JobApplication,
-        **kwargs,
-    ) -> JobApplication:
-        """
-        Update a job application
-        """
-        for key, value in kwargs.items():
-            if value is not None:
-                setattr(application, key, value)
-        await session.flush()
-        await session.refresh(application)
-        return application
-
-    @classmethod
-    async def delete(
-        cls,
-        session: AsyncSession,
-        application: JobApplication,
-    ) -> None:
-        """
-        Delete a job application
-        """
-        await session.delete(application)
-        await session.flush()
 
     @classmethod
     async def get_stats(

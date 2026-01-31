@@ -1,5 +1,5 @@
 """
-ⒸAngelaMos | 2025
+ⒸAngelaMos | 2026
 schemas.py
 """
 
@@ -7,30 +7,11 @@ from uuid import UUID
 from datetime import date, datetime
 
 from pydantic import (
-    BaseModel,
-    ConfigDict,
     Field,
     computed_field,
 )
 
-
-class BaseSchema(BaseModel):
-    """
-    Base schema with common configuration
-    """
-    model_config = ConfigDict(
-        from_attributes = True,
-        str_strip_whitespace = True,
-    )
-
-
-class BaseResponseSchema(BaseSchema):
-    """
-    Base schema for API responses with common fields
-    """
-    id: UUID
-    created_at: datetime
-    updated_at: datetime | None = None
+from core.foundation.schemas.base import BaseSchema, BaseResponseSchema
 
 
 class ChallengeStart(BaseSchema):

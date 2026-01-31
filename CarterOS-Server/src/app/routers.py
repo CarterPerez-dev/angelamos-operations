@@ -1,5 +1,5 @@
 """
-ⒸAngelaMos | 2025
+ⒸAngelaMos | 2026
 routers.py
 """
 
@@ -7,7 +7,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
 from config import settings, Environment, API_PREFIX
-from aspects.auth.schemas.common import AppInfoResponse
+from core.foundation.schemas.common import AppInfoResponse
 from aspects.auth.routes.admin import router as admin_router
 from aspects.auth.routes.auth import router as auth_router
 from aspects.auth.routes.user import router as user_router
@@ -18,8 +18,14 @@ from aspects.challenge.facets.tracker.routes import (
 from aspects.life_manager.facets.planner.routes import (
     router as planner_router,
 )
+from aspects.life_manager.facets.notes.routes import (
+    router as notes_router,
+)
 from aspects.life_manager.facets.career.job_app_tracker.routes import (
     router as job_tracker_router,
+)
+from aspects.analytics.facets.data_input.routes import (
+    router as analytics_router,
 )
 from core.foundation.logging import get_logger
 
@@ -39,7 +45,7 @@ def register_routers(app: FastAPI) -> None:
             name = settings.APP_NAME,
             version = settings.APP_VERSION,
             environment = settings.ENVIRONMENT.value,
-            docs_url = None if is_production else "/docs",
+            docs_url = "/docs",
         )
 
     app.include_router(health_router)
@@ -55,11 +61,15 @@ def register_routers(app: FastAPI) -> None:
         prefix = API_PREFIX
     )
     app.include_router(
+        notes_router,
+        prefix = API_PREFIX
+    )
+    app.include_router(
         job_tracker_router,
         prefix = API_PREFIX
     )
+    app.include_router(
+        analytics_router,
+        prefix = API_PREFIX
+    )
 
-    #try:
-        #app.mount("/mcp", mcp.sse_app())
-    #except Exception as e:
-        #logger.warning(f"Failed to mount MCP server: {e}")

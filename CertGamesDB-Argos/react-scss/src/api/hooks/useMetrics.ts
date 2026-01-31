@@ -12,11 +12,17 @@ import {
   SlowQueryReportSchema,
   SlowQueryAnalysisSchema,
   ProfilingStatusSchema,
+  ConversionTrendSchema,
+  WeeklyCohortTrendSchema,
+  TimeToConversionSchema,
   type DashboardMetrics,
   type SlowQueryReport,
   type SlowQueryAnalysis,
   type ProfilingStatus,
   type SetProfilingRequest,
+  type ConversionTrend,
+  type WeeklyCohortTrend,
+  type TimeToConversion,
 } from '../types'
 
 export function useMetrics() {
@@ -82,5 +88,48 @@ export function useSetProfiling() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.METRICS.PROFILING() })
     },
+  })
+}
+
+export function useConversionRolling(limit?: number) {
+  return useQuery({
+    queryKey: QUERY_KEYS.METRICS.CONVERSION_ROLLING(limit),
+    queryFn: async (): Promise<ConversionTrend> => {
+      const params = new URLSearchParams()
+      if (limit) params.append('limit', String(limit))
+      const url = params.toString()
+        ? `${API_ENDPOINTS.METRICS.CONVERSION_ROLLING}?${params}`
+        : API_ENDPOINTS.METRICS.CONVERSION_ROLLING
+      const { data } = await apiClient.get(url)
+      return parseApiResponse(ConversionTrendSchema, data)
+    },
+    staleTime: QUERY_CONFIG.STALE_TIME.METRICS,
+  })
+}
+
+export function useConversionWeekly(weeks?: number) {
+  return useQuery({
+    queryKey: QUERY_KEYS.METRICS.CONVERSION_WEEKLY(weeks),
+    queryFn: async (): Promise<WeeklyCohortTrend> => {
+      const params = new URLSearchParams()
+      if (weeks) params.append('weeks', String(weeks))
+      const url = params.toString()
+        ? `${API_ENDPOINTS.METRICS.CONVERSION_WEEKLY}?${params}`
+        : API_ENDPOINTS.METRICS.CONVERSION_WEEKLY
+      const { data } = await apiClient.get(url)
+      return parseApiResponse(WeeklyCohortTrendSchema, data)
+    },
+    staleTime: QUERY_CONFIG.STALE_TIME.METRICS,
+  })
+}
+
+export function useTimeToConversion() {
+  return useQuery({
+    queryKey: QUERY_KEYS.METRICS.TIME_TO_CONVERSION(),
+    queryFn: async (): Promise<TimeToConversion> => {
+      const { data } = await apiClient.get(API_ENDPOINTS.METRICS.TIME_TO_CONVERSION)
+      return parseApiResponse(TimeToConversionSchema, data)
+    },
+    staleTime: QUERY_CONFIG.STALE_TIME.METRICS,
   })
 }

@@ -1,5 +1,5 @@
 """
-ⒸAngelaMos | 2025
+ⒸAngelaMos | 2026
 server.py
 
 CarterOS MCP Server - Exposes database and services to Claude via Telegram.
@@ -15,8 +15,9 @@ from sqlalchemy import text
 from core.infrastructure.database.session import sessionmanager
 from core.foundation.repositories.identity import IdentityRepository
 from aspects.life_manager.facets.planner.service import PlannerService
-from aspects.life_manager.facets.planner.schemas import (
-    TimeBlockCreate,
+from aspects.life_manager.facets.planner.schemas import TimeBlockCreate
+from aspects.life_manager.facets.notes.service import NotesService
+from aspects.life_manager.facets.notes.schemas import (
     NoteCreate,
     NoteUpdate,
 )
@@ -177,7 +178,7 @@ async def get_all_notes() -> dict:
     Returns {folders: [...], notes: [...]}.
     """
     async with sessionmanager.session() as session:
-        result = await PlannerService.get_all_notes(session)
+        result = await NotesService.get_all_notes(session)
         return {
             "folders": [f.model_dump(mode="json") for f in result.folders],
             "notes": [n.model_dump(mode="json") for n in result.notes],
@@ -201,7 +202,7 @@ async def create_note(
     )
 
     async with sessionmanager.session() as session:
-        result = await PlannerService.create_note(session, data)
+        result = await NotesService.create_note(session, data)
         return result.model_dump(mode="json")
 
 
@@ -211,7 +212,7 @@ async def get_note(note_id: str) -> dict:
     Get a single note by ID.
     """
     async with sessionmanager.session() as session:
-        result = await PlannerService.get_note(session, UUID(note_id))
+        result = await NotesService.get_note(session, UUID(note_id))
         return result.model_dump(mode="json")
 
 
@@ -236,7 +237,7 @@ async def update_note(
     data = NoteUpdate(**update_data)
 
     async with sessionmanager.session() as session:
-        result = await PlannerService.update_note(session, UUID(note_id), data)
+        result = await NotesService.update_note(session, UUID(note_id), data)
         return result.model_dump(mode="json")
 
 

@@ -77,6 +77,14 @@ export function Header() {
             <GrDocker />
             <span>Docker</span>
           </Link>
+          <Link to="/angela" className={styles.navLink}>
+            <GiShare />
+            <span>Angela</span>
+          </Link>
+          <Link to="/analytics/data-input" className={styles.navLink}>
+            <GiChart />
+            <span>Analytics</span>
+          </Link>
         </nav>
 
         <div className={styles.actions}>

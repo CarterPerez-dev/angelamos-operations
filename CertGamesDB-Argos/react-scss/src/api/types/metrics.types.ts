@@ -151,3 +151,45 @@ export type IndexSuggestion = z.infer<typeof IndexSuggestionSchema>
 export type SlowQueryAnalysis = z.infer<typeof SlowQueryAnalysisSchema>
 export type ProfilingStatus = z.infer<typeof ProfilingStatusSchema>
 export type SetProfilingRequest = z.infer<typeof SetProfilingRequestSchema>
+
+export const ConversionMetricSchema = z.object({
+  user_count: z.number(),
+  recorded_at: z.string(),
+  total_users: z.number(),
+  subscribed_users: z.number(),
+  conversion_rate: z.number(),
+})
+
+export const ConversionTrendSchema = z.object({
+  current_conversion: ConversionMetricSchema.nullable(),
+  data_points: z.array(ConversionMetricSchema),
+  total_data_points: z.number(),
+})
+
+export const WeeklyCohortMetricSchema = z.object({
+  year: z.number(),
+  week: z.number(),
+  week_label: z.string(),
+  total_users: z.number(),
+  subscribed_users: z.number(),
+  conversion_rate: z.number(),
+})
+
+export const WeeklyCohortTrendSchema = z.object({
+  cohorts: z.array(WeeklyCohortMetricSchema),
+  total_cohorts: z.number(),
+})
+
+export const TimeToConversionSchema = z.object({
+  avg_hours: z.number(),
+  median_hours: z.number(),
+  min_hours: z.number(),
+  max_hours: z.number(),
+  total_users: z.number(),
+})
+
+export type ConversionMetric = z.infer<typeof ConversionMetricSchema>
+export type ConversionTrend = z.infer<typeof ConversionTrendSchema>
+export type WeeklyCohortMetric = z.infer<typeof WeeklyCohortMetricSchema>
+export type WeeklyCohortTrend = z.infer<typeof WeeklyCohortTrendSchema>
+export type TimeToConversion = z.infer<typeof TimeToConversionSchema>

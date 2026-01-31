@@ -84,8 +84,16 @@ func (c *Client) migrate() error {
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 		)`,
+		`CREATE TABLE IF NOT EXISTS conversion_metrics (
+			user_count INTEGER PRIMARY KEY,
+			recorded_at TIMESTAMP NOT NULL,
+			total_users INTEGER NOT NULL,
+			subscribed_users INTEGER NOT NULL,
+			conversion_rate REAL NOT NULL
+		)`,
 		`CREATE INDEX IF NOT EXISTS idx_backups_started_at ON backups(started_at DESC)`,
 		`CREATE INDEX IF NOT EXISTS idx_backups_status ON backups(status)`,
+		`CREATE INDEX IF NOT EXISTS idx_conversion_metrics_user_count ON conversion_metrics(user_count DESC)`,
 	}
 
 	for _, migration := range migrations {

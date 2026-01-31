@@ -56,15 +56,39 @@ export function isAuthorized(userId: number | undefined, allowedUsers: number[])
 }
 
 export async function transcribeVoice(filePath: string): Promise<WhisperResult | null> {
+  const { unlinkSync } = await import("fs");
+  const timestamp = Date.now();
+  const wavFile = `${TEMP_DIR}/voice_${timestamp}.wav`;
+
   try {
     const startTime = Date.now();
 
-    const outputFile = `${TEMP_DIR}/whisper_output_${Date.now()}`;
+    const ffmpeg = Bun.spawn([
+      "ffmpeg",
+      "-i", filePath,
+      "-ar", "16000",
+      "-ac", "1",
+      "-c:a", "pcm_s16le",
+      "-y",
+      wavFile,
+    ], {
+      stdout: "pipe",
+      stderr: "pipe",
+    });
+
+    await ffmpeg.exited;
+
+    if (!(await Bun.file(wavFile).exists())) {
+      console.error("ffmpeg failed to convert audio");
+      return null;
+    }
+
+    const outputFile = `${TEMP_DIR}/whisper_output_${timestamp}`;
 
     const proc = Bun.spawn([
       WHISPER_CLI_PATH,
       "-m", WHISPER_MODEL_PATH,
-      "-f", filePath,
+      "-f", wavFile,
       "-of", outputFile,
       "-otxt",
       "--no-timestamps",
@@ -83,9 +107,8 @@ export async function transcribeVoice(filePath: string): Promise<WhisperResult |
       const duration_ms = Date.now() - startTime;
 
       try {
-        await Bun.write(txtFile, "");
-        const { unlinkSync } = await import("fs");
         unlinkSync(txtFile);
+        unlinkSync(wavFile);
       } catch {
         // Ignore cleanup errors
       }
@@ -101,5 +124,11 @@ export async function transcribeVoice(filePath: string): Promise<WhisperResult |
   } catch (error) {
     console.error("Transcription error:", error);
     return null;
+  } finally {
+    try {
+      unlinkSync(wavFile);
+    } catch {
+      // Ignore
+    }
   }
 }

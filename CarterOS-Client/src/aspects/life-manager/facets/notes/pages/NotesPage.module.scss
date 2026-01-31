@@ -1,0 +1,756 @@
+// ===================
+// © AngelaMos | 2026
+// NotesPage.module.scss
+// ===================
+
+@use '../../../../../styles/tokens' as *;
+
+.page {
+  display: flex;
+  height: calc(100vh - 60px);
+  overflow: hidden;
+  background-color: $bg-default;
+  background-image: radial-gradient(
+    circle,
+    $bg-dot-page 1px,
+    transparent 1px
+  );
+  background-size: 20px 20px;
+}
+
+.resizeHandle {
+  width: 4px;
+  background: $border-default;
+  cursor: col-resize;
+  transition: background-color $transition-fast $ease-out;
+  flex-shrink: 0;
+
+  &:hover,
+  &.dragging {
+    background: $accent-purple;
+  }
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-right: 1px solid $border-default;
+  min-height: 0;
+  overflow: hidden;
+  background-color: $bg-surface-100;
+  background-image: radial-gradient(
+    circle,
+    $bg-dot-surface 1px,
+    transparent 1px
+  );
+  background-size: 20px 20px;
+  flex-shrink: 0;
+  container-type: inline-size;
+}
+
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-sm;
+  padding: $space-md;
+  border-bottom: 1px solid $border-muted;
+  flex-shrink: 0;
+
+  @container (max-width: 150px) {
+    padding: $space-sm;
+  }
+}
+
+.sidebarTitle {
+  flex: 1;
+  font-size: $text-sm;
+  font-weight: $font-semibold;
+  color: $text-light;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+
+  @container (max-width: 150px) {
+    font-size: $text-xs;
+  }
+}
+
+.folderList {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: $space-xs;
+  min-height: 0;
+}
+
+.folderItem {
+  padding: $space-sm;
+  background: transparent;
+  border-radius: $radius-sm;
+  color: $text-light;
+  font-size: $text-sm;
+  cursor: pointer;
+  transition: background-color $transition-fast $ease-out;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+
+  &:hover {
+    background: $bg-surface-200;
+  }
+
+  &.active {
+    background: $bg-surface-300;
+    color: $text-default;
+  }
+
+  &.selected {
+    background: $accent-purple;
+    color: $text-default;
+    font-weight: $font-medium;
+  }
+}
+
+.folderSeparator {
+  height: 1px;
+  background: $border-muted;
+  margin: $space-sm 0;
+}
+
+.deletedFolder {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  color: $text-muted;
+  overflow: hidden;
+}
+
+.trashIcon {
+  font-size: $text-sm;
+  flex-shrink: 0;
+}
+
+.addFolder {
+  display: flex;
+  gap: $space-xs;
+  padding: $space-sm;
+  border-top: 1px solid $border-muted;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+
+  @container (max-width: 170px) {
+    flex-direction: column;
+  }
+}
+
+.addFolderInput {
+  flex: 1;
+  padding: $space-sm;
+  background: $bg-surface-200;
+  border: 1px solid $border-muted;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-sm;
+  min-width: 0;
+  width: 100%;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $border-strong;
+  }
+}
+
+.addFolderBtn {
+  padding: $space-sm;
+  background: $bg-surface-300;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-light;
+  font-size: $text-sm;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  &:hover {
+    background: $bg-selection;
+    color: $text-default;
+  }
+
+  @container (max-width: 170px) {
+    width: 100%;
+  }
+}
+
+.notesList {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-right: 1px solid $border-default;
+  min-height: 0;
+  overflow: hidden;
+  background-color: $bg-surface-100;
+  background-image: radial-gradient(
+    circle,
+    $bg-dot-surface 1px,
+    transparent 1px
+  );
+  background-size: 20px 20px;
+  flex-shrink: 0;
+  container-type: inline-size;
+}
+
+.notesHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-sm;
+  padding: $space-md;
+  border-bottom: 1px solid $border-muted;
+  flex-shrink: 0;
+
+  @container (max-width: 170px) {
+    padding: $space-sm;
+  }
+}
+
+.notesTitle {
+  font-size: $text-sm;
+  font-weight: $font-semibold;
+  color: $text-light;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+
+  @container (max-width: 170px) {
+    font-size: $text-xs;
+  }
+}
+
+.notesActions {
+  display: flex;
+  gap: $space-xs;
+  flex-shrink: 0;
+}
+
+.selectBtn {
+  padding: $space-xs $space-sm;
+  background: transparent;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-light;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: background-color $transition-fast $ease-out;
+  white-space: nowrap;
+
+  &:hover {
+    background: $bg-surface-200;
+    color: $text-default;
+  }
+}
+
+.deleteSelectedBtn {
+  padding: $space-xs $space-sm;
+  background: hsl(0, 60%, 50%);
+  border: none;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: opacity $transition-fast $ease-out;
+  white-space: nowrap;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.cancelSelectBtn {
+  padding: $space-xs $space-sm;
+  background: transparent;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-light;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: background-color $transition-fast $ease-out;
+  white-space: nowrap;
+
+  &:hover {
+    background: $bg-surface-200;
+    color: $text-default;
+  }
+}
+
+.addNote {
+  display: flex;
+  gap: $space-sm;
+  padding: $space-sm;
+  border-bottom: 1px solid $border-muted;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+
+  @container (max-width: 200px) {
+    flex-direction: column;
+  }
+}
+
+.addNoteInput {
+  flex: 1;
+  padding: $space-sm;
+  background: $bg-surface-200;
+  border: 1px solid $border-muted;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-sm;
+  min-width: 0;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $border-strong;
+  }
+}
+
+.addNoteBtn {
+  padding: $space-sm $space-md;
+  background: $accent-purple;
+  border: none;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  @container (max-width: 200px) {
+    width: 100%;
+  }
+}
+
+.notes {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.noteItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-xs;
+  padding: $space-sm $space-md;
+  border-bottom: 1px solid $border-muted;
+  cursor: pointer;
+  transition: background-color $transition-fast $ease-out;
+  min-width: 0;
+
+  &:hover {
+    background: $bg-surface-200;
+  }
+
+  &.active {
+    background: $bg-surface-300;
+  }
+
+  &.selected {
+    background: $accent-purple;
+    color: $text-default;
+
+    .noteTitle {
+      color: $text-default;
+      font-weight: $font-medium;
+    }
+  }
+
+  @container (max-width: 180px) {
+    flex-wrap: wrap;
+  }
+}
+
+.noteTitle {
+  font-size: $text-sm;
+  color: $text-default;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.deleteNoteBtn {
+  padding: $space-xs;
+  background: transparent;
+  border: none;
+  color: $text-muted;
+  font-size: $text-xs;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity $transition-fast $ease-out;
+  flex-shrink: 0;
+  white-space: nowrap;
+
+  .noteItem:hover & {
+    opacity: 1;
+  }
+
+  &:hover {
+    color: hsl(0, 60%, 60%);
+  }
+
+  @container (max-width: 180px) {
+    width: 100%;
+    margin-top: $space-xs;
+    text-align: center;
+  }
+}
+
+.deletedItem {
+  opacity: 0.7;
+
+  &:hover {
+    background: $bg-surface-200;
+    opacity: 1;
+  }
+}
+
+.deletedActions {
+  display: flex;
+  gap: $space-xs;
+  opacity: 0;
+  transition: opacity $transition-fast $ease-out;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+
+  .noteItem:hover & {
+    opacity: 1;
+  }
+
+  @container (max-width: 180px) {
+    width: 100%;
+    margin-top: $space-xs;
+  }
+}
+
+.restoreBtn {
+  padding: $space-xs $space-sm;
+  background: transparent;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-light;
+  font-size: $text-xs;
+  cursor: pointer;
+  transition: background-color $transition-fast $ease-out;
+  white-space: nowrap;
+
+  &:hover {
+    background: $bg-selection;
+    color: $text-default;
+  }
+
+  @container (max-width: 180px) {
+    flex: 1;
+  }
+}
+
+.permanentDeleteBtn {
+  padding: $space-xs $space-sm;
+  background: transparent;
+  border: none;
+  color: $text-muted;
+  font-size: $text-xs;
+  cursor: pointer;
+  transition: color $transition-fast $ease-out;
+  white-space: nowrap;
+
+  &:hover {
+    color: hsl(0, 60%, 60%);
+  }
+
+  @container (max-width: 180px) {
+    flex: 1;
+  }
+}
+
+.loading,
+.empty {
+  padding: $space-2xl;
+  text-align: center;
+  color: $text-muted;
+  font-size: $text-sm;
+}
+
+.deletedSectionHeader {
+  padding: $space-md;
+  font-size: $text-xs;
+  font-weight: $font-semibold;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: $bg-surface-200;
+  border-bottom: 1px solid $border-muted;
+}
+
+.editorPanel {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: $bg-alternative;
+  background-image: radial-gradient(
+    circle,
+    $bg-dot-dark 1px,
+    transparent 1px
+  );
+  background-size: 20px 20px;
+}
+
+.editorHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-lg $space-xl;
+  border-bottom: 1px solid $border-default;
+  flex-shrink: 0;
+}
+
+.editorTitle {
+  font-size: $text-lg;
+  font-weight: $font-medium;
+  color: $text-default;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.unsavedIndicator {
+  color: $accent-purple;
+  margin-left: $space-xs;
+}
+
+.editorActions {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+  flex-shrink: 0;
+}
+
+.copyBtn {
+  padding: $space-sm $space-lg;
+  background: transparent;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-light;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: background-color $transition-fast $ease-out;
+  white-space: nowrap;
+  height: 36px;
+
+  &:hover {
+    background: $bg-surface-200;
+    color: $text-default;
+  }
+}
+
+.saveStatus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.savingText {
+  font-size: $text-sm;
+  color: $text-muted;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.savedText {
+  font-size: $text-sm;
+  color: hsl(120, 40%, 50%);
+  font-weight: $font-medium;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.saveBtn {
+  padding: $space-sm $space-lg;
+  background: $accent-purple;
+  border: none;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: opacity $transition-fast $ease-out;
+  white-space: nowrap;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.readOnlyBadge {
+  font-size: $text-sm;
+  color: $text-muted;
+  font-weight: $font-medium;
+}
+
+.editorTextarea {
+  flex: 1;
+  padding: $space-xl;
+  background: transparent;
+  border: none;
+  color: $text-default;
+  font-size: $text-base;
+  font-family: inherit;
+  line-height: 1.6;
+  resize: none;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:read-only {
+    cursor: default;
+    opacity: 0.8;
+  }
+}
+
+.editorEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: $text-muted;
+  font-size: $text-sm;
+}
+
+.confirmOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.confirmModal {
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  padding: $space-xl;
+  max-width: 400px;
+  width: 90%;
+}
+
+.confirmTitle {
+  font-size: $text-lg;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin: 0 0 $space-md 0;
+}
+
+.confirmText {
+  font-size: $text-sm;
+  color: $text-light;
+  margin: 0 0 $space-xl 0;
+  line-height: 1.5;
+}
+
+.confirmActions {
+  display: flex;
+  gap: $space-sm;
+  justify-content: flex-end;
+}
+
+.confirmCancel {
+  padding: $space-sm $space-lg;
+  background: transparent;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-light;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: background-color $transition-fast $ease-out;
+
+  &:hover {
+    background: $bg-surface-200;
+  }
+}
+
+.confirmDelete {
+  padding: $space-sm $space-lg;
+  background: hsl(0, 60%, 50%);
+  border: none;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: opacity $transition-fast $ease-out;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}

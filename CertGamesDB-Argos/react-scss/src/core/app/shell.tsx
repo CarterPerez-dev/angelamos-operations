@@ -15,6 +15,7 @@ import {
   LuSearch,
   LuSettings,
   LuExternalLink,
+  LuTrendingUp,
 } from 'react-icons/lu'
 import { SiMongodb } from 'react-icons/si'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
@@ -28,6 +29,7 @@ const NAV_ITEMS = [
   { path: ROUTES.COLLECTIONS, label: 'Collections', icon: LuDatabase },
   { path: ROUTES.BACKUPS, label: 'Backups', icon: LuHardDrive },
   { path: ROUTES.SLOW_QUERIES, label: 'Slow Queries', icon: LuSearch },
+  { path: ROUTES.CONVERSION, label: 'Conversion', icon: LuTrendingUp },
   { path: ROUTES.SETTINGS, label: 'Settings', icon: LuSettings },
 ]
 

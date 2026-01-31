@@ -19,6 +19,8 @@ spec:
         - name: react
           image: oneisnun-frontend:dev
           imagePullPolicy: Never
+          command: ["/bin/sh", "-c"]
+          args: ["pnpm install && pnpm dev --host 0.0.0.0"]
           ports:
             - containerPort: 5173
               name: http

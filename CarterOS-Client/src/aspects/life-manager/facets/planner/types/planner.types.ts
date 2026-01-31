@@ -1,5 +1,5 @@
 // ===================
-// © AngelaMos | 2025
+// © AngelaMos | 2026
 // planner.types.ts
 // ===================
 
@@ -40,52 +40,10 @@ export interface TimeBlockListResponse {
   date: string
 }
 
-export interface NoteFolder {
-  id: string
-  name: string
-  parent_id: string | null
-  sort_order: number
-  created_at: string
-  updated_at: string | null
-}
-
-export interface NoteFolderCreate {
-  name: string
-  parent_id?: string
-  sort_order?: number
-}
-
-export interface NoteFolderUpdate {
-  name?: string
-  parent_id?: string
-  sort_order?: number
-}
-
-export interface Note {
-  id: string
-  title: string
-  content: string
-  folder_id: string | null
-  sort_order: number
-  created_at: string
-  updated_at: string | null
-}
-
-export interface NoteCreate {
-  title: string
-  content?: string
-  folder_id?: string
-  sort_order?: number
-}
-
-export interface NoteUpdate {
-  title?: string
-  content?: string
-  folder_id?: string
-  sort_order?: number
-}
-
-export interface NotesListResponse {
-  folders: NoteFolder[]
-  notes: Note[]
-}
+export const TIME_BLOCK_COLORS = [
+  { key: 'blue', label: 'Blue', value: 'hsl(210, 100%, 50%)' },
+  { key: 'green', label: 'Green', value: 'hsl(142, 76%, 45%)' },
+  { key: 'amber', label: 'Amber', value: 'hsl(45, 100%, 50%)' },
+  { key: 'red', label: 'Red', value: 'hsl(0, 100%, 50%)' },
+  { key: 'purple', label: 'Purple', value: 'hsl(270, 100%, 50%)' },
+] as const
