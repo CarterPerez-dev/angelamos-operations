@@ -5,7 +5,7 @@
 
 import styles from './angela.module.scss'
 
-export function AngelaPage() {
+export function MossPage() {
   return (
     <div className={styles.page}>
       <div className={styles.content}>
@@ -25,14 +25,16 @@ export function AngelaPage() {
           </div>
 
           <div className={styles.textBlock}>
-            <div className={styles.line}>I'm gonan fucking fail</div>
-            <div className={styles.line}>I'm gonan fucking FAIL</div>
-            <div className={styles.line}>I'm gonan fucking fail</div>
-            <div className={styles.line}>I'm gonan fucking fail</div>
+            <div className={styles.line}>Where as people who are</div>
+            <div className={styles.line}>low performers, less successful</div>
+            <div className={styles.line}>have very small transitions</div>
+            <div className={styles.line}>if you pay attention to your life</div>
+            <div className={styles.line}>what you'll find is that there is a correlation </div>
+            <div className={styles.line}>between rabid transitions</div>
           </div>
 
           <div className={styles.textBlock}>
-            <div className={styles.line}>And I will SUCEED....</div>
+            <div className={styles.line}>And doing the wrong thing</div>
           </div>
         </div>
       </div>

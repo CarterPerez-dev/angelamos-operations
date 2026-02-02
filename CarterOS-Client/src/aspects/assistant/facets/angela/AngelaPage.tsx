@@ -1,6 +1,6 @@
 // ===================
 // © AngelaMos | 2026
-// VrmTestPage.tsx
+// AngelaPage.tsx
 // ===================
 
 import { useEffect, useRef, useState } from 'react'
@@ -18,7 +18,7 @@ import type { OllamaMessage } from './types'
 
 type Status = 'initializing' | 'idle' | 'listening' | 'processing' | 'thinking' | 'speaking' | 'error'
 
-export function VrmTestPage() {
+export function AngelaPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const vrmRef = useRef<VRM | null>(null)
   const animControllerRef = useRef<AnimationController | null>(null)

@@ -14,8 +14,8 @@ import { jobTrackerRoutes } from '@/aspects/life-manager/facets/career/job-app-t
 import { LifeManagerHub } from '@/aspects/life-manager/shared/ui'
 import { dashboardRoutes } from '@/aspects/ops/facets/dashboard/routes'
 import { dockerManagerRoutes } from '@/aspects/dev-workspace/facets/docker-manager/routes'
-import { AngelaPage } from '@/aspects/business-hub/facets/angela'
-import { VrmTestPage } from '@/aspects/assistant/facets/angela/VrmTestPage'
+import { MossPage } from '@/aspects/business-hub/facets/angela'
+import { AngelaPage } from '@/aspects/assistant/facets/angela/AngelaPage'
 import { analyticsRoutes } from '@/aspects/analytics/facets/data-input/routes'
 
 const routes: RouteObject[] = [
@@ -67,8 +67,8 @@ const routes: RouteObject[] = [
             element: <AngelaPage />,
           },
           {
-            path: 'vrm-test',
-            element: <VrmTestPage />,
+            path: 'moss',
+            element: <MossPage />,
           },
           ...analyticsRoutes,
         ],

@@ -16,6 +16,7 @@ import {
   GiShare,
   GiGlassHeart,
   GiSparkles,
+  GiFox,
 } from 'react-icons/gi'
 import { GrDocker } from 'react-icons/gr'
 import { APP, USER, ROUTES } from '@/config'
@@ -81,6 +82,10 @@ export function Header() {
           <Link to="/angela" className={styles.navLink}>
             <GiShare />
             <span>Angela</span>
+          </Link>
+          <Link to="/moss" className={styles.navLink}>
+            <GiFox />
+            <span>Moss</span>
           </Link>
           <Link to="/analytics/data-input" className={styles.navLink}>
             <GiChart />
