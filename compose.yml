@@ -71,6 +71,12 @@ services:
       - VITE_API_URL=${VITE_API_URL:-/api}
       - VITE_APP_TITLE=${VITE_APP_TITLE:-My App}
       - VITE_DOCKER_API_URL=http://localhost:7771
+      - VITE_ELEVENLABS_API_KEY=${VITE_ELEVENLABS_API_KEY:-}
+      - VITE_ELEVENLABS_VOICE_ID=${VITE_ELEVENLABS_VOICE_ID:-}
+      - VITE_PICOVOICE_ACCESS_KEY=${VITE_PICOVOICE_ACCESS_KEY:-}
+      - VITE_WHISPER_ENDPOINT=${VITE_WHISPER_ENDPOINT:-http://localhost:8089}
+      - VITE_OLLAMA_ENDPOINT=${VITE_OLLAMA_ENDPOINT:-http://localhost:11434}
+      - VITE_OLLAMA_MODEL=${VITE_OLLAMA_MODEL:-qwen2.5:7b}
     networks:
       - frontend
     restart: unless-stopped

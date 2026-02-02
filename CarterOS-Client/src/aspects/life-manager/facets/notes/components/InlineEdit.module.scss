@@ -1,0 +1,35 @@
+// ===================
+// © AngelaMos | 2026
+// InlineEdit.module.scss
+// ===================
+
+@use '../../../../../styles/tokens' as *;
+
+.text {
+  cursor: pointer;
+  transition: opacity $transition-fast $ease-out;
+
+  &:hover:not(.disabled) {
+    opacity: 0.8;
+  }
+
+  &.disabled {
+    cursor: default;
+  }
+}
+
+.input {
+  width: 100%;
+  padding: $space-xs;
+  background: $bg-surface-300;
+  border: 1px solid $accent-purple;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: inherit;
+  font-family: inherit;
+
+  &:focus {
+    outline: none;
+    border-color: $accent-purple;
+  }
+}

@@ -89,6 +89,10 @@
 }
 
 .folderItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
   padding: $space-sm;
   background: transparent;
   border-radius: $radius-sm;
@@ -96,9 +100,6 @@
   font-size: $text-sm;
   cursor: pointer;
   transition: background-color $transition-fast $ease-out;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   min-width: 0;
 
   &:hover {
@@ -114,6 +115,30 @@
     background: $accent-purple;
     color: $text-default;
     font-weight: $font-medium;
+  }
+}
+
+.dragHandle {
+  cursor: grab;
+  color: $text-light;
+  font-size: 16px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  user-select: none;
+  opacity: 0.6;
+  transition: opacity $transition-fast $ease-out;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:active {
+    cursor: grabbing;
   }
 }
 
@@ -537,6 +562,8 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-height: 0;
+  overflow: hidden;
   background-color: $bg-alternative;
   background-image: radial-gradient(
     circle,
@@ -550,13 +577,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: $space-lg $space-xl;
+  padding: $space-sm $space-lg;
   border-bottom: 1px solid $border-default;
   flex-shrink: 0;
 }
 
 .editorTitle {
-  font-size: $text-lg;
+  font-size: $text-base;
   font-weight: $font-medium;
   color: $text-default;
   display: flex;
@@ -574,22 +601,25 @@
 .editorActions {
   display: flex;
   align-items: center;
-  gap: $space-md;
+  gap: $space-sm;
   flex-shrink: 0;
 }
 
+.previewToggleBtn,
+.findBtn,
+.exportBtn,
 .copyBtn {
-  padding: $space-sm $space-lg;
+  padding: $space-xs $space-md;
   background: transparent;
   border: 1px solid $border-default;
   border-radius: $radius-sm;
   color: $text-light;
-  font-size: $text-sm;
+  font-size: $text-xs;
   font-weight: $font-medium;
   cursor: pointer;
   transition: background-color $transition-fast $ease-out;
   white-space: nowrap;
-  height: 36px;
+  height: 28px;
 
   &:hover {
     background: $bg-surface-200;
@@ -601,13 +631,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 100px;
-  height: 36px;
+  width: 80px;
+  height: 28px;
   flex-shrink: 0;
 }
 
 .savingText {
-  font-size: $text-sm;
+  font-size: $text-xs;
   color: $text-muted;
   font-style: italic;
   display: flex;
@@ -616,7 +646,7 @@
 }
 
 .savedText {
-  font-size: $text-sm;
+  font-size: $text-xs;
   color: hsl(120, 40%, 50%);
   font-weight: $font-medium;
   display: flex;
@@ -625,16 +655,17 @@
 }
 
 .saveBtn {
-  padding: $space-sm $space-lg;
+  padding: $space-xs $space-md;
   background: $accent-purple;
   border: none;
   border-radius: $radius-sm;
   color: $text-default;
-  font-size: $text-sm;
+  font-size: $text-xs;
   font-weight: $font-medium;
   cursor: pointer;
   transition: opacity $transition-fast $ease-out;
   white-space: nowrap;
+  height: 28px;
 
   &:hover {
     opacity: 0.9;
@@ -642,7 +673,7 @@
 }
 
 .readOnlyBadge {
-  font-size: $text-sm;
+  font-size: $text-xs;
   color: $text-muted;
   font-weight: $font-medium;
 }
@@ -669,6 +700,88 @@
   &:read-only {
     cursor: default;
     opacity: 0.8;
+  }
+}
+
+.codemirrorWrapper {
+  flex: 1;
+  overflow: auto;
+  min-height: 0;
+
+  .cm-editor {
+    height: 100%;
+    overflow: auto;
+  }
+
+  .cm-scroller {
+    overflow: auto;
+  }
+}
+
+.markdownPreview {
+  flex: 1;
+  padding: $space-xl;
+  overflow-y: auto;
+  color: $text-default;
+  font-size: $text-base;
+  line-height: 1.6;
+
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: $space-lg;
+    margin-bottom: $space-md;
+    color: $text-default;
+    font-weight: $font-semibold;
+  }
+
+  h1 { font-size: 2em; }
+  h2 { font-size: 1.5em; }
+  h3 { font-size: 1.25em; }
+
+  p {
+    margin-bottom: $space-md;
+  }
+
+  code {
+    background: $bg-surface-300;
+    padding: 2px 4px;
+    border-radius: $radius-xs;
+    font-family: monospace;
+    font-size: 0.9em;
+  }
+
+  pre {
+    background: $bg-surface-300;
+    padding: $space-md;
+    border-radius: $radius-sm;
+    overflow-x: auto;
+    margin-bottom: $space-md;
+
+    code {
+      background: transparent;
+      padding: 0;
+    }
+  }
+
+  ul, ol {
+    margin-left: $space-xl;
+    margin-bottom: $space-md;
+  }
+
+  blockquote {
+    border-left: 3px solid $accent-purple;
+    padding-left: $space-md;
+    margin-left: 0;
+    margin-bottom: $space-md;
+    color: $text-light;
+  }
+
+  a {
+    color: $accent-purple;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 

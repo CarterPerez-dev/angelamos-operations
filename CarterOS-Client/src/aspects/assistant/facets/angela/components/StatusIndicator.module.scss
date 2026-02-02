@@ -1,0 +1,75 @@
+/**
+ * Angela AI Assistant - Status Indicator Styles
+ */
+
+@use '../../../../../styles/tokens' as *;
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  padding: $space-xs $space-sm;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 9999px;
+  backdrop-filter: blur(4px);
+}
+
+.indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: $text-light;
+  position: relative;
+  overflow: hidden;
+
+  &[data-status='idle'] {
+    background: $accent-purple;
+  }
+
+  &[data-status='listening'] {
+    background: hsl(142, 76%, 36%);
+    animation: pulse 1s ease-in-out infinite;
+  }
+
+  &[data-status='processing'],
+  &[data-status='thinking'] {
+    background: hsl(45, 93%, 47%);
+    animation: pulse 0.5s ease-in-out infinite;
+  }
+
+  &[data-status='speaking'] {
+    background: $accent-purple;
+    animation: pulse 0.8s ease-in-out infinite;
+  }
+
+  &[data-status='error'] {
+    background: hsl(0, 72%, 51%);
+  }
+}
+
+.audioLevel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  transform-origin: bottom;
+  transition: transform 50ms ease-out;
+}
+
+.text {
+  font-size: $text-xs;
+  color: $text-light;
+  white-space: nowrap;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

@@ -4,7 +4,6 @@
 // ===================
 
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { GoTrash } from 'react-icons/go'
 import {
   useNotes,
   useCreateNote,
@@ -20,28 +19,16 @@ import {
   useBulkDeleteNotes,
   useBulkDeleteFolders,
 } from '../hooks/useNotes'
+import { useResizablePanels } from '../hooks/useResizablePanels'
 import { useNotesUIStore } from '../stores/notes.ui.store'
+import {
+  ConfirmDeleteModal,
+  FolderSidebar,
+  NotesList,
+  NoteEditor,
+} from '../components'
 import type { Note } from '../types/notes.types'
 import styles from './NotesPage.module.scss'
-
-const STORAGE_KEY = 'notes-panel-widths'
-const DEFAULT_WIDTHS = { sidebar: 200, notesList: 280 }
-const MIN_SIDEBAR = 120
-const MAX_SIDEBAR = 350
-const MIN_NOTES = 140
-const MAX_NOTES = 500
-
-function loadWidths(): { sidebar: number; notesList: number } {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    if (stored) return JSON.parse(stored)
-  } catch {}
-  return DEFAULT_WIDTHS
-}
-
-function saveWidths(widths: { sidebar: number; notesList: number }) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(widths))
-}
 
 export function NotesPage() {
   const { data, isLoading } = useNotes()
@@ -75,58 +62,12 @@ export function NotesPage() {
   const toggleFolderSelection = useNotesUIStore((s) => s.toggleFolderSelection)
   const clearSelections = useNotesUIStore((s) => s.clearSelections)
 
-  const [newFolderName, setNewFolderName] = useState('')
-  const [newNoteTitle, setNewNoteTitle] = useState('')
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState<{ id: string; type: 'note' | 'folder' } | null>(null)
   const saveTimeoutRef = useRef<NodeJS.Timeout>()
   const lastSavedContentRef = useRef('')
 
-  const [panelWidths, setPanelWidths] = useState(loadWidths)
-  const [dragging, setDragging] = useState<'sidebar' | 'notesList' | null>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (!dragging) return
-
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!containerRef.current) return
-      const containerRect = containerRef.current.getBoundingClientRect()
-      const x = e.clientX - containerRect.left
-
-      if (dragging === 'sidebar') {
-        const newWidth = Math.max(MIN_SIDEBAR, Math.min(MAX_SIDEBAR, x))
-        setPanelWidths((prev) => {
-          const updated = { ...prev, sidebar: newWidth }
-          saveWidths(updated)
-          return updated
-        })
-      } else if (dragging === 'notesList') {
-        const newWidth = Math.max(MIN_NOTES, Math.min(MAX_NOTES, x - panelWidths.sidebar - 4))
-        setPanelWidths((prev) => {
-          const updated = { ...prev, notesList: newWidth }
-          saveWidths(updated)
-          return updated
-        })
-      }
-    }
-
-    const handleMouseUp = () => {
-      setDragging(null)
-      document.body.style.cursor = ''
-      document.body.style.userSelect = ''
-    }
-
-    document.body.style.cursor = 'col-resize'
-    document.body.style.userSelect = 'none'
-    document.addEventListener('mousemove', handleMouseMove)
-    document.addEventListener('mouseup', handleMouseUp)
-
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove)
-      document.removeEventListener('mouseup', handleMouseUp)
-    }
-  }, [dragging, panelWidths.sidebar])
+  const { panelWidths, dragging, setDragging, containerRef } = useResizablePanels()
 
   useEffect(() => {
     if (data && selectedFolderId && !data.folders.some((f) => f.id === selectedFolderId)) {
@@ -153,22 +94,18 @@ export function NotesPage() {
     }
   }, [])
 
-  const handleCreateFolder = () => {
-    if (!newFolderName.trim()) return
-    createFolder({ name: newFolderName })
-    setNewFolderName('')
+  const handleCreateFolder = (name: string) => {
+    createFolder({ name })
   }
 
-  const handleCreateNote = () => {
-    if (!newNoteTitle.trim()) return
+  const handleCreateNote = (title: string) => {
     const validFolderId = data?.folders.some((f) => f.id === selectedFolderId)
       ? selectedFolderId
       : undefined
     createNote({
-      title: newNoteTitle,
+      title,
       folder_id: validFolderId || undefined,
     })
-    setNewNoteTitle('')
   }
 
   const handleSelectNote = (note: Note) => {
@@ -179,7 +116,7 @@ export function NotesPage() {
     }
   }
 
-  const handleRestore = (id: string) => {
+  const handleRestoreNote = (id: string) => {
     restoreNote(id, {
       onSuccess: () => {
         clearEditing()
@@ -188,7 +125,15 @@ export function NotesPage() {
     })
   }
 
-  const handlePermanentDelete = () => {
+  const handlePermanentDeleteNote = (id: string) => {
+    setConfirmDelete({ id, type: 'note' })
+  }
+
+  const handlePermanentDeleteFolder = (id: string) => {
+    setConfirmDelete({ id, type: 'folder' })
+  }
+
+  const handleConfirmPermanentDelete = () => {
     if (!confirmDelete) return
 
     if (confirmDelete.type === 'note') {
@@ -279,314 +224,81 @@ export function NotesPage() {
 
   const filteredNotes = viewingDeleted
     ? deletedData?.notes
-    : data?.notes.filter((n) =>
-        selectedFolderId ? n.folder_id === selectedFolderId : n.folder_id === null
-      )
+    : data?.notes
+        .filter((n) =>
+          selectedFolderId ? n.folder_id === selectedFolderId : n.folder_id === null
+        )
+        .sort((a, b) => a.sort_order - b.sort_order)
 
   const deletedCount = (deletedData?.notes.length || 0) + (deletedData?.folders.length || 0)
 
   return (
     <div ref={containerRef} className={styles.page}>
-      <div
-        className={styles.sidebar}
-        style={{ width: panelWidths.sidebar }}
-        data-compact={panelWidths.sidebar < 180 ? '' : undefined}
-      >
-        <div className={styles.sidebarHeader}>
-          <h2 className={styles.sidebarTitle}>
-            {selectionMode && selectedFolderIds.length > 0
-              ? `${selectedFolderIds.length} Selected`
-              : 'Folders'}
-          </h2>
-          {selectionMode && selectedFolderIds.length > 0 && (
-            <button
-              type="button"
-              onClick={handleBulkDeleteFolders}
-              className={styles.deleteSelectedBtn}
-            >
-              Delete
-            </button>
-          )}
-        </div>
-
-        <div className={styles.folderList}>
-          <div
-            onClick={() => setSelectedFolder(null)}
-            className={`${styles.folderItem} ${selectedFolderId === null && !viewingDeleted ? styles.active : ''}`}
-          >
-            All Notes
-          </div>
-          {data?.folders.map((folder) => {
-            const isSelected = selectedFolderIds.includes(folder.id)
-            return (
-              <div
-                key={folder.id}
-                onClick={() => {
-                  if (selectionMode) {
-                    toggleFolderSelection(folder.id)
-                  } else {
-                    setSelectedFolder(folder.id)
-                  }
-                }}
-                className={`${styles.folderItem} ${selectedFolderId === folder.id && !selectionMode ? styles.active : ''} ${selectionMode && isSelected ? styles.selected : ''}`}
-              >
-                {folder.name}
-              </div>
-            )
-          })}
-          <div className={styles.folderSeparator} />
-          <div
-            onClick={() => setViewingDeleted(true)}
-            className={`${styles.folderItem} ${styles.deletedFolder} ${viewingDeleted ? styles.active : ''}`}
-          >
-            <GoTrash className={styles.trashIcon} />
-            Deleted {deletedCount > 0 && `(${deletedCount})`}
-          </div>
-        </div>
-
-        <div className={styles.addFolder}>
-          <input
-            type="text"
-            placeholder="New folder..."
-            value={newFolderName}
-            onChange={(e) => setNewFolderName(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleCreateFolder()}
-            className={styles.addFolderInput}
-          />
-          <button
-            type="button"
-            onClick={handleCreateFolder}
-            disabled={isCreatingFolder}
-            className={styles.addFolderBtn}
-          >
-            +
-          </button>
-        </div>
-      </div>
+      <FolderSidebar
+        folders={data?.folders || []}
+        selectedFolderId={selectedFolderId}
+        viewingDeleted={viewingDeleted}
+        selectionMode={selectionMode}
+        selectedFolderIds={selectedFolderIds}
+        deletedCount={deletedCount}
+        isCreatingFolder={isCreatingFolder}
+        width={panelWidths.sidebar}
+        onSelectFolder={setSelectedFolder}
+        onToggleFolderSelection={toggleFolderSelection}
+        onViewDeleted={() => setViewingDeleted(true)}
+        onCreateFolder={handleCreateFolder}
+        onBulkDeleteFolders={handleBulkDeleteFolders}
+      />
 
       <div
         className={`${styles.resizeHandle} ${dragging === 'sidebar' ? styles.dragging : ''}`}
         onMouseDown={() => setDragging('sidebar')}
       />
 
-      <div
-        className={styles.notesList}
-        style={{ width: panelWidths.notesList }}
-        data-compact={panelWidths.notesList < 220 ? '' : undefined}
-      >
-        <div className={styles.notesHeader}>
-          <h2 className={styles.notesTitle}>
-            {viewingDeleted ? 'Deleted Notes' : selectionMode ? `${selectedNoteIds.length} Selected` : 'Notes'}
-          </h2>
-          {!viewingDeleted && (
-            <div className={styles.notesActions}>
-              {selectionMode ? (
-                <>
-                  <button
-                    type="button"
-                    onClick={handleBulkDelete}
-                    disabled={selectedNoteIds.length === 0}
-                    className={styles.deleteSelectedBtn}
-                  >
-                    Delete Selected
-                  </button>
-                  <button
-                    type="button"
-                    onClick={toggleSelectionMode}
-                    className={styles.cancelSelectBtn}
-                  >
-                    Cancel
-                  </button>
-                </>
-              ) : (
-                <button
-                  type="button"
-                  onClick={toggleSelectionMode}
-                  className={styles.selectBtn}
-                >
-                  Select
-                </button>
-              )}
-            </div>
-          )}
-        </div>
-
-        {!viewingDeleted && (
-          <div className={styles.addNote}>
-            <input
-              type="text"
-              placeholder="New note title..."
-              value={newNoteTitle}
-              onChange={(e) => setNewNoteTitle(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleCreateNote()}
-              className={styles.addNoteInput}
-            />
-            <button
-              type="button"
-              onClick={handleCreateNote}
-              disabled={isCreatingNote}
-              className={styles.addNoteBtn}
-            >
-              Add Note
-            </button>
-          </div>
-        )}
-
-        {(viewingDeleted ? isLoadingDeleted : isLoading) ? (
-          <div className={styles.loading}>Loading...</div>
-        ) : (viewingDeleted ? (deletedData?.notes.length === 0 && deletedData?.folders.length === 0) : filteredNotes?.length === 0) ? (
-          <div className={styles.empty}>{viewingDeleted ? 'No deleted items' : 'No notes yet'}</div>
-        ) : (
-          <div className={styles.notes}>
-            {viewingDeleted && deletedData?.folders && deletedData.folders.length > 0 && (
-              <>
-                <div className={styles.deletedSectionHeader}>Deleted Folders</div>
-                {deletedData.folders.map((folder) => (
-                  <div
-                    key={folder.id}
-                    className={`${styles.noteItem} ${styles.deletedItem}`}
-                  >
-                    <span className={styles.noteTitle}>📁 {folder.name}</span>
-                    <div className={styles.deletedActions}>
-                      <button
-                        type="button"
-                        onClick={() => restoreFolder(folder.id)}
-                        className={styles.restoreBtn}
-                      >
-                        Restore
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setConfirmDelete({ id: folder.id, type: 'folder' })}
-                        className={styles.permanentDeleteBtn}
-                      >
-                        Delete Forever
-                      </button>
-                    </div>
-                  </div>
-                ))}
-                {deletedData.notes.length > 0 && <div className={styles.deletedSectionHeader}>Deleted Notes</div>}
-              </>
-            )}
-            {filteredNotes?.map((note) => {
-              const isSelected = selectedNoteIds.includes(note.id)
-              return (
-                <div
-                  key={note.id}
-                  onClick={() => handleSelectNote(note)}
-                  className={`${styles.noteItem} ${selectedNoteId === note.id && !selectionMode ? styles.active : ''} ${viewingDeleted ? styles.deletedItem : ''} ${selectionMode && isSelected ? styles.selected : ''}`}
-                >
-                  <span className={styles.noteTitle}>{note.title}</span>
-                  {viewingDeleted && (
-                    <div className={styles.deletedActions}>
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          handleRestore(note.id)
-                        }}
-                        className={styles.restoreBtn}
-                      >
-                        Restore
-                      </button>
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          setConfirmDelete({ id: note.id, type: 'note' })
-                        }}
-                        className={styles.permanentDeleteBtn}
-                      >
-                        Delete Forever
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )
-            })}
-          </div>
-        )}
-      </div>
+      <NotesList
+        notes={filteredNotes}
+        deletedFolders={deletedData?.folders}
+        selectedNoteId={selectedNoteId}
+        selectedFolderId={selectedFolderId}
+        viewingDeleted={viewingDeleted}
+        selectionMode={selectionMode}
+        selectedNoteIds={selectedNoteIds}
+        isLoading={viewingDeleted ? isLoadingDeleted : isLoading}
+        isCreatingNote={isCreatingNote}
+        width={panelWidths.notesList}
+        onSelectNote={handleSelectNote}
+        onCreateNote={handleCreateNote}
+        onToggleSelectionMode={toggleSelectionMode}
+        onBulkDelete={handleBulkDelete}
+        onRestoreNote={handleRestoreNote}
+        onRestoreFolder={restoreFolder}
+        onPermanentDeleteNote={handlePermanentDeleteNote}
+        onPermanentDeleteFolder={handlePermanentDeleteFolder}
+      />
 
       <div
         className={`${styles.resizeHandle} ${dragging === 'notesList' ? styles.dragging : ''}`}
         onMouseDown={() => setDragging('notesList')}
       />
 
-      <div className={styles.editorPanel}>
-        {confirmDelete && (
-          <div className={styles.confirmOverlay} onClick={() => setConfirmDelete(null)}>
-            <div className={styles.confirmModal} onClick={(e) => e.stopPropagation()}>
-              <h3 className={styles.confirmTitle}>Delete Forever?</h3>
-              <p className={styles.confirmText}>
-                {confirmDelete.type === 'folder'
-                  ? 'This folder and all its notes will be permanently deleted. This cannot be undone.'
-                  : 'This note will be permanently deleted. This cannot be undone.'}
-              </p>
-              <div className={styles.confirmActions}>
-                <button
-                  type="button"
-                  onClick={() => setConfirmDelete(null)}
-                  className={styles.confirmCancel}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  onClick={handlePermanentDelete}
-                  className={styles.confirmDelete}
-                >
-                  Delete Forever
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+      <NoteEditor
+        selectedNote={selectedNote}
+        editingContent={editingContent}
+        hasUnsavedChanges={hasUnsavedChanges}
+        isSaving={isSaving}
+        viewingDeleted={viewingDeleted}
+        onContentChange={handleContentChange}
+        onSaveContent={handleSaveContent}
+        onCopyAll={handleCopyAll}
+      />
 
-        <div className={styles.editor}>
-          {selectedNote ? (
-            <>
-              <div className={styles.editorHeader}>
-                <h2 className={styles.editorTitle}>
-                  {selectedNote.title}
-                  {hasUnsavedChanges && !viewingDeleted && (
-                    <span className={styles.unsavedIndicator}> *</span>
-                  )}
-                </h2>
-                <div className={styles.editorActions}>
-                  <button type="button" onClick={handleCopyAll} className={styles.copyBtn}>
-                    Copy
-                  </button>
-                  <div className={styles.saveStatus}>
-                    {viewingDeleted ? (
-                      <span className={styles.readOnlyBadge}>Read Only</span>
-                    ) : isSaving ? (
-                      <span className={styles.savingText}>Saving...</span>
-                    ) : hasUnsavedChanges ? (
-                      <button type="button" onClick={handleSaveContent} className={styles.saveBtn}>
-                        Save Now
-                      </button>
-                    ) : (
-                      <span className={styles.savedText}>Saved</span>
-                    )}
-                  </div>
-                </div>
-              </div>
-              <textarea
-                value={editingContent}
-                onChange={(e) => !viewingDeleted && handleContentChange(e.target.value)}
-                placeholder="Write your notes here..."
-                className={styles.editorTextarea}
-                readOnly={viewingDeleted}
-              />
-            </>
-          ) : (
-            <div className={styles.editorEmpty}>
-              Select a note to {viewingDeleted ? 'view' : 'edit'}
-            </div>
-          )}
-        </div>
-      </div>
+      {confirmDelete && (
+        <ConfirmDeleteModal
+          deleteType={confirmDelete.type}
+          onCancel={() => setConfirmDelete(null)}
+          onConfirm={handleConfirmPermanentDelete}
+        />
+      )}
     </div>
   )
 }

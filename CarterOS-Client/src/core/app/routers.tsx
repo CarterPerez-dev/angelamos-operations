@@ -15,6 +15,7 @@ import { LifeManagerHub } from '@/aspects/life-manager/shared/ui'
 import { dashboardRoutes } from '@/aspects/ops/facets/dashboard/routes'
 import { dockerManagerRoutes } from '@/aspects/dev-workspace/facets/docker-manager/routes'
 import { AngelaPage } from '@/aspects/business-hub/facets/angela'
+import { VrmTestPage } from '@/aspects/assistant/facets/angela/VrmTestPage'
 import { analyticsRoutes } from '@/aspects/analytics/facets/data-input/routes'
 
 const routes: RouteObject[] = [
@@ -64,6 +65,10 @@ const routes: RouteObject[] = [
           {
             path: 'angela',
             element: <AngelaPage />,
+          },
+          {
+            path: 'vrm-test',
+            element: <VrmTestPage />,
           },
           ...analyticsRoutes,
         ],

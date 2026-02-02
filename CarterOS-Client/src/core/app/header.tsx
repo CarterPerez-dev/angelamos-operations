@@ -15,6 +15,7 @@ import {
   GiBookshelf,
   GiShare,
   GiGlassHeart,
+  GiSparkles,
 } from 'react-icons/gi'
 import { GrDocker } from 'react-icons/gr'
 import { APP, USER, ROUTES } from '@/config'
@@ -84,6 +85,10 @@ export function Header() {
           <Link to="/analytics/data-input" className={styles.navLink}>
             <GiChart />
             <span>Analytics</span>
+          </Link>
+          <Link to="/analytics/insights" className={styles.navLink}>
+            <GiSparkles />
+            <span>Insights</span>
           </Link>
         </nav>
 

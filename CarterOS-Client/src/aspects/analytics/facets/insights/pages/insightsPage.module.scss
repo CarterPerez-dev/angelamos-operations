@@ -1,0 +1,303 @@
+// ===================
+// © AngelaMos | 2026
+// insightsPage.module.scss
+// ===================
+
+@use '../../../../../styles/tokens' as *;
+
+.page {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: $space-2xl $space-xl;
+  min-height: 100%;
+}
+
+.header {
+  margin-bottom: $space-3xl;
+}
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $space-md;
+}
+
+.title {
+  font-size: $text-2xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+
+  svg {
+    color: $accent-purple;
+    font-size: 28px;
+  }
+}
+
+.subtitle {
+  color: $text-light;
+  font-size: $text-sm;
+}
+
+.exportBtn {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  padding: $space-md $space-xl;
+  background: $accent-purple;
+  color: $text-default;
+  border: none;
+  border-radius: $radius-sm;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: filter $transition-fast $ease-out;
+
+  &:hover {
+    filter: brightness(1.2);
+  }
+
+  svg {
+    font-size: 18px;
+  }
+}
+
+.loading {
+  text-align: center;
+  padding: $space-3xl;
+  color: $text-muted;
+  font-size: $text-base;
+}
+
+.section {
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  padding: $space-2xl;
+  margin-bottom: $space-2xl;
+}
+
+.sectionTitle {
+  font-size: $text-xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin-bottom: $space-xl;
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+
+  svg {
+    color: $accent-purple;
+    font-size: 24px;
+  }
+}
+
+.overviewGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: $space-lg;
+}
+
+.metricCard {
+  background: $bg-surface-200;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  padding: $space-xl;
+  text-align: center;
+}
+
+.metricLabel {
+  font-size: $text-xs;
+  color: $text-light;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: $space-sm;
+}
+
+.metricValue {
+  font-size: $text-2xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+
+  &.trend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $space-sm;
+    text-transform: capitalize;
+    font-size: $text-lg;
+  }
+}
+
+.trendUp {
+  color: hsl(142, 76%, 36%);
+  font-size: 24px;
+}
+
+.trendDown {
+  color: hsl(0, 72%, 51%);
+  font-size: 24px;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: $border-muted;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  overflow: hidden;
+  width: 100%;
+}
+
+.tableHeader {
+  display: grid;
+  grid-template-columns: 60px 2fr repeat(4, 1fr);
+  gap: $space-lg;
+  padding: $space-md $space-lg;
+  background: $bg-surface-200;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-light;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tableRow {
+  display: grid;
+  grid-template-columns: 60px 2fr repeat(4, 1fr);
+  gap: $space-lg;
+  padding: $space-lg;
+  background: $bg-surface-100;
+  font-size: $text-sm;
+  color: $text-default;
+  transition: background-color $transition-fast $ease-out;
+
+  &:hover {
+    background: $bg-surface-200;
+  }
+}
+
+.rankCol {
+  font-weight: $font-semibold;
+  color: $accent-purple;
+}
+
+.hookCol,
+.hashtagCol,
+.ctaCol {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: $text-default;
+}
+
+.hashtagCol {
+  color: $accent-purple;
+}
+
+.numberCol {
+  font-weight: $font-medium;
+  text-align: right;
+}
+
+.dateCol {
+  color: $text-light;
+  font-size: $text-xs;
+}
+
+.dayCol,
+.hourCol {
+  font-weight: $font-medium;
+  color: $text-default;
+}
+
+.timeGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-2xl;
+
+  .table {
+    margin-top: $space-md;
+  }
+
+  .tableHeader {
+    grid-template-columns: 60px 1fr repeat(3, 1fr);
+  }
+
+  .tableRow {
+    grid-template-columns: 60px 1fr repeat(3, 1fr);
+  }
+}
+
+.subheading {
+  font-size: $text-base;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin-bottom: $space-sm;
+}
+
+.insightText {
+  margin-top: $space-lg;
+  padding: $space-lg;
+  background: $bg-surface-200;
+  border-radius: $radius-sm;
+  color: $text-light;
+  font-size: $text-sm;
+  text-align: center;
+  border-left: 3px solid $accent-purple;
+}
+
+@media (max-width: 900px) {
+  .page {
+    padding: $space-xl $space-lg;
+  }
+
+  .titleRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $space-md;
+  }
+
+  .exportBtn {
+    width: 100%;
+  }
+
+  .overviewGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .timeGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .hookCol,
+  .hashtagCol,
+  .ctaCol {
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 500px) {
+  .page {
+    padding: $space-lg $space-md;
+  }
+
+  .overviewGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .tableHeader,
+  .tableRow {
+    grid-template-columns: 50px 1fr 80px 80px;
+    font-size: $text-xs;
+  }
+
+  .tableHeader div:nth-child(n+5),
+  .tableRow div:nth-child(n+5) {
+    display: none;
+  }
+}

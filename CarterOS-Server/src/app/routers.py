@@ -25,7 +25,10 @@ from aspects.life_manager.facets.career.job_app_tracker.routes import (
     router as job_tracker_router,
 )
 from aspects.analytics.facets.data_input.routes import (
-    router as analytics_router,
+    router as analytics_data_input_router,
+)
+from aspects.analytics.facets.insights.routes import (
+    router as analytics_insights_router,
 )
 from core.foundation.logging import get_logger
 
@@ -69,7 +72,11 @@ def register_routers(app: FastAPI) -> None:
         prefix = API_PREFIX
     )
     app.include_router(
-        analytics_router,
+        analytics_data_input_router,
+        prefix = API_PREFIX
+    )
+    app.include_router(
+        analytics_insights_router,
         prefix = API_PREFIX
     )
 

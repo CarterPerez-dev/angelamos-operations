@@ -93,7 +93,7 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: $space-lg;
   row-gap: $space-xl;
 }
@@ -208,13 +208,122 @@
 
 .videosSection {
   margin-top: $space-3xl;
+  width: 100%;
+}
+
+.filterToolbar {
+  margin-bottom: $space-xl;
+}
+
+.filterRow {
+  display: flex;
+  gap: $space-lg;
+  align-items: center;
+}
+
+.searchField {
+  flex: 1;
+  min-width: 0;
+}
+
+.searchInput {
+  width: 100%;
+  padding: $space-md $space-lg;
+  background: $bg-surface-200;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-sm;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $border-strong;
+    background: $bg-surface-300;
+  }
+}
+
+.dateRangeField {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  white-space: nowrap;
+}
+
+.dateInput {
+  padding: $space-md;
+  background: $bg-surface-200;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-sm;
+  min-width: 150px;
+
+  &:focus {
+    outline: none;
+    border-color: $border-strong;
+    background: $bg-surface-300;
+  }
+}
+
+.dateSeparator {
+  color: $text-light;
+  font-size: $text-sm;
+}
+
+.minViewsField {
+  min-width: 140px;
+}
+
+.minViewsInput {
+  width: 100%;
+  padding: $space-md;
+  background: $bg-surface-200;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-sm;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $border-strong;
+    background: $bg-surface-300;
+  }
+}
+
+.clearFiltersBtn {
+  padding: $space-md $space-lg;
+  background: transparent;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-light;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: all $transition-fast $ease-out;
+  white-space: nowrap;
+
+  &:hover {
+    background: $bg-surface-200;
+    border-color: $border-strong;
+    color: $text-default;
+  }
 }
 
 .empty {
+  grid-column: 1 / -1;
   text-align: center;
   padding: $space-3xl;
   color: $text-muted;
   font-size: $text-base;
+  background: $bg-surface-100;
 }
 
 .table {
@@ -225,11 +334,13 @@
   border: 1px solid $border-default;
   border-radius: $radius-md;
   overflow: hidden;
+  width: 100%;
+  max-width: 1400px;
 }
 
 .tableHeader {
   display: grid;
-  grid-template-columns: 60px 100px 2fr 120px 300px 160px;
+  grid-template-columns: minmax(50px, 60px) minmax(80px, 100px) minmax(200px, 2fr) minmax(100px, 120px) minmax(200px, 300px) minmax(140px, 160px);
   gap: $space-lg;
   padding: $space-md $space-lg;
   background: $bg-surface-200;
@@ -242,7 +353,7 @@
 
 .tableRow {
   display: grid;
-  grid-template-columns: 60px 100px 2fr 120px 300px 160px;
+  grid-template-columns: minmax(50px, 60px) minmax(80px, 100px) minmax(200px, 2fr) minmax(100px, 120px) minmax(200px, 300px) minmax(140px, 160px);
   gap: $space-lg;
   padding: $space-lg;
   background: $bg-surface-100;
@@ -364,5 +475,130 @@
 
   svg {
     font-size: 14px;
+  }
+}
+
+@media (max-width: 900px) {
+  .page {
+    padding: $space-xl $space-lg;
+  }
+
+  .filterRow {
+    flex-wrap: wrap;
+  }
+
+  .searchField {
+    flex: 1 1 100%;
+    order: -1;
+    margin-bottom: $space-md;
+  }
+
+  .dateRangeField {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .minViewsField {
+    flex: 1;
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 700px) {
+  .page {
+    padding: $space-lg $space-md;
+  }
+
+  .titleRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $space-md;
+  }
+
+  .addBtn {
+    width: 100%;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .formActions {
+    flex-direction: column-reverse;
+  }
+
+  .cancelBtn,
+  .submitBtn {
+    width: 100%;
+  }
+
+  .filterRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dateRangeField {
+    width: 100%;
+  }
+
+  .minViewsField {
+    width: 100%;
+  }
+
+  .dateInput {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .clearFiltersBtn {
+    width: 100%;
+  }
+
+  .tableHeader {
+    grid-template-columns: 50px 80px 2fr 100px 80px;
+  }
+
+  .tableRow {
+    grid-template-columns: 50px 80px 2fr 100px 80px;
+  }
+
+  .colMetrics {
+    flex-direction: column;
+    gap: $space-xs;
+  }
+
+  .colActions {
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .page {
+    padding: $space-md $space-sm;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .formCard {
+    padding: $space-lg;
+  }
+
+  .tableHeader {
+    grid-template-columns: 40px 1fr 80px;
+  }
+
+  .tableRow {
+    grid-template-columns: 40px 1fr 80px;
+  }
+
+  .colDate,
+  .colMetrics {
+    display: none;
+  }
+
+  .hookText {
+    -webkit-line-clamp: 3;
   }
 }

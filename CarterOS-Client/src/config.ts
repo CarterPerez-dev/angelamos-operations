@@ -56,6 +56,21 @@ export const API_ENDPOINTS = {
     SEARCH: `/${API_VERSION}/analytics/videos/search/query`,
     FILTER_DATE_RANGE: `/${API_VERSION}/analytics/videos/filter/date-range`,
     FILTER_MIN_VIEWS: `/${API_VERSION}/analytics/videos/filter/min-views`,
+    INSIGHTS: {
+      OVERVIEW: `/${API_VERSION}/analytics/insights/overview`,
+      RANKINGS: `/${API_VERSION}/analytics/insights/rankings`,
+      HOOKS: `/${API_VERSION}/analytics/insights/hooks`,
+      CTAS: `/${API_VERSION}/analytics/insights/ctas`,
+      TRAFFIC_SOURCES: `/${API_VERSION}/analytics/insights/traffic-sources`,
+      SEARCH_QUERIES: `/${API_VERSION}/analytics/insights/search-queries`,
+      COMMENT_WORDS: `/${API_VERSION}/analytics/insights/comment-words`,
+      VIDEO_LENGTH: `/${API_VERSION}/analytics/insights/video-length`,
+      HASHTAGS: `/${API_VERSION}/analytics/insights/hashtags`,
+      POSTING_TIME: `/${API_VERSION}/analytics/insights/posting-time`,
+      TIME_SERIES: `/${API_VERSION}/analytics/insights/time-series`,
+      EXPORT: `/${API_VERSION}/analytics/insights/export`,
+      EXPORT_DOWNLOAD: `/${API_VERSION}/analytics/insights/export/download`,
+    },
   },
   PLANNER: {
     BLOCKS: `/${API_VERSION}/planner/blocks`,
@@ -91,6 +106,10 @@ export const ROUTES = {
   },
   DEV_WORKSPACE: {
     DOCKER_MANAGER: '/dev-workspace/docker-manager',
+  },
+  ANALYTICS: {
+    DATA_INPUT: '/analytics/data-input',
+    INSIGHTS: '/analytics/insights',
   },
 } as const
 

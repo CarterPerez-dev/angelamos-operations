@@ -1,0 +1,147 @@
+/**
+ * Angela AI Assistant - Container Styles
+ */
+
+@use '../../../../../styles/tokens' as *;
+
+.container {
+  position: fixed;
+  bottom: $space-xl;
+  right: $space-xl;
+  z-index: 1000;
+
+  width: 320px;
+  height: 420px;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  cursor: pointer;
+
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+  transition:
+    width 0.3s ease,
+    height 0.3s ease,
+    border-radius 0.3s ease,
+    border-color $transition-fast $ease-out,
+    background-color $transition-fast $ease-out;
+
+  &:hover {
+    border-color: $accent-purple;
+  }
+
+  &[data-expanded='true'] {
+    width: 320px;
+    height: 420px;
+  }
+
+  &[data-status='listening'] {
+    border-color: hsl(142, 76%, 36%);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      0 0 20px hsla(142, 76%, 36%, 0.3);
+  }
+
+  &[data-status='speaking'] {
+    border-color: $accent-purple;
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      0 0 20px hsla(270, 60%, 60%, 0.3);
+  }
+
+  &[data-status='error'] {
+    border-color: hsl(0, 72%, 51%);
+  }
+}
+
+.avatarWrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  [data-expanded='true'] & {
+    height: 60%;
+  }
+}
+
+.statusBar {
+  position: absolute;
+  bottom: $space-sm;
+  left: 50%;
+  transform: translateX(-50%);
+
+  [data-expanded='true'] & {
+    bottom: auto;
+    top: calc(60% + $space-sm);
+  }
+}
+
+.transcript,
+.response {
+  position: absolute;
+  left: $space-sm;
+  right: $space-sm;
+  padding: $space-xs;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: $radius-sm;
+  font-size: $text-xs;
+  max-height: 60px;
+  overflow-y: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: $bg-surface-300 transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $bg-surface-300;
+    border-radius: 3px;
+  }
+
+  display: none;
+
+  [data-expanded='true'] & {
+    display: block;
+  }
+}
+
+.transcript {
+  top: calc(60% + 40px);
+}
+
+.response {
+  top: calc(60% + 110px);
+}
+
+.label {
+  color: $text-light;
+  font-weight: $font-medium;
+  margin-right: $space-xs;
+}
+
+.text {
+  color: $text-default;
+}
+
+.error {
+  position: absolute;
+  bottom: $space-xl;
+  left: $space-sm;
+  right: $space-sm;
+  padding: $space-xs;
+  background: hsla(0, 72%, 51%, 0.2);
+  border: 1px solid hsl(0, 72%, 51%);
+  border-radius: $radius-sm;
+  font-size: $text-xs;
+  color: hsl(0, 72%, 51%);
+  text-align: center;
+}

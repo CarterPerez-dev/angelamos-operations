@@ -10,6 +10,7 @@ import { Toaster } from 'sonner'
 
 import { queryClient } from '@/core/api'
 import { router } from '@/core/app/routers'
+// import { AngelaContainer } from '@/aspects/assistant/facets/angela/components'
 import '@/core/app/toast.module.scss'
 
 export default function App(): React.ReactElement {
@@ -18,6 +19,7 @@ export default function App(): React.ReactElement {
       <div className="app">
         <RouterProvider router={router} />
         <Toaster theme="dark" position="top-right" duration={1000} />
+        {/* <AngelaContainer /> */}
       </div>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
