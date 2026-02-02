@@ -1,0 +1,604 @@
+// ===================
+// © AngelaMos | 2026
+// dataInputPage.module.scss
+// ===================
+
+@use '../../../../../styles/tokens' as *;
+
+.page {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: $space-2xl $space-xl;
+  min-height: 100%;
+}
+
+.header {
+  margin-bottom: $space-2xl;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $space-md;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+  font-size: $text-2xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+
+  svg {
+    color: $accent-purple;
+    font-size: 28px;
+  }
+}
+
+.subtitle {
+  font-size: $text-sm;
+  color: $text-light;
+}
+
+.addBtn {
+  padding: $space-md $space-xl;
+  background: $accent-purple;
+  border: none;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: filter $transition-fast $ease-out;
+
+  &:hover {
+    filter: brightness(1.2);
+  }
+}
+
+.formCard {
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  padding: $space-xl;
+  margin-bottom: $space-3xl;
+}
+
+.formTitle {
+  font-size: $text-xl;
+  font-weight: $font-semibold;
+  color: $text-default;
+  margin-bottom: $space-xl;
+}
+
+.section {
+  margin-bottom: $space-xl;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.sectionTitle {
+  font-size: $text-base;
+  font-weight: $font-medium;
+  color: $text-light;
+  margin-bottom: $space-lg;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: $text-xs;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: $space-lg;
+  row-gap: $space-xl;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.fieldFull {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  margin-top: $space-md;
+}
+
+.label {
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-light;
+}
+
+.input {
+  padding: $space-md;
+  background: $bg-surface-200;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-sm;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $border-strong;
+    background: $bg-surface-300;
+  }
+}
+
+.textarea {
+  padding: $space-md;
+  background: $bg-surface-200;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-sm;
+  font-family: $font-sans;
+  resize: vertical;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $border-strong;
+    background: $bg-surface-300;
+  }
+}
+
+.formActions {
+  display: flex;
+  gap: $space-md;
+  justify-content: flex-end;
+  margin-top: $space-xl;
+  padding-top: $space-xl;
+  border-top: 1px solid $border-muted;
+}
+
+.cancelBtn {
+  padding: $space-md $space-xl;
+  background: transparent;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-light;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: all $transition-fast $ease-out;
+
+  &:hover {
+    background: $bg-surface-200;
+    border-color: $border-strong;
+    color: $text-default;
+  }
+}
+
+.submitBtn {
+  padding: $space-md $space-xl;
+  background: $accent-purple;
+  border: none;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: filter $transition-fast $ease-out;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.2);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.videosSection {
+  margin-top: $space-3xl;
+  width: 100%;
+}
+
+.filterToolbar {
+  margin-bottom: $space-xl;
+}
+
+.filterRow {
+  display: flex;
+  gap: $space-lg;
+  align-items: center;
+}
+
+.searchField {
+  flex: 1;
+  min-width: 0;
+}
+
+.searchInput {
+  width: 100%;
+  padding: $space-md $space-lg;
+  background: $bg-surface-200;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-sm;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $border-strong;
+    background: $bg-surface-300;
+  }
+}
+
+.dateRangeField {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  white-space: nowrap;
+}
+
+.dateInput {
+  padding: $space-md;
+  background: $bg-surface-200;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-sm;
+  min-width: 150px;
+
+  &:focus {
+    outline: none;
+    border-color: $border-strong;
+    background: $bg-surface-300;
+  }
+}
+
+.dateSeparator {
+  color: $text-light;
+  font-size: $text-sm;
+}
+
+.minViewsField {
+  min-width: 140px;
+}
+
+.minViewsInput {
+  width: 100%;
+  padding: $space-md;
+  background: $bg-surface-200;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-default;
+  font-size: $text-sm;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $border-strong;
+    background: $bg-surface-300;
+  }
+}
+
+.clearFiltersBtn {
+  padding: $space-md $space-lg;
+  background: transparent;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-light;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: all $transition-fast $ease-out;
+  white-space: nowrap;
+
+  &:hover {
+    background: $bg-surface-200;
+    border-color: $border-strong;
+    color: $text-default;
+  }
+}
+
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: $space-3xl;
+  color: $text-muted;
+  font-size: $text-base;
+  background: $bg-surface-100;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: $border-muted;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  overflow: hidden;
+  width: 100%;
+  max-width: 1400px;
+}
+
+.tableHeader {
+  display: grid;
+  grid-template-columns: minmax(50px, 60px) minmax(80px, 100px) minmax(200px, 2fr) minmax(100px, 120px) minmax(200px, 300px) minmax(140px, 160px);
+  gap: $space-lg;
+  padding: $space-md $space-lg;
+  background: $bg-surface-200;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-light;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tableRow {
+  display: grid;
+  grid-template-columns: minmax(50px, 60px) minmax(80px, 100px) minmax(200px, 2fr) minmax(100px, 120px) minmax(200px, 300px) minmax(140px, 160px);
+  gap: $space-lg;
+  padding: $space-lg;
+  background: $bg-surface-100;
+  font-size: $text-sm;
+  color: $text-default;
+  transition: background-color $transition-fast $ease-out;
+
+  &:hover {
+    background: $bg-surface-200;
+  }
+}
+
+.colRank {
+  font-weight: $font-semibold;
+  color: $accent-purple;
+}
+
+.colDate {
+  color: $text-light;
+  font-size: $text-xs;
+}
+
+.colHook {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+  min-width: 0;
+}
+
+.hookText {
+  color: $text-default;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.hashtags {
+  display: flex;
+  gap: $space-xs;
+  flex-wrap: wrap;
+}
+
+.hashtag {
+  padding: $space-xs $space-sm;
+  background: $bg-surface-300;
+  border-radius: $radius-sm;
+  font-size: $text-xs;
+  color: $text-light;
+}
+
+.colViews {
+  font-weight: $font-semibold;
+  color: $text-default;
+}
+
+.colMetrics {
+  display: flex;
+  gap: $space-md;
+  font-size: $text-xs;
+}
+
+.metric {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  color: $text-light;
+
+  svg {
+    font-size: 14px;
+    color: $accent-purple;
+  }
+}
+
+.colActions {
+  display: flex;
+  gap: $space-sm;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.actionBtn {
+  padding: $space-xs $space-md;
+  background: transparent;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  color: $text-light;
+  font-size: $text-xs;
+  cursor: pointer;
+  transition: all $transition-fast $ease-out;
+  text-decoration: none;
+
+  &:hover {
+    background: $bg-surface-300;
+    border-color: $border-strong;
+    color: $text-default;
+  }
+}
+
+.deleteBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 1px solid $border-muted;
+  border-radius: $radius-sm;
+  color: $text-muted;
+  cursor: pointer;
+  transition: all $transition-fast $ease-out;
+
+  &:hover {
+    border-color: hsl(0, 50%, 40%);
+    color: hsl(0, 50%, 55%);
+    background: hsl(0, 50%, 10%);
+  }
+
+  svg {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 900px) {
+  .page {
+    padding: $space-xl $space-lg;
+  }
+
+  .filterRow {
+    flex-wrap: wrap;
+  }
+
+  .searchField {
+    flex: 1 1 100%;
+    order: -1;
+    margin-bottom: $space-md;
+  }
+
+  .dateRangeField {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .minViewsField {
+    flex: 1;
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 700px) {
+  .page {
+    padding: $space-lg $space-md;
+  }
+
+  .titleRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $space-md;
+  }
+
+  .addBtn {
+    width: 100%;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .formActions {
+    flex-direction: column-reverse;
+  }
+
+  .cancelBtn,
+  .submitBtn {
+    width: 100%;
+  }
+
+  .filterRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dateRangeField {
+    width: 100%;
+  }
+
+  .minViewsField {
+    width: 100%;
+  }
+
+  .dateInput {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .clearFiltersBtn {
+    width: 100%;
+  }
+
+  .tableHeader {
+    grid-template-columns: 50px 80px 2fr 100px 80px;
+  }
+
+  .tableRow {
+    grid-template-columns: 50px 80px 2fr 100px 80px;
+  }
+
+  .colMetrics {
+    flex-direction: column;
+    gap: $space-xs;
+  }
+
+  .colActions {
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .page {
+    padding: $space-md $space-sm;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .formCard {
+    padding: $space-lg;
+  }
+
+  .tableHeader {
+    grid-template-columns: 40px 1fr 80px;
+  }
+
+  .tableRow {
+    grid-template-columns: 40px 1fr 80px;
+  }
+
+  .colDate,
+  .colMetrics {
+    display: none;
+  }
+
+  .hookText {
+    -webkit-line-clamp: 3;
+  }
+}

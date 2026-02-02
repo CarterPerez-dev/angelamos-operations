@@ -32,6 +32,10 @@ const routes: RouteObject[] = [
         lazy: () => import('@/pages/slow-queries'),
       },
       {
+        path: ROUTES.CONVERSION,
+        lazy: () => import('@/pages/conversion'),
+      },
+      {
         path: ROUTES.SETTINGS,
         lazy: () => import('@/pages/settings'),
       },

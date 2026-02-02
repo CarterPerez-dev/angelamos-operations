@@ -1,0 +1,335 @@
+// ===================
+// AngelaMos | 2026
+// conversion.module.scss
+// ===================
+
+@use '@/styles' as *;
+
+.page {
+  min-height: calc(100vh - 56px);
+  padding: $space-6;
+  background-color: $bg-default;
+  background-image: radial-gradient(circle, $border-default 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.loading,
+.error {
+  @include flex-center;
+  min-height: 200px;
+  font-size: $font-size-sm;
+  color: $text-light;
+}
+
+.error {
+  color: $error-default;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: $space-6;
+  padding-bottom: $space-4;
+  border-bottom: 1px solid $border-default;
+  gap: $space-4;
+
+  @media (max-width: $breakpoint-sm) {
+    flex-direction: column;
+  }
+}
+
+.headerInfo {
+  @include flex-column;
+  gap: $space-2;
+}
+
+.exportBtn {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-2-5 $space-4;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  color: $text-default;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all $duration-normal $ease-out;
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    background: $bg-surface-200;
+    border-color: $border-strong;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  svg {
+    font-size: $font-size-base;
+  }
+}
+
+.title {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $text-default;
+}
+
+.subtitle {
+  font-size: $font-size-sm;
+  color: $text-light;
+}
+
+.section {
+  margin-bottom: $space-8;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $space-4;
+  gap: $space-3;
+}
+
+.sectionTitle {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-light;
+  text-transform: uppercase;
+  letter-spacing: $tracking-wide;
+}
+
+.exportBtnSmall {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $space-1-5;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  color: $text-light;
+  cursor: pointer;
+  transition: all $duration-normal $ease-out;
+
+  &:hover {
+    background: $bg-surface-200;
+    border-color: $border-strong;
+    color: $text-default;
+  }
+
+  svg {
+    font-size: $font-size-sm;
+  }
+}
+
+.grid {
+  display: grid;
+  gap: $space-3;
+  grid-template-columns: repeat(2, 1fr);
+
+  @include breakpoint-up('sm') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include breakpoint-up('lg') {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.metricCard {
+  @include flex-column;
+  gap: $space-1;
+  padding: $space-4;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+}
+
+.metricLabel {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $text-lighter;
+  text-transform: uppercase;
+  letter-spacing: $tracking-wide;
+}
+
+.metricValue {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-semibold;
+  color: $text-default;
+
+  &.highlight {
+    color: $success-400;
+  }
+}
+
+.metricSub {
+  font-size: $font-size-xs;
+  color: $text-muted;
+
+  &.highlight {
+    color: $success-400;
+  }
+}
+
+.chartContainer {
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  padding: $space-4;
+}
+
+.chartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $space-4;
+  padding-bottom: $space-2;
+  border-bottom: 1px solid $border-default;
+}
+
+.chartLabel {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $text-lighter;
+  text-transform: uppercase;
+  letter-spacing: $tracking-wide;
+}
+
+.chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 180px;
+  padding: $space-2 0;
+  overflow-x: auto;
+}
+
+.barWrapper {
+  flex: 1;
+  min-width: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-1;
+}
+
+.bar {
+  width: 100%;
+  height: 180px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.barFill {
+  width: 100%;
+  background: linear-gradient(180deg, $success-400 0%, $success-500 100%);
+  border-radius: $radius-sm $radius-sm 0 0;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-height: 2px;
+
+  &:hover {
+    background: linear-gradient(180deg, $success-500 0%, $success-500 100%);
+    opacity: 0.9;
+  }
+}
+
+.barLabel {
+  font-size: 9px;
+  color: $text-muted;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+}
+
+.chartFooter {
+  margin-top: $space-2;
+  padding-top: $space-2;
+  border-top: 1px solid $border-default;
+  text-align: center;
+}
+
+.axisLabel {
+  font-size: $font-size-xs;
+  color: $text-lighter;
+  text-transform: uppercase;
+  letter-spacing: $tracking-wide;
+}
+
+.table {
+  overflow-x: auto;
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead {
+    background: $bg-surface-200;
+    border-bottom: 1px solid $border-default;
+
+    th {
+      padding: $space-3;
+      text-align: left;
+      font-size: $font-size-xs;
+      font-weight: $font-weight-medium;
+      color: $text-lighter;
+      text-transform: uppercase;
+      letter-spacing: $tracking-wide;
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid $border-default;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background: $bg-overlay;
+      }
+    }
+
+    td {
+      padding: $space-3;
+      font-size: $font-size-sm;
+      color: $text-default;
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+  }
+
+  .weekLabel {
+    font-weight: $font-weight-medium;
+    color: $text-default;
+  }
+
+  .subscribed {
+    color: $success-400;
+    font-weight: $font-weight-medium;
+  }
+
+  .conversionRate {
+    font-weight: $font-weight-semibold;
+    color: $success-400;
+  }
+}

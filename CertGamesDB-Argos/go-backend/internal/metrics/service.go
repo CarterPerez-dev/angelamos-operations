@@ -23,6 +23,9 @@ type metricsRepository interface {
 	GetSlowQueries(ctx context.Context, dbName string, minMillis int, limit int) ([]mongodb.SlowQuery, error)
 	GetProfilingStatus(ctx context.Context, dbName string) (int, int, error)
 	SetProfilingLevel(ctx context.Context, dbName string, level int, slowMs int) error
+	GetUsersForConversion(ctx context.Context, dbName string, startDate time.Time) ([]mongodb.ConversionUser, error)
+	GetWeeklyCohorts(ctx context.Context, dbName string, startDate time.Time, weeks int) ([]mongodb.WeeklyCohort, error)
+	GetUsersWithSubscriptionDate(ctx context.Context, dbName string, startDate time.Time) ([]mongodb.ConversionUserWithSubDate, error)
 }
 
 type Service struct {

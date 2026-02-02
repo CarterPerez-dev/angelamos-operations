@@ -1,5 +1,5 @@
 // ===================
-// © AngelaMos | 2025
+// © AngelaMos | 2026
 // index.tsx
 // ===================
 
@@ -9,9 +9,5 @@ export const plannerRoutes: RouteObject[] = [
   {
     path: 'planner',
     lazy: () => import('../pages/DayPlannerPage').then((m) => ({ Component: m.DayPlannerPage })),
-  },
-  {
-    path: 'notes',
-    lazy: () => import('../pages/NotesPage').then((m) => ({ Component: m.NotesPage })),
   },
 ]

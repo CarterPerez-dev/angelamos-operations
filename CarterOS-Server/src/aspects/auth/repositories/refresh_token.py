@@ -1,5 +1,5 @@
 """
-ⒸAngelaMos | 2025
+ⒸAngelaMos | 2026
 refresh_token.py
 """
 
@@ -10,7 +10,7 @@ from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from aspects.auth.models.RefreshToken import RefreshToken
-from aspects.auth.repositories.base import BaseRepository
+from core.foundation.repositories.base import BaseRepository
 
 
 class RefreshTokenRepository(BaseRepository[RefreshToken]):

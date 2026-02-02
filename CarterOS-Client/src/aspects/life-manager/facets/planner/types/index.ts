@@ -1,7 +1,6 @@
 // ===================
-// © AngelaMos | 2025
+// © AngelaMos | 2026
 // index.ts
 // ===================
 
 export * from './planner.types'
-export * from './planner.enums'

@@ -1,5 +1,5 @@
 // ===================
-// © AngelaMos | 2025
+// © AngelaMos | 2026
 // routers.tsx
 // ===================
 
@@ -9,10 +9,14 @@ import { ProtectedRoute } from './protected-route'
 import { Shell } from './shell'
 import { trackerRoutes } from '@/aspects/challenge/facets/tracker/routes'
 import { plannerRoutes } from '@/aspects/life-manager/facets/planner/routes'
+import { notesRoutes } from '@/aspects/life-manager/facets/notes/routes'
 import { jobTrackerRoutes } from '@/aspects/life-manager/facets/career/job-app-tracker/routes'
 import { LifeManagerHub } from '@/aspects/life-manager/shared/ui'
 import { dashboardRoutes } from '@/aspects/ops/facets/dashboard/routes'
 import { dockerManagerRoutes } from '@/aspects/dev-workspace/facets/docker-manager/routes'
+import { MossPage } from '@/aspects/business-hub/facets/angela'
+import { AngelaPage } from '@/aspects/assistant/facets/angela/AngelaPage'
+import { analyticsRoutes } from '@/aspects/analytics/facets/data-input/routes'
 
 const routes: RouteObject[] = [
   {
@@ -50,6 +54,7 @@ const routes: RouteObject[] = [
                 element: <LifeManagerHub />,
               },
               ...plannerRoutes,
+              ...notesRoutes,
               ...jobTrackerRoutes,
             ],
           },
@@ -57,6 +62,15 @@ const routes: RouteObject[] = [
             path: 'dev-workspace',
             children: [...dockerManagerRoutes],
           },
+          {
+            path: 'angela',
+            element: <AngelaPage />,
+          },
+          {
+            path: 'moss',
+            element: <MossPage />,
+          },
+          ...analyticsRoutes,
         ],
       },
     ],

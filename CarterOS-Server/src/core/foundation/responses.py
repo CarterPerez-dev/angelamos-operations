@@ -1,11 +1,11 @@
 """
-ⒸAngelaMos | 2025
+ⒸAngelaMos | 2026
 responses.py
 """
 
 from typing import Any
 
-from aspects.auth.schemas.errors import ErrorDetail
+from core.foundation.schemas.errors import ErrorDetail
 
 
 AUTH_401: dict[int | str,

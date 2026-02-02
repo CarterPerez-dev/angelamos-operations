@@ -1,5 +1,5 @@
 """
-ⒸAngelaMos | 2025
+ⒸAngelaMos | 2026
 service.py
 """
 
@@ -9,23 +9,12 @@ from uuid import UUID
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.exceptions import ResourceNotFound
-from aspects.life_manager.facets.planner.repository import (
-    TimeBlockRepository,
-    NoteFolderRepository,
-    NoteRepository,
-)
+from aspects.life_manager.facets.planner.repository import TimeBlockRepository
 from aspects.life_manager.facets.planner.schemas import (
     TimeBlockCreate,
     TimeBlockUpdate,
     TimeBlockResponse,
     TimeBlockListResponse,
-    NoteFolderCreate,
-    NoteFolderUpdate,
-    NoteFolderResponse,
-    NoteCreate,
-    NoteUpdate,
-    NoteResponse,
-    NotesListResponse,
 )
 
 
@@ -35,22 +24,6 @@ class TimeBlockNotFound(ResourceNotFound):
     """
     def __init__(self, block_id: UUID) -> None:
         super().__init__(resource="TimeBlock", identifier=str(block_id))
-
-
-class NoteFolderNotFound(ResourceNotFound):
-    """
-    Raised when folder not found
-    """
-    def __init__(self, folder_id: UUID) -> None:
-        super().__init__(resource="NoteFolder", identifier=str(folder_id))
-
-
-class NoteNotFound(ResourceNotFound):
-    """
-    Raised when note not found
-    """
-    def __init__(self, note_id: UUID) -> None:
-        super().__init__(resource="Note", identifier=str(note_id))
 
 
 class PlannerService:
@@ -121,133 +94,3 @@ class PlannerService:
         if not block:
             raise TimeBlockNotFound(block_id)
         await TimeBlockRepository.delete(session, block)
-
-    @staticmethod
-    async def get_all_notes(
-        session: AsyncSession,
-    ) -> NotesListResponse:
-        """
-        Get all folders and notes
-        """
-        folders = await NoteFolderRepository.get_all(session)
-        notes = await NoteRepository.get_all(session)
-        return NotesListResponse(
-            folders=[NoteFolderResponse.model_validate(f) for f in folders],
-            notes=[NoteResponse.model_validate(n) for n in notes],
-        )
-
-    @staticmethod
-    async def create_folder(
-        session: AsyncSession,
-        data: NoteFolderCreate,
-    ) -> NoteFolderResponse:
-        """
-        Create a folder
-        """
-        folder = await NoteFolderRepository.create(
-            session,
-            name=data.name,
-            parent_id=data.parent_id,
-            sort_order=data.sort_order,
-        )
-        return NoteFolderResponse.model_validate(folder)
-
-    @staticmethod
-    async def update_folder(
-        session: AsyncSession,
-        folder_id: UUID,
-        data: NoteFolderUpdate,
-    ) -> NoteFolderResponse:
-        """
-        Update a folder
-        """
-        folder = await NoteFolderRepository.get_by_id(session, folder_id)
-        if not folder:
-            raise NoteFolderNotFound(folder_id)
-
-        update_dict = data.model_dump(exclude_unset=True)
-        folder = await NoteFolderRepository.update(session, folder, **update_dict)
-        return NoteFolderResponse.model_validate(folder)
-
-    @staticmethod
-    async def delete_folder(
-        session: AsyncSession,
-        folder_id: UUID,
-    ) -> None:
-        """
-        Delete a folder
-        """
-        folder = await NoteFolderRepository.get_by_id(session, folder_id)
-        if not folder:
-            raise NoteFolderNotFound(folder_id)
-        await NoteFolderRepository.delete(session, folder)
-
-    @staticmethod
-    async def create_note(
-        session: AsyncSession,
-        data: NoteCreate,
-    ) -> NoteResponse:
-        """
-        Create a note
-        """
-        if data.folder_id:
-            folder = await NoteFolderRepository.get_by_id(session, data.folder_id)
-            if not folder:
-                raise NoteFolderNotFound(data.folder_id)
-
-        note = await NoteRepository.create(
-            session,
-            title=data.title,
-            content=data.content,
-            folder_id=data.folder_id,
-            sort_order=data.sort_order,
-        )
-        return NoteResponse.model_validate(note)
-
-    @staticmethod
-    async def get_note(
-        session: AsyncSession,
-        note_id: UUID,
-    ) -> NoteResponse:
-        """
-        Get a note by ID
-        """
-        note = await NoteRepository.get_by_id(session, note_id)
-        if not note:
-            raise NoteNotFound(note_id)
-        return NoteResponse.model_validate(note)
-
-    @staticmethod
-    async def update_note(
-        session: AsyncSession,
-        note_id: UUID,
-        data: NoteUpdate,
-    ) -> NoteResponse:
-        """
-        Update a note
-        """
-        note = await NoteRepository.get_by_id(session, note_id)
-        if not note:
-            raise NoteNotFound(note_id)
-
-        if data.folder_id is not None:
-            folder = await NoteFolderRepository.get_by_id(session, data.folder_id)
-            if not folder:
-                raise NoteFolderNotFound(data.folder_id)
-
-        update_dict = data.model_dump(exclude_unset=True)
-        note = await NoteRepository.update(session, note, **update_dict)
-        return NoteResponse.model_validate(note)
-
-    @staticmethod
-    async def delete_note(
-        session: AsyncSession,
-        note_id: UUID,
-    ) -> None:
-        """
-        Delete a note
-        """
-        note = await NoteRepository.get_by_id(session, note_id)
-        if not note:
-            raise NoteNotFound(note_id)
-        await NoteRepository.delete(session, note)

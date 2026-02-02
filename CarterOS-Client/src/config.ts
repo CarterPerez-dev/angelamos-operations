@@ -1,5 +1,5 @@
 // ===================
-// © AngelaMos | 2025
+// © AngelaMos | 2026
 // config.ts
 // ===================
 
@@ -50,6 +50,46 @@ export const API_ENDPOINTS = {
     UPDATE: (id: string) => `/${API_VERSION}/career/jobs/${id}`,
     DELETE: (id: string) => `/${API_VERSION}/career/jobs/${id}`,
   },
+  ANALYTICS: {
+    VIDEOS: `/${API_VERSION}/analytics/videos`,
+    VIDEO: (id: string) => `/${API_VERSION}/analytics/videos/${id}`,
+    SEARCH: `/${API_VERSION}/analytics/videos/search/query`,
+    FILTER_DATE_RANGE: `/${API_VERSION}/analytics/videos/filter/date-range`,
+    FILTER_MIN_VIEWS: `/${API_VERSION}/analytics/videos/filter/min-views`,
+    INSIGHTS: {
+      OVERVIEW: `/${API_VERSION}/analytics/insights/overview`,
+      RANKINGS: `/${API_VERSION}/analytics/insights/rankings`,
+      HOOKS: `/${API_VERSION}/analytics/insights/hooks`,
+      CTAS: `/${API_VERSION}/analytics/insights/ctas`,
+      TRAFFIC_SOURCES: `/${API_VERSION}/analytics/insights/traffic-sources`,
+      SEARCH_QUERIES: `/${API_VERSION}/analytics/insights/search-queries`,
+      COMMENT_WORDS: `/${API_VERSION}/analytics/insights/comment-words`,
+      VIDEO_LENGTH: `/${API_VERSION}/analytics/insights/video-length`,
+      HASHTAGS: `/${API_VERSION}/analytics/insights/hashtags`,
+      POSTING_TIME: `/${API_VERSION}/analytics/insights/posting-time`,
+      TIME_SERIES: `/${API_VERSION}/analytics/insights/time-series`,
+      EXPORT: `/${API_VERSION}/analytics/insights/export`,
+      EXPORT_DOWNLOAD: `/${API_VERSION}/analytics/insights/export/download`,
+    },
+  },
+  PLANNER: {
+    BLOCKS: `/${API_VERSION}/planner/blocks`,
+    BLOCK: (id: string) => `/${API_VERSION}/planner/blocks/${id}`,
+  },
+  NOTES: {
+    NOTES: `/${API_VERSION}/notes`,
+    NOTE: (id: string) => `/${API_VERSION}/notes/${id}`,
+    FOLDERS: `/${API_VERSION}/notes/folders`,
+    FOLDER: (id: string) => `/${API_VERSION}/notes/folders/${id}`,
+    RESTORE_FOLDER: (id: string) => `/${API_VERSION}/notes/folders/${id}/restore`,
+    PERMANENT_DELETE_FOLDER: (id: string) =>
+      `/${API_VERSION}/notes/folders/${id}/permanent`,
+    DELETED: `/${API_VERSION}/notes/deleted`,
+    RESTORE: (id: string) => `/${API_VERSION}/notes/${id}/restore`,
+    PERMANENT_DELETE: (id: string) => `/${API_VERSION}/notes/${id}/permanent`,
+    BULK_DELETE: `/${API_VERSION}/notes/bulk-delete`,
+    BULK_DELETE_FOLDERS: `/${API_VERSION}/notes/folders/bulk-delete`,
+  },
 } as const
 
 export const ROUTES = {
@@ -66,6 +106,10 @@ export const ROUTES = {
   },
   DEV_WORKSPACE: {
     DOCKER_MANAGER: '/dev-workspace/docker-manager',
+  },
+  ANALYTICS: {
+    DATA_INPUT: '/analytics/data-input',
+    INSIGHTS: '/analytics/insights',
   },
 } as const
 
@@ -108,6 +152,17 @@ export const QUERY_KEYS = {
       [...QUERY_KEYS.JOB_TRACKER.ALL, 'by-outcome', outcome] as const,
     BY_ID: (id: string) =>
       [...QUERY_KEYS.JOB_TRACKER.ALL, 'detail', id] as const,
+  },
+  PLANNER: {
+    ALL: ['planner'] as const,
+    BLOCKS: (date: string) => [...QUERY_KEYS.PLANNER.ALL, 'blocks', date] as const,
+  },
+  NOTES: {
+    ALL: ['notes'] as const,
+    LIST: () => [...QUERY_KEYS.NOTES.ALL, 'list'] as const,
+    BY_ID: (id: string) => [...QUERY_KEYS.NOTES.ALL, 'detail', id] as const,
+    FOLDERS: () => [...QUERY_KEYS.NOTES.ALL, 'folders'] as const,
+    DELETED: () => [...QUERY_KEYS.NOTES.ALL, 'deleted'] as const,
   },
 } as const
 

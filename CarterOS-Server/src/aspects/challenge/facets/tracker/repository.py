@@ -1,5 +1,5 @@
 """
-ⒸAngelaMos | 2025
+ⒸAngelaMos | 2026
 repository.py
 """
 
@@ -11,13 +11,15 @@ from sqlalchemy import select, func, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
+from core.foundation.repositories.base import BaseRepository
 from aspects.challenge.facets.tracker.models import Challenge, ChallengeLog
 
 
-class ChallengeRepository:
+class ChallengeRepository(BaseRepository[Challenge]):
     """
     Repository for Challenge operations
     """
+    model = Challenge
 
     @classmethod
     async def get_active(
@@ -33,17 +35,6 @@ class ChallengeRepository:
             .options(selectinload(Challenge.logs))
         )
         return result.scalar_one_or_none()
-
-    @classmethod
-    async def get_by_id(
-        cls,
-        session: AsyncSession,
-        challenge_id: UUID,
-    ) -> Challenge | None:
-        """
-        Get challenge by ID
-        """
-        return await session.get(Challenge, challenge_id)
 
     @classmethod
     async def get_history(
@@ -95,7 +86,7 @@ class ChallengeRepository:
         await session.flush()
 
     @classmethod
-    async def create(
+    async def create_challenge(
         cls,
         session: AsyncSession,
         start_date: date,
@@ -103,26 +94,24 @@ class ChallengeRepository:
         jobs_goal: int = 1000,
     ) -> Challenge:
         """
-        Create a new challenge
+        Create a new challenge with calculated end date
         """
         end_date = start_date + timedelta(days = 29)
-        challenge = Challenge(
+        return await cls.create(
+            session,
             start_date = start_date,
             end_date = end_date,
             content_goal = content_goal,
             jobs_goal = jobs_goal,
             is_active = True,
         )
-        session.add(challenge)
-        await session.flush()
-        await session.refresh(challenge)
-        return challenge
 
 
-class ChallengeLogRepository:
+class ChallengeLogRepository(BaseRepository[ChallengeLog]):
     """
     Repository for ChallengeLog operations
     """
+    model = ChallengeLog
 
     @classmethod
     async def get_by_challenge(
@@ -158,44 +147,6 @@ class ChallengeLogRepository:
             )
         )
         return result.scalar_one_or_none()
-
-    @classmethod
-    async def create(
-        cls,
-        session: AsyncSession,
-        challenge_id: UUID,
-        log_date: date,
-        **kwargs,
-    ) -> ChallengeLog:
-        """
-        Create a new log entry
-        """
-        log = ChallengeLog(
-            challenge_id = challenge_id,
-            log_date = log_date,
-            **kwargs,
-        )
-        session.add(log)
-        await session.flush()
-        await session.refresh(log)
-        return log
-
-    @classmethod
-    async def update(
-        cls,
-        session: AsyncSession,
-        log: ChallengeLog,
-        **kwargs,
-    ) -> ChallengeLog:
-        """
-        Update an existing log
-        """
-        for key, value in kwargs.items():
-            if value is not None:
-                setattr(log, key, value)
-        await session.flush()
-        await session.refresh(log)
-        return log
 
     @classmethod
     async def get_totals(

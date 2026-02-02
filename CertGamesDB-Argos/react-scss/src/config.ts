@@ -13,6 +13,9 @@ export const API_ENDPOINTS = {
     SLOW_QUERIES: '/api/metrics/slow-queries',
     ANALYZE: '/api/metrics/slow-queries/analyze',
     PROFILING: '/api/metrics/profiling',
+    CONVERSION_ROLLING: '/api/metrics/conversion-rolling',
+    CONVERSION_WEEKLY: '/api/metrics/conversion-weekly',
+    TIME_TO_CONVERSION: '/api/metrics/time-to-conversion',
   },
   BACKUPS: {
     LIST: '/api/backups',
@@ -41,6 +44,11 @@ export const QUERY_KEYS = {
       [...QUERY_KEYS.METRICS.ALL, 'slow-queries', { minMillis }] as const,
     ANALYSIS: () => [...QUERY_KEYS.METRICS.ALL, 'analysis'] as const,
     PROFILING: () => [...QUERY_KEYS.METRICS.ALL, 'profiling'] as const,
+    CONVERSION_ROLLING: (limit?: number) =>
+      [...QUERY_KEYS.METRICS.ALL, 'conversion-rolling', { limit }] as const,
+    CONVERSION_WEEKLY: (weeks?: number) =>
+      [...QUERY_KEYS.METRICS.ALL, 'conversion-weekly', { weeks }] as const,
+    TIME_TO_CONVERSION: () => [...QUERY_KEYS.METRICS.ALL, 'time-to-conversion'] as const,
   },
   BACKUPS: {
     ALL: ['backups'] as const,
@@ -68,6 +76,7 @@ export const ROUTES = {
   COLLECTIONS: '/collections',
   COLLECTION_DETAIL: (name: string) => `/collections/${name}`,
   SLOW_QUERIES: '/slow-queries',
+  CONVERSION: '/conversion',
   SETTINGS: '/settings',
 } as const
 

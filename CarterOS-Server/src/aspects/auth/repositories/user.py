@@ -1,5 +1,5 @@
 """
-ⒸAngelaMos | 2025
+ⒸAngelaMos | 2026
 user.py
 """
 from uuid import UUID
@@ -8,7 +8,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from aspects.auth.models.User import User
-from aspects.auth.repositories.base import BaseRepository
+from core.foundation.repositories.base import BaseRepository
 
 
 class UserRepository(BaseRepository[User]):

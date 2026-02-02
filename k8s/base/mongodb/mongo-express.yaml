@@ -15,6 +15,34 @@ spec:
       labels:
         app: mongo-express
     spec:
+      initContainers:
+        - name: wait-for-mongodb-primary
+          image: mongo:7.0
+          env:
+            - name: MONGO_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secrets
+                  key: MONGO_USER
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secrets
+                  key: MONGO_PASSWORD
+          command:
+            - /bin/bash
+            - -c
+            - |
+              echo "Waiting for MongoDB replica set to have a primary..."
+              until mongosh --host mongodb-0.mongodb-headless.mongodb.svc.cluster.local \
+                --username "$MONGO_USER" --password "$MONGO_PASSWORD" \
+                --authenticationDatabase admin \
+                --eval "rs.status().members.some(m => m.stateStr === 'PRIMARY')" \
+                --quiet 2>/dev/null | grep -q "true"; do
+                echo "No primary yet, waiting..."
+                sleep 5
+              done
+              echo "MongoDB primary is ready!"
       containers:
         - name: mongo-express
           image: mongo-express:1.0.2-20-alpine3.19

@@ -23,6 +23,8 @@ import {
   SiLinkedin,
   SiReddit,
   SiFacebook,
+  SiMongodb,
+  SiVuedotjs,
 } from 'react-icons/si'
 import { GiCardJoker, GiHeartBeats } from 'react-icons/gi'
 import styles from './DashboardPage.module.scss'
@@ -63,6 +65,13 @@ const sections: LinkSection[] = [
   {
     title: 'Database & Analytics',
     cards: [
+      {
+        title: 'MongoDB UI',
+        url: 'http://localhost:5173',
+        description: 'MongoDB database interface',
+        icon: SiMongodb,
+        iconColor: '#47A248',
+      },
       {
         title: 'Stripe Dashboard',
         url: 'https://dashboard.stripe.com/acct_1R3wAfBeeXPGfjzr/dashboard',
@@ -134,6 +143,13 @@ const sections: LinkSection[] = [
   {
     title: 'Development',
     cards: [
+      {
+        title: 'Vuemantics',
+        url: 'http://localhost:856',
+        description: 'Media storage',
+        icon: SiVuedotjs,
+        iconColor: '#4FC08D',
+      },
       {
         title: 'GitHub Projects',
         url: 'https://github.com/CarterPerez-dev/Cybersecurity-Projects',

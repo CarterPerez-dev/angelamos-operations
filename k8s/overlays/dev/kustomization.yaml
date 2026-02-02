@@ -3,8 +3,3 @@ kind: Kustomization
 
 resources:
   - ../../base
-
-patches:
-  - path: patches/dev-resources.yaml
-    target:
-      kind: Deployment

@@ -1,12 +1,12 @@
 """
-ⒸAngelaMos | 2025
+ⒸAngelaMos | 2026
 schemas.py
 """
 
 from uuid import UUID
 from datetime import datetime
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import Field
 
 from config import (
     CONTACT_EMAIL_MAX_LENGTH,
@@ -17,6 +17,7 @@ from config import (
     POSITION_TITLE_MAX_LENGTH,
     SOURCE_MAX_LENGTH,
 )
+from core.foundation.schemas.base import BaseSchema, BaseResponseSchema
 from aspects.life_manager.facets.career.job_app_tracker.enums import (
     ApplicationStatus,
     ExperienceLevel,
@@ -25,25 +26,6 @@ from aspects.life_manager.facets.career.job_app_tracker.enums import (
     Priority,
     RemoteType,
 )
-
-
-class BaseSchema(BaseModel):
-    """
-    Base schema with common configuration
-    """
-    model_config = ConfigDict(
-        from_attributes=True,
-        str_strip_whitespace=True,
-    )
-
-
-class BaseResponseSchema(BaseSchema):
-    """
-    Base schema for API responses
-    """
-    id: UUID
-    created_at: datetime
-    updated_at: datetime | None = None
 
 
 class JobApplicationCreate(BaseSchema):

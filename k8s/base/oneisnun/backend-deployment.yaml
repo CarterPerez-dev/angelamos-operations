@@ -15,6 +15,34 @@ spec:
       labels:
         app: oneisnun-backend
     spec:
+      initContainers:
+        - name: wait-for-mongodb-primary
+          image: mongo:7.0
+          env:
+            - name: MONGO_USER
+              valueFrom:
+                secretKeyRef:
+                  name: oneisnun-secrets
+                  key: MONGO_USER
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: oneisnun-secrets
+                  key: MONGO_PASSWORD
+          command:
+            - /bin/bash
+            - -c
+            - |
+              echo "Waiting for MongoDB replica set to have a primary..."
+              until mongosh --host mongodb-0.mongodb-headless.mongodb.svc.cluster.local \
+                --username "$MONGO_USER" --password "$MONGO_PASSWORD" \
+                --authenticationDatabase admin \
+                --eval "rs.status().members.some(m => m.stateStr === 'PRIMARY')" \
+                --quiet 2>/dev/null | grep -q "true"; do
+                echo "No primary yet, waiting..."
+                sleep 5
+              done
+              echo "MongoDB primary is ready!"
       containers:
         - name: go-backend
           image: oneisnun-backend:dev
@@ -55,22 +83,22 @@ spec:
               mountPath: /app
           resources:
             requests:
-              memory: "128Mi"
-              cpu: "100m"
-            limits:
               memory: "512Mi"
-              cpu: "1000m"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "2000m"
           livenessProbe:
             httpGet:
               path: /healthz
               port: 8080
-            initialDelaySeconds: 15
+            initialDelaySeconds: 60
             periodSeconds: 10
           readinessProbe:
             httpGet:
               path: /readyz
               port: 8080
-            initialDelaySeconds: 5
+            initialDelaySeconds: 30
             periodSeconds: 5
       volumes:
         - name: app-code

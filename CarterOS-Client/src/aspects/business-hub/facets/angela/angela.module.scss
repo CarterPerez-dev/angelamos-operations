@@ -1,0 +1,72 @@
+// ===================
+// © AngelaMos | 2026
+// angela.module.scss
+// ===================
+
+@use '@/styles' as *;
+
+.page {
+  @include flex-center;
+  min-height: 100%;
+  width: 100%;
+  padding: $space-2xl;
+}
+
+.content {
+  @include flex-column;
+  align-items: center;
+  gap: $space-2xl;
+}
+
+.imageContainer {
+  @include flex-center;
+  max-width: 540px;
+  max-height: 420px;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  max-width: 540px;
+  object-fit: contain;
+  border-radius: $radius-md;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-xl;
+  padding: $space-2xl $space-3xl;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: $radius-md;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(8px);
+  max-width: 600px;
+  width: 100%;
+}
+
+.textBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-xs;
+  width: 100%;
+}
+
+.line {
+  font-family: Georgia, serif;
+  font-size: $text-base;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.5;
+  color: $text-default;
+  text-align: center;
+  letter-spacing: 0.01em;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  white-space: normal;
+  word-wrap: break-word;
+}                                                                           
+               

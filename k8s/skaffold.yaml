@@ -50,7 +50,7 @@ build:
         infer:
           - "src/**/*"
 
-deploy:
+manifests:
   kustomize:
     paths:
       - ./overlays/dev
@@ -104,7 +104,7 @@ profiles:
           context: ../CarterOS-Client
           docker:
             dockerfile: ../infra/docker/frontend-builder.prod
-    deploy:
+    manifests:
       kustomize:
         paths:
           - ./overlays/prod

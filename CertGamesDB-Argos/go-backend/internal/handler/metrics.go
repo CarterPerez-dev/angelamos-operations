@@ -22,6 +22,9 @@ type metricsService interface {
 	GetProfilingStatus(ctx context.Context) (*metrics.ProfilingStatus, error)
 	SetProfilingLevel(ctx context.Context, level, slowMs int) error
 	AnalyzeSlowQueries(ctx context.Context, minMillis, limit int) (*metrics.SlowQueryAnalysis, error)
+	GetConversionTrend(ctx context.Context, limit int) (*metrics.ConversionTrend, error)
+	GetWeeklyCohorts(ctx context.Context, weeks int) (*metrics.WeeklyCohortTrend, error)
+	GetTimeToConversion(ctx context.Context) (*metrics.TimeToConversion, error)
 }
 
 type MetricsHandler struct {
@@ -39,6 +42,9 @@ func (h *MetricsHandler) RegisterRoutes(r chi.Router) {
 		r.Get("/slow-queries/analyze", h.AnalyzeSlowQueries)
 		r.Get("/profiling", h.GetProfilingStatus)
 		r.Put("/profiling", h.SetProfilingLevel)
+		r.Get("/conversion-rolling", h.GetConversionRolling)
+		r.Get("/conversion-weekly", h.GetConversionWeekly)
+		r.Get("/time-to-conversion", h.GetTimeToConversion)
 	})
 }
 
@@ -133,4 +139,48 @@ func (h *MetricsHandler) SetProfilingLevel(w http.ResponseWriter, r *http.Reques
 	}
 
 	core.OK(w, map[string]string{"status": "profiling level updated"})
+}
+
+func (h *MetricsHandler) GetConversionRolling(w http.ResponseWriter, r *http.Request) {
+	limit := 30
+	if v := r.URL.Query().Get("limit"); v != "" {
+		if parsed, err := strconv.Atoi(v); err == nil && parsed > 0 && parsed <= 100 {
+			limit = parsed
+		}
+	}
+
+	trend, err := h.service.GetConversionTrend(r.Context(), limit)
+	if err != nil {
+		core.InternalServerError(w, err)
+		return
+	}
+
+	core.OK(w, trend)
+}
+
+func (h *MetricsHandler) GetConversionWeekly(w http.ResponseWriter, r *http.Request) {
+	weeks := 12
+	if v := r.URL.Query().Get("weeks"); v != "" {
+		if parsed, err := strconv.Atoi(v); err == nil && parsed > 0 && parsed <= 52 {
+			weeks = parsed
+		}
+	}
+
+	cohorts, err := h.service.GetWeeklyCohorts(r.Context(), weeks)
+	if err != nil {
+		core.InternalServerError(w, err)
+		return
+	}
+
+	core.OK(w, cohorts)
+}
+
+func (h *MetricsHandler) GetTimeToConversion(w http.ResponseWriter, r *http.Request) {
+	timeToConv, err := h.service.GetTimeToConversion(r.Context())
+	if err != nil {
+		core.InternalServerError(w, err)
+		return
+	}
+
+	core.OK(w, timeToConv)
 }
