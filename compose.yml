@@ -77,6 +77,8 @@ services:
       - VITE_WHISPER_ENDPOINT=${VITE_WHISPER_ENDPOINT:-http://localhost:8089}
       - VITE_OLLAMA_ENDPOINT=${VITE_OLLAMA_ENDPOINT:-http://localhost:11434}
       - VITE_OLLAMA_MODEL=${VITE_OLLAMA_MODEL:-qwen2.5:7b}
+      - VITE_TTS_PROVIDER=${VITE_TTS_PROVIDER:-edgetts}
+      - VITE_TTS_ENDPOINT=${VITE_TTS_ENDPOINT:-http://localhost:5002}
     networks:
       - frontend
     restart: unless-stopped

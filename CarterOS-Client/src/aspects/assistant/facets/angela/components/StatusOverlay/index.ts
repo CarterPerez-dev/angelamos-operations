@@ -3,4 +3,4 @@
 // index.ts
 // ===================
 
-export * from './angela.types'
+export { StatusOverlay } from './StatusOverlay'

@@ -1,0 +1,28 @@
+name: angela-wake
+
+services:
+  wake:
+    build: .
+    container_name: angela-wake
+    ports:
+      - "5003:5003"
+    volumes:
+      - ./models:/app/models:ro
+    environment:
+      - HOST=0.0.0.0
+      - PORT=5003
+      - WAKE_THRESHOLD=0.5
+      - WAKE_ENABLE_VAD=true
+      - WAKE_VAD_THRESHOLD=0.5
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
