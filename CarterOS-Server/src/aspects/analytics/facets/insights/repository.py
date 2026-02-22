@@ -4,7 +4,7 @@ repository.py
 """
 
 from collections import defaultdict
-from datetime import datetime, date
+from datetime import date
 from collections.abc import Sequence
 
 from sqlalchemy import select, func
@@ -17,9 +17,10 @@ class InsightsRepository:
     """
     Repository for analytics insights calculations
     """
-
     @staticmethod
-    async def get_all_videos(session: AsyncSession) -> Sequence[TikTokVideo]:
+    async def get_all_videos(
+        session: AsyncSession
+    ) -> Sequence[TikTokVideo]:
         """Get all videos for analysis"""
         result = await session.execute(
             select(TikTokVideo).order_by(TikTokVideo.date_posted.desc())
@@ -52,12 +53,18 @@ class InsightsRepository:
     def get_length_range_label(seconds: int) -> str:
         """Get human-readable length range label"""
         ranges = [
-            (30, "0:00-0:30"),
-            (60, "0:30-1:00"),
-            (90, "1:00-1:30"),
-            (120, "1:30-2:00"),
-            (150, "2:00-2:30"),
-            (180, "2:30-3:00"),
+            (30,
+             "0:00-0:30"),
+            (60,
+             "0:30-1:00"),
+            (90,
+             "1:00-1:30"),
+            (120,
+             "1:30-2:00"),
+            (150,
+             "2:00-2:30"),
+            (180,
+             "2:30-3:00"),
         ]
         for max_sec, label in ranges:
             if seconds <= max_sec:
@@ -80,9 +87,12 @@ class InsightsRepository:
                 func.sum(TikTokVideo.comments).label("total_comments"),
                 func.sum(TikTokVideo.shares).label("total_shares"),
                 func.sum(TikTokVideo.bookmarks).label("total_bookmarks"),
-                func.sum(TikTokVideo.new_followers).label("total_new_followers"),
-                func.avg(TikTokVideo.avg_watch_time).label("avg_watch_time"),
-                func.avg(TikTokVideo.watched_full_video_percentage).label("avg_watch_percentage"),
+                func.sum(TikTokVideo.new_followers
+                         ).label("total_new_followers"),
+                func.avg(TikTokVideo.avg_watch_time
+                         ).label("avg_watch_time"),
+                func.avg(TikTokVideo.watched_full_video_percentage
+                         ).label("avg_watch_percentage"),
                 func.min(TikTokVideo.date_posted).label("min_date"),
                 func.max(TikTokVideo.date_posted).label("max_date"),
             )
@@ -103,18 +113,20 @@ class InsightsRepository:
         }
 
     @classmethod
-    async def aggregate_hook_performance(
-        cls, session: AsyncSession
-    ) -> dict[str, dict]:
+    async def aggregate_hook_performance(cls,
+                                         session: AsyncSession
+                                         ) -> dict[str,
+                                                   dict]:
         """Aggregate performance metrics by hook"""
         videos = await cls.get_all_videos(session)
 
-        hook_stats = defaultdict(lambda: {
-            "videos": [],
-            "total_views": 0,
-            "total_watch_time": 0,
-            "total_engagement": 0,
-        })
+        hook_stats = defaultdict(
+            lambda: {
+                "videos": [],
+                "total_views": 0,
+                "total_watch_time": 0,
+                "total_engagement": 0,}
+        )
 
         for video in videos:
             hook = video.hook
@@ -140,18 +152,20 @@ class InsightsRepository:
         return result
 
     @classmethod
-    async def aggregate_cta_performance(
-        cls, session: AsyncSession
-    ) -> dict[str, dict]:
+    async def aggregate_cta_performance(cls,
+                                        session: AsyncSession
+                                        ) -> dict[str,
+                                                  dict]:
         """Aggregate performance metrics by CTA"""
         videos = await cls.get_all_videos(session)
 
-        cta_stats = defaultdict(lambda: {
-            "videos": [],
-            "total_shares": 0,
-            "total_followers": 0,
-            "total_engagement": 0,
-        })
+        cta_stats = defaultdict(
+            lambda: {
+                "videos": [],
+                "total_shares": 0,
+                "total_followers": 0,
+                "total_engagement": 0,}
+        )
 
         for video in videos:
             if not video.cta:
@@ -181,17 +195,19 @@ class InsightsRepository:
         return result
 
     @classmethod
-    async def aggregate_hashtag_performance(
-        cls, session: AsyncSession
-    ) -> dict[str, dict]:
+    async def aggregate_hashtag_performance(cls,
+                                            session: AsyncSession
+                                            ) -> dict[str,
+                                                      dict]:
         """Aggregate performance metrics by hashtag"""
         videos = await cls.get_all_videos(session)
 
-        hashtag_stats = defaultdict(lambda: {
-            "videos": [],
-            "total_views": 0,
-            "total_engagement": 0,
-        })
+        hashtag_stats = defaultdict(
+            lambda: {
+                "videos": [],
+                "total_views": 0,
+                "total_engagement": 0,}
+        )
 
         for video in videos:
             if not video.hashtags:
@@ -202,7 +218,8 @@ class InsightsRepository:
 
                 hashtag_stats[hashtag]["videos"].append(video)
                 hashtag_stats[hashtag]["total_views"] += video.views
-                hashtag_stats[hashtag]["total_engagement"] += engagement_rate
+                hashtag_stats[hashtag]["total_engagement"
+                                       ] += engagement_rate
 
         # Calculate averages
         result = {}
@@ -218,13 +235,18 @@ class InsightsRepository:
         return result
 
     @classmethod
-    async def aggregate_traffic_sources(
-        cls, session: AsyncSession
-    ) -> dict[str, dict]:
+    async def aggregate_traffic_sources(cls,
+                                        session: AsyncSession
+                                        ) -> dict[str,
+                                                  dict]:
         """Aggregate traffic source data"""
         videos = await cls.get_all_videos(session)
 
-        source_stats = defaultdict(lambda: {"total_percentage": 0.0, "video_count": 0})
+        source_stats = defaultdict(
+            lambda: {
+                "total_percentage": 0.0, "video_count": 0
+            }
+        )
 
         for video in videos:
             if not video.traffic_sources:
@@ -246,13 +268,18 @@ class InsightsRepository:
         return result
 
     @classmethod
-    async def aggregate_search_queries(
-        cls, session: AsyncSession
-    ) -> dict[str, dict]:
+    async def aggregate_search_queries(cls,
+                                       session: AsyncSession
+                                       ) -> dict[str,
+                                                 dict]:
         """Aggregate search query data"""
         videos = await cls.get_all_videos(session)
 
-        query_stats = defaultdict(lambda: {"total_percentage": 0.0, "video_count": 0})
+        query_stats = defaultdict(
+            lambda: {
+                "total_percentage": 0.0, "video_count": 0
+            }
+        )
 
         for video in videos:
             if not video.search_queries:
@@ -274,13 +301,17 @@ class InsightsRepository:
         return result
 
     @classmethod
-    async def aggregate_comment_words(
-        cls, session: AsyncSession
-    ) -> dict[str, dict]:
+    async def aggregate_comment_words(cls,
+                                      session: AsyncSession) -> dict[str,
+                                                                     dict]:
         """Aggregate comment word frequency"""
         videos = await cls.get_all_videos(session)
 
-        word_stats = defaultdict(lambda: {"total_count": 0, "video_count": 0})
+        word_stats = defaultdict(
+            lambda: {
+                "total_count": 0, "video_count": 0
+            }
+        )
 
         for video in videos:
             if not video.top_comment_words:
@@ -300,18 +331,20 @@ class InsightsRepository:
         }
 
     @classmethod
-    async def aggregate_by_length_range(
-        cls, session: AsyncSession
-    ) -> dict[str, dict]:
+    async def aggregate_by_length_range(cls,
+                                        session: AsyncSession
+                                        ) -> dict[str,
+                                                  dict]:
         """Aggregate performance by video length ranges"""
         videos = await cls.get_all_videos(session)
 
-        range_stats = defaultdict(lambda: {
-            "videos": [],
-            "total_views": 0,
-            "total_engagement": 0,
-            "total_watch_percentage": 0,
-        })
+        range_stats = defaultdict(
+            lambda: {
+                "videos": [],
+                "total_views": 0,
+                "total_engagement": 0,
+                "total_watch_percentage": 0,}
+        )
 
         for video in videos:
             seconds = cls.convert_length_to_seconds(video.length)
@@ -321,7 +354,9 @@ class InsightsRepository:
             range_stats[range_label]["videos"].append(video)
             range_stats[range_label]["total_views"] += video.views
             range_stats[range_label]["total_engagement"] += engagement_rate
-            range_stats[range_label]["total_watch_percentage"] += video.watched_full_video_percentage
+            range_stats[range_label
+                        ]["total_watch_percentage"
+                          ] += video.watched_full_video_percentage
 
         # Calculate averages and add min/max seconds
         result = {}
@@ -332,32 +367,46 @@ class InsightsRepository:
                 min_sec, max_sec = 180, 999
             else:
                 parts = range_label.split("-")
-                min_sec = sum(int(x) * 60 ** i for i, x in enumerate(reversed(parts[0].split(":"))))
-                max_sec = sum(int(x) * 60 ** i for i, x in enumerate(reversed(parts[1].split(":"))))
+                min_sec = sum(
+                    int(x) * 60**i
+                    for i, x in enumerate(reversed(parts[0].split(":")))
+                )
+                max_sec = sum(
+                    int(x) * 60**i
+                    for i, x in enumerate(reversed(parts[1].split(":")))
+                )
 
             result[range_label] = {
-                "min_seconds": min_sec,
-                "max_seconds": max_sec,
-                "video_count": count,
-                "avg_views": stats["total_views"] / count,
-                "avg_engagement_rate": stats["total_engagement"] / count,
-                "avg_watch_percentage": stats["total_watch_percentage"] / count,
+                "min_seconds":
+                min_sec,
+                "max_seconds":
+                max_sec,
+                "video_count":
+                count,
+                "avg_views":
+                stats["total_views"] / count,
+                "avg_engagement_rate":
+                stats["total_engagement"] / count,
+                "avg_watch_percentage":
+                stats["total_watch_percentage"] / count,
             }
 
         return result
 
     @classmethod
     async def aggregate_by_posting_time(
-        cls, session: AsyncSession
+        cls,
+        session: AsyncSession
     ) -> dict:
         """Aggregate performance by posting day of week"""
         videos = await cls.get_all_videos(session)
 
-        day_stats = defaultdict(lambda: {
-            "videos": [],
-            "total_views": 0,
-            "total_engagement": 0,
-        })
+        day_stats = defaultdict(
+            lambda: {
+                "videos": [],
+                "total_views": 0,
+                "total_engagement": 0,}
+        )
 
         for video in videos:
             day = cls.get_day_of_week(video.date_posted)
@@ -380,19 +429,19 @@ class InsightsRepository:
         return result
 
     @classmethod
-    async def get_time_series_data(
-        cls, session: AsyncSession
-    ) -> list[dict]:
+    async def get_time_series_data(cls,
+                                   session: AsyncSession) -> list[dict]:
         """Get performance metrics over time"""
         videos = await cls.get_all_videos(session)
 
         # Group by date
-        date_stats = defaultdict(lambda: {
-            "views": 0,
-            "engagement": 0,
-            "new_followers": 0,
-            "count": 0,
-        })
+        date_stats = defaultdict(
+            lambda: {
+                "views": 0,
+                "engagement": 0,
+                "new_followers": 0,
+                "count": 0,}
+        )
 
         for video in videos:
             date_str = video.date_posted.isoformat()
@@ -407,12 +456,14 @@ class InsightsRepository:
         result = []
         for date_str, stats in sorted(date_stats.items()):
             count = stats["count"]
-            result.append({
-                "date": date_str,
-                "views": stats["views"],
-                "engagement_rate": stats["engagement"] / count,
-                "new_followers": stats["new_followers"],
-                "video_count": count,
-            })
+            result.append(
+                {
+                    "date": date_str,
+                    "views": stats["views"],
+                    "engagement_rate": stats["engagement"] / count,
+                    "new_followers": stats["new_followers"],
+                    "video_count": count,
+                }
+            )
 
         return result

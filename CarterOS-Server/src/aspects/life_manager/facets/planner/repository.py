@@ -5,7 +5,6 @@ repository.py
 
 from collections.abc import Sequence
 from datetime import date
-from uuid import UUID
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -30,8 +29,9 @@ class TimeBlockRepository(BaseRepository[TimeBlock]):
         Get all time blocks for a date
         """
         result = await session.execute(
-            select(TimeBlock)
-            .where(TimeBlock.block_date == block_date)
-            .order_by(TimeBlock.start_time, TimeBlock.sort_order)
+            select(TimeBlock).where(
+                TimeBlock.block_date == block_date
+            ).order_by(TimeBlock.start_time,
+                       TimeBlock.sort_order)
         )
         return result.scalars().all()

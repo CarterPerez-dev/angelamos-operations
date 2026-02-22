@@ -4,7 +4,7 @@
 // ===================
 
 import { useEffect, useRef, useCallback } from 'react'
-import { createWakeWordEngine } from '../lib/porcupine'
+import { createWakeWordEngine } from '../lib/wakeword'
 import { AudioRecorder } from '../lib/audio'
 import { logger } from '../lib/debug'
 

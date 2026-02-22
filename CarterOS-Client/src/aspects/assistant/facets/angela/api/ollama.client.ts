@@ -55,7 +55,6 @@ export async function* streamChat(
         const data: OllamaStreamChunk = JSON.parse(line)
         if (data.message?.content) {
           fullResponse += data.message.content
-          onChunk?.(data.message.content)
           yield data.message.content
         }
       } catch {

@@ -36,47 +36,48 @@ class Challenge(Base, UUIDMixin, TimestampMixin):
     """
     __tablename__ = "challenges"
     __table_args__ = (
-        sa.Index("idx_challenge_active", "is_active"),
+        sa.Index("idx_challenge_active",
+                 "is_active"),
         sa.Index(
             "idx_challenge_start",
             "start_date",
-            postgresql_ops={"start_date": "DESC"},
+            postgresql_ops = {"start_date": "DESC"},
         ),
     )
 
     name: Mapped[str] = mapped_column(
         String(CHALLENGE_NAME_MAX_LENGTH),
-        default="30 Day Focus Challenge",
-        nullable=False,
+        default = "30 Day Focus Challenge",
+        nullable = False,
     )
     start_date: Mapped[date] = mapped_column(
         Date,
-        nullable=False,
+        nullable = False,
     )
     end_date: Mapped[date] = mapped_column(
         Date,
-        nullable=False,
+        nullable = False,
     )
     is_active: Mapped[bool] = mapped_column(
         Boolean,
-        default=True,
-        nullable=False,
+        default = True,
+        nullable = False,
     )
     content_goal: Mapped[int] = mapped_column(
         Integer,
-        default=450,
-        nullable=False,
+        default = 450,
+        nullable = False,
     )
     jobs_goal: Mapped[int] = mapped_column(
         Integer,
-        default=150,
-        nullable=False,
+        default = 150,
+        nullable = False,
     )
 
     logs: Mapped[list[ChallengeLog]] = relationship(
-        back_populates="challenge",
-        cascade="all, delete-orphan",
-        lazy="raise",
+        back_populates = "challenge",
+        cascade = "all, delete-orphan",
+        lazy = "raise",
     )
 
 
@@ -86,38 +87,81 @@ class ChallengeLog(Base, UUIDMixin, TimestampMixin):
     """
     __tablename__ = "challenge_logs"
     __table_args__ = (
-        sa.Index("idx_log_challenge", "challenge_id"),
-        sa.Index("idx_log_date", "log_date"),
+        sa.Index("idx_log_challenge",
+                 "challenge_id"),
+        sa.Index("idx_log_date",
+                 "log_date"),
         sa.UniqueConstraint(
             "challenge_id",
             "log_date",
-            name="uq_challenge_log_date",
+            name = "uq_challenge_log_date",
         ),
     )
 
     challenge_id: Mapped[UUID] = mapped_column(
-        sa.ForeignKey("challenges.id", ondelete="CASCADE"),
-        nullable=False,
+        sa.ForeignKey("challenges.id",
+                      ondelete = "CASCADE"),
+        nullable = False,
     )
     log_date: Mapped[date] = mapped_column(
         Date,
-        nullable=False,
+        nullable = False,
     )
 
-    tiktok: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
-    instagram_reels: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
-    youtube_shorts: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
-    twitter: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
-    reddit: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
-    linkedin_personal: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
-    linkedin_company: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
-    youtube_full: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
-    medium: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    tiktok: Mapped[int] = mapped_column(
+        Integer,
+        default = 0,
+        nullable = False
+    )
+    instagram_reels: Mapped[int] = mapped_column(
+        Integer,
+        default = 0,
+        nullable = False
+    )
+    youtube_shorts: Mapped[int] = mapped_column(
+        Integer,
+        default = 0,
+        nullable = False
+    )
+    twitter: Mapped[int] = mapped_column(
+        Integer,
+        default = 0,
+        nullable = False
+    )
+    reddit: Mapped[int] = mapped_column(
+        Integer,
+        default = 0,
+        nullable = False
+    )
+    linkedin_personal: Mapped[int] = mapped_column(
+        Integer,
+        default = 0,
+        nullable = False
+    )
+    linkedin_company: Mapped[int] = mapped_column(
+        Integer,
+        default = 0,
+        nullable = False
+    )
+    youtube_full: Mapped[int] = mapped_column(
+        Integer,
+        default = 0,
+        nullable = False
+    )
+    medium: Mapped[int] = mapped_column(
+        Integer,
+        default = 0,
+        nullable = False
+    )
 
-    jobs_applied: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    jobs_applied: Mapped[int] = mapped_column(
+        Integer,
+        default = 0,
+        nullable = False
+    )
 
     challenge: Mapped[Challenge] = relationship(
-        back_populates="logs",
+        back_populates = "logs",
     )
 
     @property
@@ -126,13 +170,7 @@ class ChallengeLog(Base, UUIDMixin, TimestampMixin):
         Calculate total content pieces for this day
         """
         return (
-            self.tiktok +
-            self.instagram_reels +
-            self.youtube_shorts +
-            self.twitter +
-            self.reddit +
-            self.linkedin_personal +
-            self.linkedin_company +
-            self.youtube_full +
-            self.medium
+            self.tiktok + self.instagram_reels + self.youtube_shorts +
+            self.twitter + self.reddit + self.linkedin_personal +
+            self.linkedin_company + self.youtube_full + self.medium
         )

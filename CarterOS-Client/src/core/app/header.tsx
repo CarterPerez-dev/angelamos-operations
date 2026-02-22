@@ -5,17 +5,14 @@
 
 import { Link, useLocation } from 'react-router-dom'
 import {
-  GiBrain,
-  GiCalendar,
-  GiChart,
   GiHouse,
+  GiCalendar,
   GiMagnifyingGlass,
   GiRingingBell,
   GiSpeedometer,
   GiBookshelf,
+  GiChecklist,
   GiShare,
-  GiGlassHeart,
-  GiSparkles,
   GiFox,
 } from 'react-icons/gi'
 import { GrDocker } from 'react-icons/gr'
@@ -63,10 +60,6 @@ export function Header() {
             <GiHouse />
             <span>Challenge</span>
           </Link>
-          <Link to="/life" className={styles.navLink}>
-            <GiGlassHeart />
-            <span>Life</span>
-          </Link>
           <Link to="/life/planner" className={styles.navLink}>
             <GiCalendar />
             <span>Planner</span>
@@ -74,6 +67,10 @@ export function Header() {
           <Link to="/life/notes" className={styles.navLink}>
             <GiBookshelf />
             <span>Notes</span>
+          </Link>
+          <Link to="/life/checklist" className={styles.navLink}>
+            <GiChecklist />
+            <span>Checklist</span>
           </Link>
           <Link to="/dev-workspace/docker-manager" className={styles.navLink}>
             <GrDocker />
@@ -86,14 +83,6 @@ export function Header() {
           <Link to="/moss" className={styles.navLink}>
             <GiFox />
             <span>Moss</span>
-          </Link>
-          <Link to="/analytics/data-input" className={styles.navLink}>
-            <GiChart />
-            <span>Analytics</span>
-          </Link>
-          <Link to="/analytics/insights" className={styles.navLink}>
-            <GiSparkles />
-            <span>Insights</span>
           </Link>
         </nav>
 

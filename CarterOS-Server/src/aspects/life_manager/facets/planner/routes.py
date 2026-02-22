@@ -19,16 +19,16 @@ from aspects.life_manager.facets.planner.schemas import (
 from aspects.life_manager.facets.planner.service import PlannerService
 
 
-router = APIRouter(prefix="/planner", tags=["Life Planner"])
+router = APIRouter(prefix = "/planner", tags = ["Life Planner"])
 
 
 @router.get(
     "/blocks",
-    response_model=TimeBlockListResponse,
+    response_model = TimeBlockListResponse,
 )
 async def get_time_blocks(
     db: DBSession,
-    block_date: date = Query(default_factory=date.today),
+    block_date: date = Query(default_factory = date.today),
 ) -> TimeBlockListResponse:
     """
     Get all time blocks for a date
@@ -38,8 +38,8 @@ async def get_time_blocks(
 
 @router.post(
     "/blocks",
-    response_model=TimeBlockResponse,
-    status_code=status.HTTP_201_CREATED,
+    response_model = TimeBlockResponse,
+    status_code = status.HTTP_201_CREATED,
 )
 async def create_time_block(
     db: DBSession,
@@ -53,8 +53,8 @@ async def create_time_block(
 
 @router.put(
     "/blocks/{block_id}",
-    response_model=TimeBlockResponse,
-    responses={**NOT_FOUND_404},
+    response_model = TimeBlockResponse,
+    responses = {**NOT_FOUND_404},
 )
 async def update_time_block(
     db: DBSession,
@@ -69,8 +69,8 @@ async def update_time_block(
 
 @router.delete(
     "/blocks/{block_id}",
-    status_code=status.HTTP_204_NO_CONTENT,
-    responses={**NOT_FOUND_404},
+    status_code = status.HTTP_204_NO_CONTENT,
+    responses = {**NOT_FOUND_404},
 )
 async def delete_time_block(
     db: DBSession,

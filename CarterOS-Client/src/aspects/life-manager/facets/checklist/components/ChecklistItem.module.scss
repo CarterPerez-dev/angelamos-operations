@@ -1,0 +1,116 @@
+// ===================
+// © AngelaMos | 2026
+// ChecklistItem.module.scss
+// ===================
+
+@use '@/styles' as *;
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  padding: $space-sm $space-md;
+  border-bottom: 1px solid $border-muted;
+  flex-wrap: wrap;
+  transition: background-color $transition-fast $ease-out;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: $bg-selection;
+  }
+}
+
+.completed {
+  .title {
+    color: $text-muted;
+    text-decoration: line-through;
+  }
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  border: 1px solid $border-strong;
+  border-radius: $radius-xs;
+  background: $bg-control;
+  cursor: pointer;
+  flex-shrink: 0;
+  accent-color: $accent-purple;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px $accent-purple-30;
+  }
+}
+
+.title {
+  flex: 1;
+  font-size: $text-sm;
+  color: $text-default;
+}
+
+.titleInput {
+  flex: 1;
+  background: $bg-control;
+  border: 1px solid $border-control;
+  border-radius: $radius-sm;
+  padding: $space-xs $space-sm;
+  font-size: $text-sm;
+  color: $text-default;
+
+  &:focus {
+    outline: none;
+    border-color: $accent-purple;
+    box-shadow: 0 0 0 2px $accent-purple-10;
+  }
+}
+
+.noteToggle {
+  font-size: $text-xs;
+  color: $text-lighter;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color $transition-fast $ease-out;
+
+  &:hover {
+    color: $text-light;
+  }
+}
+
+.deleteBtn {
+  font-size: $text-xs;
+  color: $text-lighter;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color $transition-fast $ease-out;
+
+  &:hover {
+    color: $text-default;
+  }
+}
+
+.noteInput {
+  width: 100%;
+  background: $bg-control;
+  border: 1px solid $border-control;
+  border-radius: $radius-sm;
+  padding: $space-xs $space-sm;
+  font-size: $text-xs;
+  color: $text-light;
+  margin-top: $space-xs;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $accent-purple;
+    box-shadow: 0 0 0 2px $accent-purple-10;
+  }
+}

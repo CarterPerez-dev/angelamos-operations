@@ -24,28 +24,39 @@ from aspects.life_manager.facets.career.job_app_tracker.service import (
 )
 
 
-router = APIRouter(prefix="/career/jobs", tags=["Job Application Tracker"])
+router = APIRouter(
+    prefix = "/career/jobs",
+    tags = ["Job Application Tracker"]
+)
 
 
 @router.get(
     "",
-    response_model=JobApplicationListResponse,
+    response_model = JobApplicationListResponse,
 )
 async def list_applications(
     db: DBSession,
     user: CurrentUser,
-    skip: int = Query(default=0, ge=0),
-    limit: int = Query(default=50, ge=1, le=100),
+    skip: int = Query(default = 0,
+                      ge = 0),
+    limit: int = Query(default = 50,
+                       ge = 1,
+                       le = 100),
 ) -> JobApplicationListResponse:
     """
     Get all job applications for the current user
     """
-    return await JobApplicationService.get_applications(db, user.id, skip, limit)
+    return await JobApplicationService.get_applications(
+        db,
+        user.id,
+        skip,
+        limit
+    )
 
 
 @router.get(
     "/stats",
-    response_model=dict,
+    response_model = dict,
 )
 async def get_stats(
     db: DBSession,
@@ -59,7 +70,7 @@ async def get_stats(
 
 @router.get(
     "/followups",
-    response_model=JobApplicationListResponse,
+    response_model = JobApplicationListResponse,
 )
 async def get_pending_followups(
     db: DBSession,
@@ -73,7 +84,7 @@ async def get_pending_followups(
 
 @router.get(
     "/by-status/{status}",
-    response_model=JobApplicationListResponse,
+    response_model = JobApplicationListResponse,
 )
 async def get_by_status(
     db: DBSession,
@@ -88,7 +99,7 @@ async def get_by_status(
 
 @router.get(
     "/by-outcome/{outcome}",
-    response_model=JobApplicationListResponse,
+    response_model = JobApplicationListResponse,
 )
 async def get_by_outcome(
     db: DBSession,
@@ -103,8 +114,11 @@ async def get_by_outcome(
 
 @router.get(
     "/{application_id}",
-    response_model=JobApplicationResponse,
-    responses={**NOT_FOUND_404, **FORBIDDEN_403},
+    response_model = JobApplicationResponse,
+    responses = {
+        **NOT_FOUND_404,
+        **FORBIDDEN_403
+    },
 )
 async def get_application(
     db: DBSession,
@@ -114,13 +128,17 @@ async def get_application(
     """
     Get a single job application by ID
     """
-    return await JobApplicationService.get_application(db, user.id, application_id)
+    return await JobApplicationService.get_application(
+        db,
+        user.id,
+        application_id
+    )
 
 
 @router.post(
     "",
-    response_model=JobApplicationResponse,
-    status_code=status.HTTP_201_CREATED,
+    response_model = JobApplicationResponse,
+    status_code = status.HTTP_201_CREATED,
 )
 async def create_application(
     db: DBSession,
@@ -130,13 +148,20 @@ async def create_application(
     """
     Create a new job application
     """
-    return await JobApplicationService.create_application(db, user.id, data)
+    return await JobApplicationService.create_application(
+        db,
+        user.id,
+        data
+    )
 
 
 @router.patch(
     "/{application_id}",
-    response_model=JobApplicationResponse,
-    responses={**NOT_FOUND_404, **FORBIDDEN_403},
+    response_model = JobApplicationResponse,
+    responses = {
+        **NOT_FOUND_404,
+        **FORBIDDEN_403
+    },
 )
 async def update_application(
     db: DBSession,
@@ -148,14 +173,20 @@ async def update_application(
     Update a job application
     """
     return await JobApplicationService.update_application(
-        db, user.id, application_id, data
+        db,
+        user.id,
+        application_id,
+        data
     )
 
 
 @router.delete(
     "/{application_id}",
-    status_code=status.HTTP_204_NO_CONTENT,
-    responses={**NOT_FOUND_404, **FORBIDDEN_403},
+    status_code = status.HTTP_204_NO_CONTENT,
+    responses = {
+        **NOT_FOUND_404,
+        **FORBIDDEN_403
+    },
 )
 async def delete_application(
     db: DBSession,
@@ -165,4 +196,8 @@ async def delete_application(
     """
     Delete a job application
     """
-    await JobApplicationService.delete_application(db, user.id, application_id)
+    await JobApplicationService.delete_application(
+        db,
+        user.id,
+        application_id
+    )

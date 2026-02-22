@@ -35,11 +35,10 @@ class JobApplicationRepository(BaseRepository[JobApplication]):
         Get all job applications for a user with pagination
         """
         result = await session.execute(
-            select(JobApplication)
-            .where(JobApplication.user_id == user_id)
-            .order_by(JobApplication.created_at.desc())
-            .offset(skip)
-            .limit(limit)
+            select(JobApplication).where(
+                JobApplication.user_id == user_id
+            ).order_by(JobApplication.created_at.desc()
+                       ).offset(skip).limit(limit)
         )
         return result.scalars().all()
 
@@ -53,9 +52,9 @@ class JobApplicationRepository(BaseRepository[JobApplication]):
         Count total job applications for a user
         """
         result = await session.execute(
-            select(func.count())
-            .select_from(JobApplication)
-            .where(JobApplication.user_id == user_id)
+            select(func.count()).select_from(JobApplication).where(
+                JobApplication.user_id == user_id
+            )
         )
         return result.scalar_one()
 
@@ -70,12 +69,10 @@ class JobApplicationRepository(BaseRepository[JobApplication]):
         Get job applications by status
         """
         result = await session.execute(
-            select(JobApplication)
-            .where(
+            select(JobApplication).where(
                 JobApplication.user_id == user_id,
                 JobApplication.application_status == status,
-            )
-            .order_by(JobApplication.created_at.desc())
+            ).order_by(JobApplication.created_at.desc())
         )
         return result.scalars().all()
 
@@ -90,12 +87,10 @@ class JobApplicationRepository(BaseRepository[JobApplication]):
         Get job applications by outcome
         """
         result = await session.execute(
-            select(JobApplication)
-            .where(
+            select(JobApplication).where(
                 JobApplication.user_id == user_id,
                 JobApplication.outcome == outcome,
-            )
-            .order_by(JobApplication.created_at.desc())
+            ).order_by(JobApplication.created_at.desc())
         )
         return result.scalars().all()
 
@@ -109,16 +104,13 @@ class JobApplicationRepository(BaseRepository[JobApplication]):
         Get applications with followup dates that need attention
         """
         result = await session.execute(
-            select(JobApplication)
-            .where(
+            select(JobApplication).where(
                 JobApplication.user_id == user_id,
                 JobApplication.followup_date.isnot(None),
                 JobApplication.outcome == Outcome.PENDING,
-            )
-            .order_by(JobApplication.followup_date.asc())
+            ).order_by(JobApplication.followup_date.asc())
         )
         return result.scalars().all()
-
 
     @classmethod
     async def get_stats(
@@ -130,51 +122,46 @@ class JobApplicationRepository(BaseRepository[JobApplication]):
         Get aggregated stats for a user's job applications
         """
         total = await session.execute(
-            select(func.count())
-            .select_from(JobApplication)
-            .where(JobApplication.user_id == user_id)
+            select(func.count()).select_from(JobApplication).where(
+                JobApplication.user_id == user_id
+            )
         )
 
         applied = await session.execute(
-            select(func.count())
-            .select_from(JobApplication)
-            .where(
+            select(func.count()).select_from(JobApplication).where(
                 JobApplication.user_id == user_id,
-                JobApplication.application_status == ApplicationStatus.APPLIED,
+                JobApplication.application_status ==
+                ApplicationStatus.APPLIED,
             )
         )
 
         interviews = await session.execute(
-            select(func.count())
-            .select_from(JobApplication)
-            .where(
+            select(func.count()).select_from(JobApplication).where(
                 JobApplication.user_id == user_id,
                 JobApplication.interview_rounds > 0,
             )
         )
 
         offers = await session.execute(
-            select(func.count())
-            .select_from(JobApplication)
-            .where(
+            select(func.count()).select_from(JobApplication).where(
                 JobApplication.user_id == user_id,
-                JobApplication.outcome.in_([Outcome.OFFER, Outcome.ACCEPTED, Outcome.DECLINED]),
+                JobApplication.outcome.in_(
+                    [Outcome.OFFER,
+                     Outcome.ACCEPTED,
+                     Outcome.DECLINED]
+                ),
             )
         )
 
         rejected = await session.execute(
-            select(func.count())
-            .select_from(JobApplication)
-            .where(
+            select(func.count()).select_from(JobApplication).where(
                 JobApplication.user_id == user_id,
                 JobApplication.outcome == Outcome.REJECTED,
             )
         )
 
         ghosted = await session.execute(
-            select(func.count())
-            .select_from(JobApplication)
-            .where(
+            select(func.count()).select_from(JobApplication).where(
                 JobApplication.user_id == user_id,
                 JobApplication.outcome == Outcome.GHOSTED,
             )

@@ -62,8 +62,11 @@ async def start_challenge(
 )
 async def get_challenge_history(
     db: DBSession,
-    page: int = Query(default = 1, ge = 1),
-    size: int = Query(default = 10, ge = 1, le = 50),
+    page: int = Query(default = 1,
+                      ge = 1),
+    size: int = Query(default = 10,
+                      ge = 1,
+                      le = 50),
 ) -> ChallengeHistoryResponse:
     """
     Get past (inactive) challenges

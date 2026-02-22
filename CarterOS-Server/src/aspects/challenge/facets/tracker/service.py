@@ -50,7 +50,6 @@ class ChallengeService:
     """
     Business logic for challenge operations
     """
-
     @staticmethod
     def _calculate_day_number(challenge: Challenge, log_date: date) -> int:
         """
@@ -93,7 +92,10 @@ class ChallengeService:
                 id = log.id,
                 challenge_id = log.challenge_id,
                 log_date = log.log_date,
-                day_number = ChallengeService._calculate_day_number(challenge, log.log_date),
+                day_number = ChallengeService._calculate_day_number(
+                    challenge,
+                    log.log_date
+                ),
                 tiktok = log.tiktok,
                 instagram_reels = log.instagram_reels,
                 youtube_shorts = log.youtube_shorts,
@@ -106,8 +108,7 @@ class ChallengeService:
                 jobs_applied = log.jobs_applied,
                 created_at = log.created_at,
                 updated_at = log.updated_at,
-            )
-            for log in challenge.logs
+            ) for log in challenge.logs
         ]
 
         return ChallengeWithStats(
@@ -120,7 +121,8 @@ class ChallengeService:
             jobs_goal = challenge.jobs_goal,
             total_content = total_content,
             total_jobs = total_jobs,
-            current_day = ChallengeService._calculate_current_day(challenge),
+            current_day = ChallengeService.
+            _calculate_current_day(challenge),
             logs = logs_response,
             created_at = challenge.created_at,
             updated_at = challenge.updated_at,
@@ -136,7 +138,7 @@ class ChallengeService:
         """
         await ChallengeRepository.deactivate_all(session)
 
-        challenge = await ChallengeRepository.create(
+        challenge = await ChallengeRepository.create_challenge(
             session,
             start_date = data.start_date,
             content_goal = data.content_goal,
@@ -153,7 +155,8 @@ class ChallengeService:
             jobs_goal = challenge.jobs_goal,
             total_content = 0,
             total_jobs = 0,
-            current_day = ChallengeService._calculate_current_day(challenge),
+            current_day = ChallengeService.
+            _calculate_current_day(challenge),
             logs = [],
             created_at = challenge.created_at,
             updated_at = challenge.updated_at,
@@ -169,11 +172,17 @@ class ChallengeService:
         Get past challenges
         """
         skip = (page - 1) * size
-        challenges = await ChallengeRepository.get_history(session, skip, size)
+        challenges = await ChallengeRepository.get_history(
+            session,
+            skip,
+            size
+        )
         total = await ChallengeRepository.count_history(session)
 
         return ChallengeHistoryResponse(
-            items = [ChallengeResponse.model_validate(c) for c in challenges],
+            items = [
+                ChallengeResponse.model_validate(c) for c in challenges
+            ],
             total = total,
         )
 
@@ -191,7 +200,8 @@ class ChallengeService:
 
         if data.log_date < challenge.start_date or data.log_date > challenge.end_date:
             raise ValidationError(
-                message = f"Log date must be between {challenge.start_date} and {challenge.end_date}",
+                message =
+                f"Log date must be between {challenge.start_date} and {challenge.end_date}",
                 field = "log_date",
             )
 
@@ -237,7 +247,10 @@ class ChallengeService:
             id = log.id,
             challenge_id = log.challenge_id,
             log_date = log.log_date,
-            day_number = ChallengeService._calculate_day_number(challenge, log.log_date),
+            day_number = ChallengeService._calculate_day_number(
+                challenge,
+                log.log_date
+            ),
             tiktok = log.tiktok,
             instagram_reels = log.instagram_reels,
             youtube_shorts = log.youtube_shorts,
@@ -276,7 +289,10 @@ class ChallengeService:
             id = log.id,
             challenge_id = log.challenge_id,
             log_date = log.log_date,
-            day_number = ChallengeService._calculate_day_number(challenge, log.log_date),
+            day_number = ChallengeService._calculate_day_number(
+                challenge,
+                log.log_date
+            ),
             tiktok = log.tiktok,
             instagram_reels = log.instagram_reels,
             youtube_shorts = log.youtube_shorts,
@@ -313,13 +329,20 @@ class ChallengeService:
             raise LogNotFound(log_date)
 
         update_dict = data.model_dump(exclude_unset = True)
-        log = await ChallengeLogRepository.update(session, log, **update_dict)
+        log = await ChallengeLogRepository.update(
+            session,
+            log,
+            **update_dict
+        )
 
         return LogResponse(
             id = log.id,
             challenge_id = log.challenge_id,
             log_date = log.log_date,
-            day_number = ChallengeService._calculate_day_number(challenge, log.log_date),
+            day_number = ChallengeService._calculate_day_number(
+                challenge,
+                log.log_date
+            ),
             tiktok = log.tiktok,
             instagram_reels = log.instagram_reels,
             youtube_shorts = log.youtube_shorts,

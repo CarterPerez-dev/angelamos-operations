@@ -11,6 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.foundation.repositories.base import BaseRepository
 from aspects.life_manager.facets.notes.models import Note, NoteFolder
+from datetime import UTC
 
 
 class NoteFolderRepository(BaseRepository[NoteFolder]):
@@ -28,9 +29,10 @@ class NoteFolderRepository(BaseRepository[NoteFolder]):
         Get all non-deleted folders ordered by sort_order and name
         """
         result = await session.execute(
-            select(NoteFolder)
-            .where(NoteFolder.deleted_at.is_(None))
-            .order_by(NoteFolder.sort_order, NoteFolder.name)
+            select(NoteFolder).where(
+                NoteFolder.deleted_at.is_(None)
+            ).order_by(NoteFolder.sort_order,
+                       NoteFolder.name)
         )
         return result.scalars().all()
 
@@ -43,9 +45,9 @@ class NoteFolderRepository(BaseRepository[NoteFolder]):
         Get all soft-deleted folders
         """
         result = await session.execute(
-            select(NoteFolder)
-            .where(NoteFolder.deleted_at.is_not(None))
-            .order_by(NoteFolder.deleted_at.desc())
+            select(NoteFolder).where(
+                NoteFolder.deleted_at.is_not(None)
+            ).order_by(NoteFolder.deleted_at.desc())
         )
         return result.scalars().all()
 
@@ -58,8 +60,8 @@ class NoteFolderRepository(BaseRepository[NoteFolder]):
         """
         Soft delete a folder
         """
-        from datetime import datetime, timezone
-        folder.deleted_at = datetime.now(timezone.utc)
+        from datetime import datetime
+        folder.deleted_at = datetime.now(UTC)
         await session.flush()
         await session.refresh(folder)
         return folder
@@ -87,14 +89,13 @@ class NoteFolderRepository(BaseRepository[NoteFolder]):
         """
         Bulk soft delete multiple folders by their IDs
         """
-        from datetime import datetime, timezone
+        from datetime import datetime
         from sqlalchemy import update
 
         result = await session.execute(
-            update(NoteFolder)
-            .where(NoteFolder.id.in_(folder_ids))
-            .where(NoteFolder.deleted_at.is_(None))
-            .values(deleted_at=datetime.now(timezone.utc))
+            update(NoteFolder).where(NoteFolder.id.in_(folder_ids)).where(
+                NoteFolder.deleted_at.is_(None)
+            ).values(deleted_at = datetime.now(UTC))
         )
         await session.flush()
         return result.rowcount
@@ -115,7 +116,9 @@ class NoteRepository(BaseRepository[Note]):
         """
         Get all non-deleted notes, optionally filtered by folder
         """
-        query = select(Note).where(Note.deleted_at.is_(None)).order_by(Note.sort_order, Note.title)
+        query = select(Note).where(Note.deleted_at.is_(None)
+                                   ).order_by(Note.sort_order,
+                                              Note.title)
         if folder_id is not None:
             query = query.where(Note.folder_id == folder_id)
         result = await session.execute(query)
@@ -130,10 +133,10 @@ class NoteRepository(BaseRepository[Note]):
         Get non-deleted notes without a folder
         """
         result = await session.execute(
-            select(Note)
-            .where(Note.folder_id.is_(None))
-            .where(Note.deleted_at.is_(None))
-            .order_by(Note.sort_order, Note.title)
+            select(Note).where(Note.folder_id.is_(None)).where(
+                Note.deleted_at.is_(None)
+            ).order_by(Note.sort_order,
+                       Note.title)
         )
         return result.scalars().all()
 
@@ -146,9 +149,9 @@ class NoteRepository(BaseRepository[Note]):
         Get all soft-deleted notes
         """
         result = await session.execute(
-            select(Note)
-            .where(Note.deleted_at.is_not(None))
-            .order_by(Note.deleted_at.desc())
+            select(Note).where(Note.deleted_at.is_not(None)).order_by(
+                Note.deleted_at.desc()
+            )
         )
         return result.scalars().all()
 
@@ -161,8 +164,8 @@ class NoteRepository(BaseRepository[Note]):
         """
         Soft delete a note
         """
-        from datetime import datetime, timezone
-        note.deleted_at = datetime.now(timezone.utc)
+        from datetime import datetime
+        note.deleted_at = datetime.now(UTC)
         await session.flush()
         await session.refresh(note)
         return note
@@ -190,14 +193,13 @@ class NoteRepository(BaseRepository[Note]):
         """
         Bulk soft delete multiple notes by their IDs
         """
-        from datetime import datetime, timezone
+        from datetime import datetime
         from sqlalchemy import update
 
         result = await session.execute(
-            update(Note)
-            .where(Note.id.in_(note_ids))
-            .where(Note.deleted_at.is_(None))
-            .values(deleted_at=datetime.now(timezone.utc))
+            update(Note).where(Note.id.in_(note_ids)).where(
+                Note.deleted_at.is_(None)
+            ).values(deleted_at = datetime.now(UTC))
         )
         await session.flush()
         return result.rowcount

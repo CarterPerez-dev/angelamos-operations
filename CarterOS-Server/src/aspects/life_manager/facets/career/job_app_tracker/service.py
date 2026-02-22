@@ -28,14 +28,16 @@ class JobApplicationNotFound(ResourceNotFound):
     Raised when job application not found
     """
     def __init__(self, application_id: UUID) -> None:
-        super().__init__(resource="JobApplication", identifier=str(application_id))
+        super().__init__(
+            resource = "JobApplication",
+            identifier = str(application_id)
+        )
 
 
 class JobApplicationService:
     """
     Service for job application operations
     """
-
     @staticmethod
     async def get_application(
         session: AsyncSession,
@@ -45,7 +47,10 @@ class JobApplicationService:
         """
         Get a single job application by ID
         """
-        application = await JobApplicationRepository.get_by_id(session, application_id)
+        application = await JobApplicationRepository.get_by_id(
+            session,
+            application_id
+        )
         if not application:
             raise JobApplicationNotFound(application_id)
         if application.user_id != user_id:
@@ -63,12 +68,21 @@ class JobApplicationService:
         Get all job applications for a user
         """
         applications = await JobApplicationRepository.get_by_user(
-            session, user_id, skip, limit
+            session,
+            user_id,
+            skip,
+            limit
         )
-        total = await JobApplicationRepository.count_by_user(session, user_id)
+        total = await JobApplicationRepository.count_by_user(
+            session,
+            user_id
+        )
         return JobApplicationListResponse(
-            items=[JobApplicationResponse.model_validate(a) for a in applications],
-            total=total,
+            items = [
+                JobApplicationResponse.model_validate(a)
+                for a in applications
+            ],
+            total = total,
         )
 
     @staticmethod
@@ -81,11 +95,16 @@ class JobApplicationService:
         Get job applications filtered by status
         """
         applications = await JobApplicationRepository.get_by_status(
-            session, user_id, status
+            session,
+            user_id,
+            status
         )
         return JobApplicationListResponse(
-            items=[JobApplicationResponse.model_validate(a) for a in applications],
-            total=len(applications),
+            items = [
+                JobApplicationResponse.model_validate(a)
+                for a in applications
+            ],
+            total = len(applications),
         )
 
     @staticmethod
@@ -98,11 +117,16 @@ class JobApplicationService:
         Get job applications filtered by outcome
         """
         applications = await JobApplicationRepository.get_by_outcome(
-            session, user_id, outcome
+            session,
+            user_id,
+            outcome
         )
         return JobApplicationListResponse(
-            items=[JobApplicationResponse.model_validate(a) for a in applications],
-            total=len(applications),
+            items = [
+                JobApplicationResponse.model_validate(a)
+                for a in applications
+            ],
+            total = len(applications),
         )
 
     @staticmethod
@@ -114,11 +138,15 @@ class JobApplicationService:
         Get applications needing follow-up
         """
         applications = await JobApplicationRepository.get_pending_followups(
-            session, user_id
+            session,
+            user_id
         )
         return JobApplicationListResponse(
-            items=[JobApplicationResponse.model_validate(a) for a in applications],
-            total=len(applications),
+            items = [
+                JobApplicationResponse.model_validate(a)
+                for a in applications
+            ],
+            total = len(applications),
         )
 
     @staticmethod
@@ -132,7 +160,7 @@ class JobApplicationService:
         """
         application = await JobApplicationRepository.create(
             session,
-            user_id=user_id,
+            user_id = user_id,
             **data.model_dump(),
         )
         return JobApplicationResponse.model_validate(application)
@@ -147,15 +175,20 @@ class JobApplicationService:
         """
         Update a job application
         """
-        application = await JobApplicationRepository.get_by_id(session, application_id)
+        application = await JobApplicationRepository.get_by_id(
+            session,
+            application_id
+        )
         if not application:
             raise JobApplicationNotFound(application_id)
         if application.user_id != user_id:
             raise PermissionDenied()
 
-        update_dict = data.model_dump(exclude_unset=True)
+        update_dict = data.model_dump(exclude_unset = True)
         application = await JobApplicationRepository.update(
-            session, application, **update_dict
+            session,
+            application,
+            **update_dict
         )
         return JobApplicationResponse.model_validate(application)
 
@@ -168,7 +201,10 @@ class JobApplicationService:
         """
         Delete a job application
         """
-        application = await JobApplicationRepository.get_by_id(session, application_id)
+        application = await JobApplicationRepository.get_by_id(
+            session,
+            application_id
+        )
         if not application:
             raise JobApplicationNotFound(application_id)
         if application.user_id != user_id:

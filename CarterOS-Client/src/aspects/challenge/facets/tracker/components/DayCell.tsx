@@ -37,7 +37,7 @@ export function DayCell({
       type="button"
       className={cellClasses}
       onClick={onClick}
-      disabled={isFuture}
+      disabled={false}
     >
       <span className={styles.number}>{dayNumber}</span>
       {hasLog && <span className={styles.indicator} />}

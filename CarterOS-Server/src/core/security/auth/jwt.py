@@ -187,7 +187,4 @@ def clear_refresh_cookie(response: Response) -> None:
     """
     Clear refresh token cookie
     """
-    response.delete_cookie(
-        key = "refresh_token",
-        path = "/"
-    )
+    response.delete_cookie(key = "refresh_token", path = "/")

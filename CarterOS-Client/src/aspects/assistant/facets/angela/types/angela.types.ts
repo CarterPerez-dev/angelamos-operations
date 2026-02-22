@@ -63,11 +63,9 @@ export interface AngelaConfig {
     stability: number
     similarityBoost: number
   }
-  porcupine: {
-    accessKey: string
-    keywordPath: string
-    modelPath: string
-    sensitivity: number
+  wakeWord: {
+    endpoint: string
+    threshold: number
   }
   whisper: {
     endpoint: string

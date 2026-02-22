@@ -5,6 +5,7 @@ Angela Wake Word Server - Routes
 import numpy as np
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from openwakeword.model import Model
+from scipy import signal
 
 from .config import (
     DETECTION_THRESHOLD,
@@ -13,6 +14,8 @@ from .config import (
     MODELS_DIR,
     VAD_THRESHOLD,
 )
+
+TARGET_SAMPLES = 1280
 
 
 router = APIRouter()
@@ -63,19 +66,54 @@ async def list_models():
 async def websocket_detect(websocket: WebSocket):
     await websocket.accept()
 
-    m = get_model()
+    model_paths = list(MODELS_DIR.glob("*.tflite")) + list(MODELS_DIR.glob("*.onnx"))
+    if model_paths:
+        m = Model(
+            wakeword_models=[str(p) for p in model_paths],
+            vad_threshold=VAD_THRESHOLD if ENABLE_VAD else None,
+        )
+    else:
+        m = Model(vad_threshold=VAD_THRESHOLD if ENABLE_VAD else None)
+
     model_names = list(m.models.keys())
+    frame_count = 0
 
     try:
         while True:
-            data = await websocket.receive_bytes()
+            msg = await websocket.receive()
 
-            audio = np.frombuffer(data, dtype = np.int16)
+            if msg.get('type') == 'websocket.disconnect':
+                break
+
+            if 'text' in msg:
+                if msg['text'] == 'reset':
+                    m.reset()
+                    print("[DEBUG] Model reset")
+                continue
+
+            if 'bytes' not in msg:
+                continue
+
+            data = msg['bytes']
+            audio = np.frombuffer(data, dtype=np.int16)
+            frame_count += 1
+
+            orig_len = len(audio)
+            orig_amp = np.max(np.abs(audio))
+
+            if len(audio) != TARGET_SAMPLES:
+                ratio = len(audio) // TARGET_SAMPLES
+                if ratio > 1:
+                    audio = audio[::ratio][:TARGET_SAMPLES]
+                else:
+                    audio = signal.resample_poly(audio, TARGET_SAMPLES, len(audio)).astype(np.int16)
 
             predictions = m.predict(audio)
 
             for name in model_names:
                 score = predictions.get(name, 0.0)
+                if frame_count % 50 == 0:
+                    print(f"[DEBUG] Frame {frame_count}: orig_len={orig_len}, orig_amp={orig_amp}, {name}={score:.4f}")
                 if score >= DETECTION_THRESHOLD:
                     await websocket.send_json(
                         {

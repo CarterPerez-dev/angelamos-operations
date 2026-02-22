@@ -56,12 +56,18 @@ class IdentityMutations:
 
         if not identity:
             identity = CoreIdentity(
-                name=data.get("name", ""),
-                age=data.get("age", 0),
-                background=data.get("background", ""),
-                current_role=data.get("current_role", ""),
-                primary_goal=data.get("primary_goal", ""),
-                target_audience=data.get("target_audience", ""),
+                name = data.get("name",
+                                ""),
+                age = data.get("age",
+                               0),
+                background = data.get("background",
+                                      ""),
+                current_role = data.get("current_role",
+                                        ""),
+                primary_goal = data.get("primary_goal",
+                                        ""),
+                target_audience = data.get("target_audience",
+                                           ""),
             )
             session.add(identity)
             await session.flush()
@@ -244,10 +250,10 @@ class IdentityMutations:
             date_earned = date_str
 
         cert = IdentityCertification(
-            identity_id=identity.id,
-            name=data["name"],
-            date_earned=date_earned,
-            time_to_complete=data.get("time_to_complete"),
+            identity_id = identity.id,
+            name = data["name"],
+            date_earned = date_earned,
+            time_to_complete = data.get("time_to_complete"),
         )
 
         session.add(cert)

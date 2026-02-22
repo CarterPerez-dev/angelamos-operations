@@ -4,7 +4,7 @@ schemas.py
 """
 
 from uuid import UUID
-from datetime import date, datetime
+from datetime import date
 
 from pydantic import (
     Field,
@@ -95,15 +95,9 @@ class LogResponse(BaseResponseSchema):
         Calculate total content for this day
         """
         return (
-            self.tiktok +
-            self.instagram_reels +
-            self.youtube_shorts +
-            self.twitter +
-            self.reddit +
-            self.linkedin_personal +
-            self.linkedin_company +
-            self.youtube_full +
-            self.medium
+            self.tiktok + self.instagram_reels + self.youtube_shorts +
+            self.twitter + self.reddit + self.linkedin_personal +
+            self.linkedin_company + self.youtube_full + self.medium
         )
 
 
@@ -126,7 +120,7 @@ class ChallengeWithStats(ChallengeResponse):
     total_content: int = 0
     total_jobs: int = 0
     current_day: int = 1
-    logs: list[LogResponse] = []
+    logs: list[LogResponse] = Field(default_factory = list)
 
     @computed_field
     @property

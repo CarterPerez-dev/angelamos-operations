@@ -30,9 +30,9 @@ class ChallengeRepository(BaseRepository[Challenge]):
         Get the currently active challenge
         """
         result = await session.execute(
-            select(Challenge)
-            .where(Challenge.is_active == True)
-            .options(selectinload(Challenge.logs))
+            select(Challenge).where(Challenge.is_active == True).options(
+                selectinload(Challenge.logs)
+            )
         )
         return result.scalar_one_or_none()
 
@@ -47,11 +47,9 @@ class ChallengeRepository(BaseRepository[Challenge]):
         Get past challenges (inactive)
         """
         result = await session.execute(
-            select(Challenge)
-            .where(Challenge.is_active == False)
-            .order_by(Challenge.start_date.desc())
-            .offset(skip)
-            .limit(limit)
+            select(Challenge).where(Challenge.is_active == False).order_by(
+                Challenge.start_date.desc()
+            ).offset(skip).limit(limit)
         )
         return result.scalars().all()
 
@@ -64,9 +62,9 @@ class ChallengeRepository(BaseRepository[Challenge]):
         Count past challenges
         """
         result = await session.execute(
-            select(func.count())
-            .select_from(Challenge)
-            .where(Challenge.is_active == False)
+            select(func.count()).select_from(Challenge).where(
+                Challenge.is_active == False
+            )
         )
         return result.scalar_one()
 
@@ -79,9 +77,8 @@ class ChallengeRepository(BaseRepository[Challenge]):
         Deactivate all active challenges
         """
         await session.execute(
-            update(Challenge)
-            .where(Challenge.is_active == True)
-            .values(is_active = False)
+            update(Challenge).where(Challenge.is_active == True
+                                    ).values(is_active = False)
         )
         await session.flush()
 
@@ -123,9 +120,9 @@ class ChallengeLogRepository(BaseRepository[ChallengeLog]):
         Get all logs for a challenge
         """
         result = await session.execute(
-            select(ChallengeLog)
-            .where(ChallengeLog.challenge_id == challenge_id)
-            .order_by(ChallengeLog.log_date.asc())
+            select(ChallengeLog).where(
+                ChallengeLog.challenge_id == challenge_id
+            ).order_by(ChallengeLog.log_date.asc())
         )
         return result.scalars().all()
 
@@ -140,8 +137,7 @@ class ChallengeLogRepository(BaseRepository[ChallengeLog]):
         Get log for a specific date
         """
         result = await session.execute(
-            select(ChallengeLog)
-            .where(
+            select(ChallengeLog).where(
                 ChallengeLog.challenge_id == challenge_id,
                 ChallengeLog.log_date == log_date,
             )
@@ -153,26 +149,28 @@ class ChallengeLogRepository(BaseRepository[ChallengeLog]):
         cls,
         session: AsyncSession,
         challenge_id: UUID,
-    ) -> tuple[int, int]:
+    ) -> tuple[int,
+               int]:
         """
         Get total content and jobs for a challenge
         """
         result = await session.execute(
             select(
-                func.coalesce(func.sum(
-                    ChallengeLog.tiktok +
-                    ChallengeLog.instagram_reels +
-                    ChallengeLog.youtube_shorts +
-                    ChallengeLog.twitter +
-                    ChallengeLog.reddit +
-                    ChallengeLog.linkedin_personal +
-                    ChallengeLog.linkedin_company +
-                    ChallengeLog.youtube_full +
-                    ChallengeLog.medium
-                ), 0).label('total_content'),
-                func.coalesce(func.sum(ChallengeLog.jobs_applied), 0).label('total_jobs'),
-            )
-            .where(ChallengeLog.challenge_id == challenge_id)
+                func.coalesce(
+                    func.sum(
+                        ChallengeLog.tiktok +
+                        ChallengeLog.instagram_reels +
+                        ChallengeLog.youtube_shorts +
+                        ChallengeLog.twitter + ChallengeLog.reddit +
+                        ChallengeLog.linkedin_personal +
+                        ChallengeLog.linkedin_company +
+                        ChallengeLog.youtube_full + ChallengeLog.medium
+                    ),
+                    0
+                ).label('total_content'),
+                func.coalesce(func.sum(ChallengeLog.jobs_applied),
+                              0).label('total_jobs'),
+            ).where(ChallengeLog.challenge_id == challenge_id)
         )
         row = result.one()
         return int(row.total_content), int(row.total_jobs)

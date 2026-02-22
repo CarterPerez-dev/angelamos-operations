@@ -30,7 +30,10 @@ class NoteFolderNotFound(ResourceNotFound):
     Raised when folder not found
     """
     def __init__(self, folder_id: UUID) -> None:
-        super().__init__(resource="NoteFolder", identifier=str(folder_id))
+        super().__init__(
+            resource = "NoteFolder",
+            identifier = str(folder_id)
+        )
 
 
 class NoteNotFound(ResourceNotFound):
@@ -38,14 +41,13 @@ class NoteNotFound(ResourceNotFound):
     Raised when note not found
     """
     def __init__(self, note_id: UUID) -> None:
-        super().__init__(resource="Note", identifier=str(note_id))
+        super().__init__(resource = "Note", identifier = str(note_id))
 
 
 class NotesService:
     """
     Service for notes operations
     """
-
     @staticmethod
     async def get_all_notes(
         session: AsyncSession,
@@ -56,8 +58,10 @@ class NotesService:
         folders = await NoteFolderRepository.get_all(session)
         notes = await NoteRepository.get_all(session)
         return NotesListResponse(
-            folders=[NoteFolderResponse.model_validate(f) for f in folders],
-            notes=[NoteResponse.model_validate(n) for n in notes],
+            folders = [
+                NoteFolderResponse.model_validate(f) for f in folders
+            ],
+            notes = [NoteResponse.model_validate(n) for n in notes],
         )
 
     @staticmethod
@@ -70,9 +74,9 @@ class NotesService:
         """
         folder = await NoteFolderRepository.create(
             session,
-            name=data.name,
-            parent_id=data.parent_id,
-            sort_order=data.sort_order,
+            name = data.name,
+            parent_id = data.parent_id,
+            sort_order = data.sort_order,
         )
         return NoteFolderResponse.model_validate(folder)
 
@@ -89,8 +93,12 @@ class NotesService:
         if not folder:
             raise NoteFolderNotFound(folder_id)
 
-        update_dict = data.model_dump(exclude_unset=True)
-        folder = await NoteFolderRepository.update(session, folder, **update_dict)
+        update_dict = data.model_dump(exclude_unset = True)
+        folder = await NoteFolderRepository.update(
+            session,
+            folder,
+            **update_dict
+        )
         return NoteFolderResponse.model_validate(folder)
 
     @staticmethod
@@ -105,7 +113,10 @@ class NotesService:
         if not folder:
             raise NoteFolderNotFound(folder_id)
 
-        notes_in_folder = await NoteRepository.get_all(session, folder_id=folder_id)
+        notes_in_folder = await NoteRepository.get_all(
+            session,
+            folder_id = folder_id
+        )
         for note in notes_in_folder:
             await NoteRepository.soft_delete(session, note)
 
@@ -120,16 +131,19 @@ class NotesService:
         Create a note
         """
         if data.folder_id:
-            folder = await NoteFolderRepository.get_by_id(session, data.folder_id)
+            folder = await NoteFolderRepository.get_by_id(
+                session,
+                data.folder_id
+            )
             if not folder:
                 raise NoteFolderNotFound(data.folder_id)
 
         note = await NoteRepository.create(
             session,
-            title=data.title,
-            content=data.content,
-            folder_id=data.folder_id,
-            sort_order=data.sort_order,
+            title = data.title,
+            content = data.content,
+            folder_id = data.folder_id,
+            sort_order = data.sort_order,
         )
         return NoteResponse.model_validate(note)
 
@@ -160,11 +174,14 @@ class NotesService:
             raise NoteNotFound(note_id)
 
         if data.folder_id is not None:
-            folder = await NoteFolderRepository.get_by_id(session, data.folder_id)
+            folder = await NoteFolderRepository.get_by_id(
+                session,
+                data.folder_id
+            )
             if not folder:
                 raise NoteFolderNotFound(data.folder_id)
 
-        update_dict = data.model_dump(exclude_unset=True)
+        update_dict = data.model_dump(exclude_unset = True)
         note = await NoteRepository.update(session, note, **update_dict)
         return NoteResponse.model_validate(note)
 
@@ -191,8 +208,10 @@ class NotesService:
         notes = await NoteRepository.get_deleted(session)
         folders = await NoteFolderRepository.get_deleted(session)
         return DeletedNotesListResponse(
-            notes=[NoteResponse.model_validate(n) for n in notes],
-            folders=[NoteFolderResponse.model_validate(f) for f in folders],
+            notes = [NoteResponse.model_validate(n) for n in notes],
+            folders = [
+                NoteFolderResponse.model_validate(f) for f in folders
+            ],
         )
 
     @staticmethod
@@ -232,7 +251,10 @@ class NotesService:
         """
         Bulk soft delete multiple notes
         """
-        deleted_count = await NoteRepository.bulk_soft_delete(session, note_ids)
+        deleted_count = await NoteRepository.bulk_soft_delete(
+            session,
+            note_ids
+        )
         return deleted_count
 
     @staticmethod
@@ -251,7 +273,9 @@ class NotesService:
 
         from sqlalchemy import select
         deleted_notes_in_folder = await session.execute(
-            select(Note).where(Note.folder_id == folder_id).where(Note.deleted_at.is_not(None))
+            select(Note).where(Note.folder_id == folder_id).where(
+                Note.deleted_at.is_not(None)
+            )
         )
         notes_to_restore = deleted_notes_in_folder.scalars().all()
 
@@ -292,5 +316,8 @@ class NotesService:
         """
         Bulk soft delete multiple folders
         """
-        deleted_count = await NoteFolderRepository.bulk_soft_delete(session, folder_ids)
+        deleted_count = await NoteFolderRepository.bulk_soft_delete(
+            session,
+            folder_ids
+        )
         return deleted_count

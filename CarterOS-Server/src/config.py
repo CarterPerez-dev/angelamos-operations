@@ -136,7 +136,7 @@ class Settings(BaseSettings):
     LATER_DEV_API_KEY: SecretStr | None = None
 
     UPLOAD_DIR: Path = Path("/app/uploads")
-    UPLOAD_MAX_SIZE_MB: int = Field(default=50, ge=1, le=500)
+    UPLOAD_MAX_SIZE_MB: int = Field(default = 50, ge = 1, le = 500)
 
     @model_validator(mode = "after")
     def validate_production_settings(self) -> "Settings":

@@ -5,7 +5,6 @@ repository.py
 
 from collections.abc import Sequence
 from datetime import date
-from uuid import UUID
 
 from sqlalchemy import select, or_
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -31,9 +30,10 @@ class TikTokVideoRepository(BaseRepository[TikTokVideo]):
         Get videos within a rank range
         """
         result = await session.execute(
-            select(TikTokVideo)
-            .where(TikTokVideo.rank >= min_rank, TikTokVideo.rank <= max_rank)
-            .order_by(TikTokVideo.rank)
+            select(TikTokVideo).where(
+                TikTokVideo.rank >= min_rank,
+                TikTokVideo.rank <= max_rank
+            ).order_by(TikTokVideo.rank)
         )
         return result.scalars().all()
 
@@ -48,12 +48,10 @@ class TikTokVideoRepository(BaseRepository[TikTokVideo]):
         Get videos posted within a date range
         """
         result = await session.execute(
-            select(TikTokVideo)
-            .where(
+            select(TikTokVideo).where(
                 TikTokVideo.date_posted >= start_date,
                 TikTokVideo.date_posted <= end_date
-            )
-            .order_by(TikTokVideo.date_posted.desc())
+            ).order_by(TikTokVideo.date_posted.desc())
         )
         return result.scalars().all()
 
@@ -67,9 +65,8 @@ class TikTokVideoRepository(BaseRepository[TikTokVideo]):
         Get videos with minimum view count
         """
         result = await session.execute(
-            select(TikTokVideo)
-            .where(TikTokVideo.views >= min_views)
-            .order_by(TikTokVideo.views.desc())
+            select(TikTokVideo).where(TikTokVideo.views >= min_views
+                                      ).order_by(TikTokVideo.views.desc())
         )
         return result.scalars().all()
 
@@ -84,16 +81,14 @@ class TikTokVideoRepository(BaseRepository[TikTokVideo]):
         """
         search_term = f"%{query}%"
         result = await session.execute(
-            select(TikTokVideo)
-            .where(
+            select(TikTokVideo).where(
                 or_(
                     TikTokVideo.hook.ilike(search_term),
                     TikTokVideo.description.ilike(search_term),
                     TikTokVideo.cta.ilike(search_term),
                     TikTokVideo.full_transcription.ilike(search_term),
                 )
-            )
-            .order_by(TikTokVideo.rank)
+            ).order_by(TikTokVideo.rank)
         )
         return result.scalars().all()
 

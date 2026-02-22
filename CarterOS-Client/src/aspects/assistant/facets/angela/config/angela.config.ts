@@ -39,11 +39,9 @@ export const getAngelaConfig = (): AngelaConfig => ({
     similarityBoost: 0.75,
   },
 
-  porcupine: {
-    accessKey: import.meta.env.VITE_PICOVOICE_ACCESS_KEY || '',
-    keywordPath: '/porcupine/angela_en_wasm_v4_0_0.ppn',
-    modelPath: '/porcupine/porcupine_params.pv',
-    sensitivity: 0.5,
+  wakeWord: {
+    endpoint: import.meta.env.VITE_WAKEWORD_ENDPOINT || 'ws://localhost:5003/ws',
+    threshold: 0.5,
   },
 
   whisper: {
@@ -77,7 +75,7 @@ export const getAngelaConfig = (): AngelaConfig => ({
   },
 })
 
-export const saveApiKey = (key: 'elevenlabs' | 'picovoice', value: string): void => {
+export const saveApiKey = (key: 'elevenlabs', value: string): void => {
   localStorage.setItem(`angela_${key}_key`, value)
 }
 
