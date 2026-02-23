@@ -24,12 +24,12 @@ from aspects.life_manager.facets.notes.schemas import (
 from aspects.life_manager.facets.notes.service import NotesService
 
 
-router = APIRouter(prefix="/notes", tags=["Notes"])
+router = APIRouter(prefix = "/notes", tags = ["Notes"])
 
 
 @router.get(
     "",
-    response_model=NotesListResponse,
+    response_model = NotesListResponse,
 )
 async def get_all_notes(
     db: DBSession,
@@ -42,8 +42,8 @@ async def get_all_notes(
 
 @router.post(
     "/folders",
-    response_model=NoteFolderResponse,
-    status_code=status.HTTP_201_CREATED,
+    response_model = NoteFolderResponse,
+    status_code = status.HTTP_201_CREATED,
 )
 async def create_folder(
     db: DBSession,
@@ -57,8 +57,8 @@ async def create_folder(
 
 @router.patch(
     "/folders/{folder_id}/restore",
-    response_model=NoteFolderResponse,
-    responses={**NOT_FOUND_404},
+    response_model = NoteFolderResponse,
+    responses = {**NOT_FOUND_404},
 )
 async def restore_folder(
     db: DBSession,
@@ -72,8 +72,8 @@ async def restore_folder(
 
 @router.put(
     "/folders/{folder_id}",
-    response_model=NoteFolderResponse,
-    responses={**NOT_FOUND_404},
+    response_model = NoteFolderResponse,
+    responses = {**NOT_FOUND_404},
 )
 async def update_folder(
     db: DBSession,
@@ -88,8 +88,8 @@ async def update_folder(
 
 @router.delete(
     "/folders/{folder_id}/permanent",
-    status_code=status.HTTP_204_NO_CONTENT,
-    responses={**NOT_FOUND_404},
+    status_code = status.HTTP_204_NO_CONTENT,
+    responses = {**NOT_FOUND_404},
 )
 async def permanently_delete_folder(
     db: DBSession,
@@ -103,8 +103,8 @@ async def permanently_delete_folder(
 
 @router.delete(
     "/folders/{folder_id}",
-    status_code=status.HTTP_204_NO_CONTENT,
-    responses={**NOT_FOUND_404},
+    status_code = status.HTTP_204_NO_CONTENT,
+    responses = {**NOT_FOUND_404},
 )
 async def delete_folder(
     db: DBSession,
@@ -118,23 +118,27 @@ async def delete_folder(
 
 @router.post(
     "/folders/bulk-delete",
-    status_code=status.HTTP_200_OK,
+    status_code = status.HTTP_200_OK,
 )
 async def bulk_delete_folders(
     db: DBSession,
     data: BulkDeleteFolderRequest,
-) -> dict[str, int]:
+) -> dict[str,
+          int]:
     """
     Bulk soft delete multiple folders
     """
-    deleted_count = await NotesService.bulk_delete_folders(db, data.folder_ids)
+    deleted_count = await NotesService.bulk_delete_folders(
+        db,
+        data.folder_ids
+    )
     return {"deleted_count": deleted_count}
 
 
 @router.post(
     "",
-    response_model=NoteResponse,
-    status_code=status.HTTP_201_CREATED,
+    response_model = NoteResponse,
+    status_code = status.HTTP_201_CREATED,
 )
 async def create_note(
     db: DBSession,
@@ -148,7 +152,7 @@ async def create_note(
 
 @router.get(
     "/deleted",
-    response_model=DeletedNotesListResponse,
+    response_model = DeletedNotesListResponse,
 )
 async def get_deleted_notes(
     db: DBSession,
@@ -161,12 +165,13 @@ async def get_deleted_notes(
 
 @router.post(
     "/bulk-delete",
-    status_code=status.HTTP_200_OK,
+    status_code = status.HTTP_200_OK,
 )
 async def bulk_delete_notes(
     db: DBSession,
     data: BulkDeleteRequest,
-) -> dict[str, int]:
+) -> dict[str,
+          int]:
     """
     Bulk soft delete multiple notes
     """
@@ -176,8 +181,8 @@ async def bulk_delete_notes(
 
 @router.get(
     "/{note_id}",
-    response_model=NoteResponse,
-    responses={**NOT_FOUND_404},
+    response_model = NoteResponse,
+    responses = {**NOT_FOUND_404},
 )
 async def get_note(
     db: DBSession,
@@ -191,8 +196,8 @@ async def get_note(
 
 @router.patch(
     "/{note_id}/restore",
-    response_model=NoteResponse,
-    responses={**NOT_FOUND_404},
+    response_model = NoteResponse,
+    responses = {**NOT_FOUND_404},
 )
 async def restore_note(
     db: DBSession,
@@ -206,8 +211,8 @@ async def restore_note(
 
 @router.put(
     "/{note_id}",
-    response_model=NoteResponse,
-    responses={**NOT_FOUND_404},
+    response_model = NoteResponse,
+    responses = {**NOT_FOUND_404},
 )
 async def update_note(
     db: DBSession,
@@ -222,8 +227,8 @@ async def update_note(
 
 @router.delete(
     "/{note_id}/permanent",
-    status_code=status.HTTP_204_NO_CONTENT,
-    responses={**NOT_FOUND_404},
+    status_code = status.HTTP_204_NO_CONTENT,
+    responses = {**NOT_FOUND_404},
 )
 async def permanently_delete_note(
     db: DBSession,
@@ -237,8 +242,8 @@ async def permanently_delete_note(
 
 @router.delete(
     "/{note_id}",
-    status_code=status.HTTP_204_NO_CONTENT,
-    responses={**NOT_FOUND_404},
+    status_code = status.HTTP_204_NO_CONTENT,
+    responses = {**NOT_FOUND_404},
 )
 async def delete_note(
     db: DBSession,

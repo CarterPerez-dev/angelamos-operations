@@ -1,5 +1,6 @@
-/**
- * Angela AI Assistant - Config Barrel Export
- */
+// ===================
+// © AngelaMos | 2026
+// index.ts
+// ===================
 
 export * from './angela.config'

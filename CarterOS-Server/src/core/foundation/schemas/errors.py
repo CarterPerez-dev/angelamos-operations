@@ -3,6 +3,8 @@
 errors.py
 """
 
+from typing import ClassVar
+
 from pydantic import Field
 from core.foundation.schemas.base import BaseSchema
 
@@ -14,7 +16,7 @@ class ErrorDetail(BaseSchema):
     detail: str = Field(..., description = "Human readable error message")
     type: str = Field(..., description = "Exception class name")
 
-    model_config = {
+    model_config: ClassVar[dict] = {
         "json_schema_extra": {
             "examples": [
                 {

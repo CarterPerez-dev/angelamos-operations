@@ -36,6 +36,7 @@ from aspects.life_manager.facets.notes.models import NoteFolder, Note  # noqa: F
 from aspects.life_manager.facets.career.job_app_tracker.models import (  # noqa: F401
     JobApplication,
 )
+from aspects.life_manager.facets.checklist.models import ChecklistItem, ChecklistLog  # noqa: F401
 from aspects.analytics.facets.data_input.models import TikTokVideo  # noqa: F401
 
 

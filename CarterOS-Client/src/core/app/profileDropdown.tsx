@@ -1,18 +1,25 @@
 // ===========================
-// ©AngelaMos | 2025
+// ©AngelaMos | 2026
 // profileDropdown.tsx
 // ===========================
 
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import {
-  GiAbstract010,
+  GiChart,
+  GiSparkles,
+  GiTrophy,
+  GiCalendar,
+  GiBookshelf,
+  GiChecklist,
+  GiBriefcase,
+  GiShare,
+  GiFox,
   GiBrain,
   GiFactory,
-  GiHeartBeats,
   GiExitDoor,
-  GiTrophy,
 } from 'react-icons/gi'
+import { GrDocker } from 'react-icons/gr'
 import { USER } from '@/config'
 import { useLogout } from '@/core/sys/auth/hooks'
 import styles from './profileDropdown.module.scss'
@@ -21,12 +28,44 @@ interface ProfileDropdownProps {
   onClose: () => void
 }
 
-const ASPECT_LINKS = [
-  { to: '/challenge/tracker', label: 'Challenge', icon: GiTrophy },
-  { to: '/business-hub', label: 'Business Hub', icon: GiFactory },
-  { to: '/life', label: 'Life Manager', icon: GiHeartBeats },
-  { to: '/dev-workspace', label: 'Dev Workspace', icon: GiAbstract010 },
-  { to: '/horus', label: 'Horus', icon: GiBrain },
+const NAV_SECTIONS = [
+  {
+    label: 'Social Media',
+    items: [
+      { to: '/analytics/data-input', label: 'Analytics', icon: GiChart },
+      { to: '/analytics/insights', label: 'Insights', icon: GiSparkles },
+      { to: '/challenge/tracker', label: 'Challenge', icon: GiTrophy },
+    ],
+  },
+  {
+    label: 'Life Manager',
+    items: [
+      { to: '/life/planner', label: 'Planner', icon: GiCalendar },
+      { to: '/life/notes', label: 'Notes', icon: GiBookshelf },
+      { to: '/life/checklist', label: 'Checklist', icon: GiChecklist },
+      { to: '/life/jobs', label: 'Job Tracker', icon: GiBriefcase },
+    ],
+  },
+  {
+    label: 'Dev Workspace',
+    items: [
+      { to: '/dev-workspace/docker-manager', label: 'Docker Manager', icon: GrDocker },
+    ],
+  },
+  {
+    label: 'Business Hub',
+    items: [
+      { to: '/dashboard', label: 'Hub', icon: GiFactory },
+    ],
+  },
+  {
+    label: 'System',
+    items: [
+      { to: '/angela', label: 'Angela', icon: GiShare },
+      { to: '/moss', label: 'Moss', icon: GiFox },
+      { to: '/horus', label: 'Horus', icon: GiBrain },
+    ],
+  },
 ]
 
 export function ProfileDropdown({ onClose }: ProfileDropdownProps) {
@@ -56,16 +95,20 @@ export function ProfileDropdown({ onClose }: ProfileDropdownProps) {
         <span className={styles.name}>{USER.NAME}</span>
       </div>
 
-      <div className={styles.divider} />
-
-      <nav className={styles.links}>
-        {ASPECT_LINKS.map(({ to, label, icon: Icon }) => (
-          <Link key={to} to={to} className={styles.link} onClick={onClose}>
-            <Icon />
-            <span>{label}</span>
-          </Link>
-        ))}
-      </nav>
+      {NAV_SECTIONS.map((section) => (
+        <div key={section.label}>
+          <div className={styles.divider} />
+          <span className={styles.sectionLabel}>{section.label}</span>
+          <nav className={styles.links}>
+            {section.items.map(({ to, label, icon: Icon }) => (
+              <Link key={to} to={to} className={styles.link} onClick={onClose}>
+                <Icon />
+                <span>{label}</span>
+              </Link>
+            ))}
+          </nav>
+        </div>
+      ))}
 
       <div className={styles.divider} />
 

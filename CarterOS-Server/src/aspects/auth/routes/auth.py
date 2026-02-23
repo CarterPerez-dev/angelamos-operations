@@ -87,7 +87,9 @@ async def refresh_token(
     """
     import logging
     logger = logging.getLogger(__name__)
-    logger.info(f"Refresh endpoint hit - Cookie received: {refresh_token is not None}")
+    logger.info(
+        f"Refresh endpoint hit - Cookie received: {refresh_token is not None}"
+    )
     logger.info(f"All cookies: {request.cookies}")
 
     if not refresh_token:

@@ -1,0 +1,68 @@
+// ===================
+// © AngelaMos | 2026
+// StatsPanel.module.scss
+// ===================
+
+@use '@/styles' as *;
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+  padding: $space-md $space-lg;
+}
+
+.streak {
+  display: flex;
+  align-items: baseline;
+  gap: $space-sm;
+}
+
+.streakCount {
+  font-size: $text-xl;
+  font-weight: $font-semibold;
+  color: $accent-purple;
+}
+
+.streakLabel {
+  font-size: $text-sm;
+  color: $text-lighter;
+}
+
+.itemStats {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.statRow {
+  display: grid;
+  grid-template-columns: 1fr 120px 40px;
+  align-items: center;
+  gap: $space-sm;
+}
+
+.statTitle {
+  font-size: $text-sm;
+  color: $text-light;
+}
+
+.statBar {
+  height: 4px;
+  background: $bg-selection;
+  border-radius: $radius-xs;
+  overflow: hidden;
+}
+
+.statFill {
+  height: 100%;
+  background: $accent-purple;
+  border-radius: $radius-xs;
+  transition: width $transition-normal $ease-out;
+}
+
+.statPct {
+  font-size: $text-xs;
+  color: $text-lighter;
+  text-align: right;
+}

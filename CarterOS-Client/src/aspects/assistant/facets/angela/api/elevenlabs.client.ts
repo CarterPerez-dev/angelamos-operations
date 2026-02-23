@@ -29,8 +29,8 @@ export async function synthesizeSpeech(text: string, voiceId?: string): Promise<
       text,
       model_id: 'eleven_turbo_v2_5',
       voice_settings: {
-        stability: 0.5,
-        similarity_boost: 0.75,
+        stability: config.elevenlabs.stability,
+        similarity_boost: config.elevenlabs.similarityBoost,
       },
     }),
   })

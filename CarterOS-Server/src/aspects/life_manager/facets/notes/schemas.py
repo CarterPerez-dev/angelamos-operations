@@ -18,7 +18,7 @@ class NoteFolderCreate(BaseSchema):
     """
     Schema for creating a folder
     """
-    name: str = Field(max_length=100)
+    name: str = Field(max_length = 100)
     parent_id: UUID | None = None
     sort_order: int = 0
 
@@ -27,7 +27,7 @@ class NoteFolderUpdate(BaseSchema):
     """
     Schema for updating a folder
     """
-    name: str | None = Field(default=None, max_length=100)
+    name: str | None = Field(default = None, max_length = 100)
     parent_id: UUID | None = None
     sort_order: int | None = None
 
@@ -46,7 +46,7 @@ class NoteCreate(BaseSchema):
     """
     Schema for creating a note
     """
-    title: str = Field(max_length=200)
+    title: str = Field(max_length = 200)
     content: str = ""
     folder_id: UUID | None = None
     sort_order: int = 0
@@ -56,7 +56,7 @@ class NoteUpdate(BaseSchema):
     """
     Schema for updating a note
     """
-    title: str | None = Field(default=None, max_length=200)
+    title: str | None = Field(default = None, max_length = 200)
     content: str | None = None
     folder_id: UUID | None = None
     sort_order: int | None = None
@@ -93,12 +93,11 @@ class BulkDeleteRequest(BaseSchema):
     """
     Schema for bulk deleting notes
     """
-    note_ids: list[UUID] = Field(min_length=1, max_length=100)
+    note_ids: list[UUID] = Field(min_length = 1, max_length = 100)
 
 
 class BulkDeleteFolderRequest(BaseSchema):
     """
     Schema for bulk deleting folders
     """
-    folder_ids: list[UUID] = Field(min_length=1, max_length=100)
-
+    folder_ids: list[UUID] = Field(min_length = 1, max_length = 100)

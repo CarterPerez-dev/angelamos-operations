@@ -1,9 +1,7 @@
-/**
- * Angela AI Assistant - Type Definitions
- */
-
-import type { AngelaState, Expression } from './angela.enums'
-
+// ===================
+// © AngelaMos | 2026
+// angela.types.ts
+// ===================
 export interface ChatMessage {
   role: 'user' | 'assistant' | 'system'
   content: string
@@ -17,40 +15,6 @@ export interface AngelaSettings {
   silenceThreshold: number
   silenceDuration: number
 }
-
-export interface AngelaStoreState {
-  status: AngelaState
-  transcript: string | null
-  response: string | null
-  error: string | null
-  messages: ChatMessage[]
-  isRecording: boolean
-  audioLevel: number
-  currentExpression: Expression
-  isSpeaking: boolean
-  settings: AngelaSettings
-  isExpanded: boolean
-  isEnabled: boolean
-}
-
-export interface AngelaStoreActions {
-  transitionTo: (state: AngelaState) => void
-  setTranscript: (text: string | null) => void
-  setResponse: (text: string | null) => void
-  addMessage: (message: ChatMessage) => void
-  clearConversation: () => void
-  setRecording: (recording: boolean) => void
-  setAudioLevel: (level: number) => void
-  setExpression: (expression: Expression) => void
-  setSpeaking: (speaking: boolean) => void
-  updateSettings: (settings: Partial<AngelaSettings>) => void
-  setError: (error: string | null) => void
-  setExpanded: (expanded: boolean) => void
-  setEnabled: (enabled: boolean) => void
-  reset: () => void
-}
-
-export type AngelaStore = AngelaStoreState & AngelaStoreActions
 
 export interface TranscriptResult {
   text: string
@@ -80,14 +44,28 @@ export interface ElevenLabsVoice {
   category: string
 }
 
+export type TTSProvider = 'elevenlabs' | 'edgetts'
+
+export type AngelaStatus = 'initializing' | 'idle' | 'listening' | 'processing' | 'thinking' | 'speaking' | 'error'
+
 export interface AngelaConfig {
+  debug: boolean
+  vrm: {
+    modelPath: string
+  }
+  tts: {
+    provider: TTSProvider
+    endpoint: string
+  }
   elevenlabs: {
     apiKey: string
     voiceId: string
+    stability: number
+    similarityBoost: number
   }
-  picovoice: {
-    accessKey: string
-    wakeWordPath: string
+  wakeWord: {
+    endpoint: string
+    threshold: number
   }
   whisper: {
     endpoint: string
@@ -95,5 +73,23 @@ export interface AngelaConfig {
   ollama: {
     endpoint: string
     model: string
+    temperature: number
+    maxTokens: number
+  }
+  audio: {
+    sampleRate: number
+    silenceThreshold: number
+    silenceDuration: number
+    minSpeechDuration: number
+  }
+  animation: {
+    blinkMinInterval: number
+    blinkMaxInterval: number
+  }
+  scene: {
+    backgroundColor: number
+    cameraFov: number
+    cameraPosition: [number, number, number]
+    cameraTarget: [number, number, number]
   }
 }

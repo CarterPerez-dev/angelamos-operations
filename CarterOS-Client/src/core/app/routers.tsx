@@ -11,6 +11,7 @@ import { trackerRoutes } from '@/aspects/challenge/facets/tracker/routes'
 import { plannerRoutes } from '@/aspects/life-manager/facets/planner/routes'
 import { notesRoutes } from '@/aspects/life-manager/facets/notes/routes'
 import { jobTrackerRoutes } from '@/aspects/life-manager/facets/career/job-app-tracker/routes'
+import { checklistRoutes } from '@/aspects/life-manager/facets/checklist/routes'
 import { LifeManagerHub } from '@/aspects/life-manager/shared/ui'
 import { dashboardRoutes } from '@/aspects/ops/facets/dashboard/routes'
 import { dockerManagerRoutes } from '@/aspects/dev-workspace/facets/docker-manager/routes'
@@ -56,6 +57,7 @@ const routes: RouteObject[] = [
               ...plannerRoutes,
               ...notesRoutes,
               ...jobTrackerRoutes,
+              ...checklistRoutes,
             ],
           },
           {

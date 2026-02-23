@@ -10,20 +10,20 @@ from datetime import datetime
 
 import sqlalchemy as sa
 from sqlalchemy import (
-    String, 
-    Text, 
-    Integer, 
-    ForeignKey, 
+    String,
+    Text,
+    Integer,
+    ForeignKey,
     DateTime,
 )
 from sqlalchemy.orm import (
-    Mapped, 
-    mapped_column, 
+    Mapped,
+    mapped_column,
     relationship,
 )
 from core.infrastructure.database.Base import (
-    Base, 
-    UUIDMixin, 
+    Base,
+    UUIDMixin,
     TimestampMixin,
 )
 
@@ -39,29 +39,42 @@ class NoteFolder(Base, UUIDMixin, TimestampMixin):
     """
     __tablename__ = "note_folders"
     __table_args__ = (
-        sa.Index("idx_folder_parent", "parent_id"),
-        sa.Index("idx_folders_deleted_at", "deleted_at"),
+        sa.Index("idx_folder_parent",
+                 "parent_id"),
+        sa.Index("idx_folders_deleted_at",
+                 "deleted_at"),
     )
 
-    name: Mapped[str] = mapped_column(String(FOLDER_NAME_MAX_LENGTH), nullable=False)
-    parent_id: Mapped[UUID | None] = mapped_column(
-        ForeignKey("note_folders.id", ondelete="CASCADE"),
-        nullable=True,
+    name: Mapped[str] = mapped_column(
+        String(FOLDER_NAME_MAX_LENGTH),
+        nullable = False
     )
-    sort_order: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
-    deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    parent_id: Mapped[UUID | None] = mapped_column(
+        ForeignKey("note_folders.id",
+                   ondelete = "CASCADE"),
+        nullable = True,
+    )
+    sort_order: Mapped[int] = mapped_column(
+        Integer,
+        default = 0,
+        nullable = False
+    )
+    deleted_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone = True),
+        nullable = True
+    )
 
     parent: Mapped[NoteFolder | None] = relationship(
-        back_populates="children",
-        remote_side="NoteFolder.id",
+        back_populates = "children",
+        remote_side = "NoteFolder.id",
     )
     children: Mapped[list[NoteFolder]] = relationship(
-        back_populates="parent",
-        cascade="all, delete-orphan",
+        back_populates = "parent",
+        cascade = "all, delete-orphan",
     )
     notes: Mapped[list[Note]] = relationship(
-        back_populates="folder",
-        cascade="all, delete-orphan",
+        back_populates = "folder",
+        cascade = "all, delete-orphan",
     )
 
 
@@ -71,17 +84,35 @@ class Note(Base, UUIDMixin, TimestampMixin):
     """
     __tablename__ = "notes"
     __table_args__ = (
-        sa.Index("idx_note_folder", "folder_id"),
-        sa.Index("idx_notes_deleted_at", "deleted_at"),
+        sa.Index("idx_note_folder",
+                 "folder_id"),
+        sa.Index("idx_notes_deleted_at",
+                 "deleted_at"),
     )
 
-    title: Mapped[str] = mapped_column(String(TITLE_MAX_LENGTH), nullable=False)
-    content: Mapped[str] = mapped_column(Text, default="", nullable=False)
+    title: Mapped[str] = mapped_column(
+        String(TITLE_MAX_LENGTH),
+        nullable = False
+    )
+    content: Mapped[str] = mapped_column(
+        Text,
+        default = "",
+        nullable = False
+    )
     folder_id: Mapped[UUID | None] = mapped_column(
-        ForeignKey("note_folders.id", ondelete="SET NULL"),
-        nullable=True,
+        ForeignKey("note_folders.id",
+                   ondelete = "SET NULL"),
+        nullable = True,
     )
-    sort_order: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
-    deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    sort_order: Mapped[int] = mapped_column(
+        Integer,
+        default = 0,
+        nullable = False
+    )
+    deleted_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone = True),
+        nullable = True
+    )
 
-    folder: Mapped[NoteFolder | None] = relationship(back_populates="notes")
+    folder: Mapped[NoteFolder
+                   | None] = relationship(back_populates = "notes")

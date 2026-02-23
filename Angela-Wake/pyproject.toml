@@ -1,0 +1,24 @@
+[project]
+name = "angela-wake"
+version = "1.0.0"
+description = "Angela AI Assistant - Wake Word Server"
+requires-python = ">=3.11"
+dependencies = [
+    "openwakeword>=0.6.0",
+    "fastapi>=0.115.0",
+    "uvicorn>=0.32.0",
+    "websockets>=14.0",
+    "numpy==1.26.4",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.8.0",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]

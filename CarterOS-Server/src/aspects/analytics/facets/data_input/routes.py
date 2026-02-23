@@ -19,13 +19,16 @@ from aspects.analytics.facets.data_input.schemas import (
 from aspects.analytics.facets.data_input.service import DataInputService
 
 
-router = APIRouter(prefix="/analytics/videos", tags=["Analytics - Data Input"])
+router = APIRouter(
+    prefix = "/analytics/videos",
+    tags = ["Analytics - Data Input"]
+)
 
 
 @router.post(
     "",
-    response_model=TikTokVideoResponse,
-    status_code=status.HTTP_201_CREATED,
+    response_model = TikTokVideoResponse,
+    status_code = status.HTTP_201_CREATED,
 )
 async def create_video(
     db: DBSession,
@@ -39,12 +42,15 @@ async def create_video(
 
 @router.get(
     "",
-    response_model=TikTokVideoListResponse,
+    response_model = TikTokVideoListResponse,
 )
 async def get_videos(
     db: DBSession,
-    page: int = Query(default=1, ge=1),
-    page_size: int = Query(default=50, ge=1, le=100),
+    page: int = Query(default = 1,
+                      ge = 1),
+    page_size: int = Query(default = 50,
+                           ge = 1,
+                           le = 100),
 ) -> TikTokVideoListResponse:
     """
     Get all videos with pagination
@@ -54,8 +60,8 @@ async def get_videos(
 
 @router.get(
     "/{video_id}",
-    response_model=TikTokVideoResponse,
-    responses={**NOT_FOUND_404},
+    response_model = TikTokVideoResponse,
+    responses = {**NOT_FOUND_404},
 )
 async def get_video(
     db: DBSession,
@@ -69,8 +75,8 @@ async def get_video(
 
 @router.put(
     "/{video_id}",
-    response_model=TikTokVideoResponse,
-    responses={**NOT_FOUND_404},
+    response_model = TikTokVideoResponse,
+    responses = {**NOT_FOUND_404},
 )
 async def update_video(
     db: DBSession,
@@ -85,8 +91,8 @@ async def update_video(
 
 @router.delete(
     "/{video_id}",
-    status_code=status.HTTP_204_NO_CONTENT,
-    responses={**NOT_FOUND_404},
+    status_code = status.HTTP_204_NO_CONTENT,
+    responses = {**NOT_FOUND_404},
 )
 async def delete_video(
     db: DBSession,
@@ -100,11 +106,11 @@ async def delete_video(
 
 @router.get(
     "/search/query",
-    response_model=list[TikTokVideoResponse],
+    response_model = list[TikTokVideoResponse],
 )
 async def search_videos(
     db: DBSession,
-    q: str = Query(min_length=1),
+    q: str = Query(min_length = 1),
 ) -> list[TikTokVideoResponse]:
     """
     Search videos across hook, description, hashtags, CTA, and transcription
@@ -114,7 +120,7 @@ async def search_videos(
 
 @router.get(
     "/filter/date-range",
-    response_model=list[TikTokVideoResponse],
+    response_model = list[TikTokVideoResponse],
 )
 async def filter_by_date_range(
     db: DBSession,
@@ -124,16 +130,20 @@ async def filter_by_date_range(
     """
     Get videos within a date range
     """
-    return await DataInputService.get_videos_by_date_range(db, start_date, end_date)
+    return await DataInputService.get_videos_by_date_range(
+        db,
+        start_date,
+        end_date
+    )
 
 
 @router.get(
     "/filter/min-views",
-    response_model=list[TikTokVideoResponse],
+    response_model = list[TikTokVideoResponse],
 )
 async def filter_by_min_views(
     db: DBSession,
-    min_views: int = Query(ge=0),
+    min_views: int = Query(ge = 0),
 ) -> list[TikTokVideoResponse]:
     """
     Get videos with minimum view count

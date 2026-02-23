@@ -23,14 +23,16 @@ class TikTokVideoNotFound(ResourceNotFound):
     Raised when TikTok video not found
     """
     def __init__(self, video_id: UUID) -> None:
-        super().__init__(resource="TikTokVideo", identifier=str(video_id))
+        super().__init__(
+            resource = "TikTokVideo",
+            identifier = str(video_id)
+        )
 
 
 class DataInputService:
     """
     Service for TikTok video data input operations
     """
-
     @staticmethod
     async def create_video(
         session: AsyncSession,
@@ -41,28 +43,29 @@ class DataInputService:
         """
         video = await TikTokVideoRepository.create(
             session,
-            rank=data.rank,
-            date_posted=data.date_posted,
-            video_url=data.video_url,
-            views=data.views,
-            comments=data.comments,
-            likes=data.likes,
-            bookmarks=data.bookmarks,
-            shares=data.shares,
-            avg_watch_time=data.avg_watch_time,
-            new_followers=data.new_followers,
-            watched_full_video_percentage=data.watched_full_video_percentage,
-            top_comment_words=data.top_comment_words,
-            search_queries=data.search_queries,
-            traffic_sources=data.traffic_sources,
-            hook=data.hook,
-            text_on_screen_hook=data.text_on_screen_hook,
-            length=data.length,
-            description=data.description,
-            hashtags=data.hashtags,
-            cta=data.cta,
-            full_transcription=data.full_transcription,
-            notes=data.notes,
+            rank = data.rank,
+            date_posted = data.date_posted,
+            video_url = data.video_url,
+            views = data.views,
+            comments = data.comments,
+            likes = data.likes,
+            bookmarks = data.bookmarks,
+            shares = data.shares,
+            avg_watch_time = data.avg_watch_time,
+            new_followers = data.new_followers,
+            watched_full_video_percentage = data.
+            watched_full_video_percentage,
+            top_comment_words = data.top_comment_words,
+            search_queries = data.search_queries,
+            traffic_sources = data.traffic_sources,
+            hook = data.hook,
+            text_on_screen_hook = data.text_on_screen_hook,
+            length = data.length,
+            description = data.description,
+            hashtags = data.hashtags,
+            cta = data.cta,
+            full_transcription = data.full_transcription,
+            notes = data.notes,
         )
         return TikTokVideoResponse.model_validate(video)
 
@@ -89,14 +92,20 @@ class DataInputService:
         Get all videos with pagination
         """
         skip = (page - 1) * page_size
-        videos = await TikTokVideoRepository.get_multi(session, skip=skip, limit=page_size)
+        videos = await TikTokVideoRepository.get_multi(
+            session,
+            skip = skip,
+            limit = page_size
+        )
         total = await TikTokVideoRepository.count(session)
 
         return TikTokVideoListResponse(
-            items=[TikTokVideoResponse.model_validate(v) for v in videos],
-            total=total,
-            page=page,
-            page_size=page_size,
+            items = [
+                TikTokVideoResponse.model_validate(v) for v in videos
+            ],
+            total = total,
+            page = page,
+            page_size = page_size,
         )
 
     @staticmethod
@@ -112,8 +121,12 @@ class DataInputService:
         if not video:
             raise TikTokVideoNotFound(video_id)
 
-        update_dict = data.model_dump(exclude_unset=True)
-        video = await TikTokVideoRepository.update(session, video, **update_dict)
+        update_dict = data.model_dump(exclude_unset = True)
+        video = await TikTokVideoRepository.update(
+            session,
+            video,
+            **update_dict
+        )
         return TikTokVideoResponse.model_validate(video)
 
     @staticmethod
@@ -149,7 +162,11 @@ class DataInputService:
         """
         Get videos within date range
         """
-        videos = await TikTokVideoRepository.get_by_date_range(session, start_date, end_date)
+        videos = await TikTokVideoRepository.get_by_date_range(
+            session,
+            start_date,
+            end_date
+        )
         return [TikTokVideoResponse.model_validate(v) for v in videos]
 
     @staticmethod
@@ -160,5 +177,8 @@ class DataInputService:
         """
         Get videos with minimum view count
         """
-        videos = await TikTokVideoRepository.get_by_min_views(session, min_views)
+        videos = await TikTokVideoRepository.get_by_min_views(
+            session,
+            min_views
+        )
         return [TikTokVideoResponse.model_validate(v) for v in videos]

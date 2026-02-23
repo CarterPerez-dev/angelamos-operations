@@ -1,6 +1,6 @@
-/**
- * Angela AI Assistant - Types Barrel Export
- */
+// ===================
+// © AngelaMos | 2026
+// index.ts
+// ===================
 
-export * from './angela.enums'
 export * from './angela.types'

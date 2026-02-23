@@ -116,7 +116,8 @@ class AuthService:
         device_id: str | None = None,
         device_name: str | None = None,
         ip_address: str | None = None,
-    ) -> tuple[TokenResponse, str]:
+    ) -> tuple[TokenResponse,
+               str]:
         """
         Refresh access token using refresh token
 

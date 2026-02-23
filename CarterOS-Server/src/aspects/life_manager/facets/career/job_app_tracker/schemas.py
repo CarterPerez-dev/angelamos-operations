@@ -32,20 +32,35 @@ class JobApplicationCreate(BaseSchema):
     """
     Schema for creating a job application
     """
-    identity_name: str = Field(max_length=IDENTITY_NAME_MAX_LENGTH)
-    position_title: str = Field(max_length=POSITION_TITLE_MAX_LENGTH)
-    job_url: str | None = Field(default=None, max_length=JOB_URL_MAX_LENGTH)
+    identity_name: str = Field(max_length = IDENTITY_NAME_MAX_LENGTH)
+    position_title: str = Field(max_length = POSITION_TITLE_MAX_LENGTH)
+    job_url: str | None = Field(
+        default = None,
+        max_length = JOB_URL_MAX_LENGTH
+    )
 
-    salary_min: int | None = Field(default=None, ge=0)
-    salary_max: int | None = Field(default=None, ge=0)
+    salary_min: int | None = Field(default = None, ge = 0)
+    salary_max: int | None = Field(default = None, ge = 0)
 
-    location: str | None = Field(default=None, max_length=LOCATION_MAX_LENGTH)
+    location: str | None = Field(
+        default = None,
+        max_length = LOCATION_MAX_LENGTH
+    )
     remote_type: RemoteType = RemoteType.UNKNOWN
 
-    source: str | None = Field(default=None, max_length=SOURCE_MAX_LENGTH)
+    source: str | None = Field(
+        default = None,
+        max_length = SOURCE_MAX_LENGTH
+    )
 
-    contact_name: str | None = Field(default=None, max_length=CONTACT_NAME_MAX_LENGTH)
-    contact_email: str | None = Field(default=None, max_length=CONTACT_EMAIL_MAX_LENGTH)
+    contact_name: str | None = Field(
+        default = None,
+        max_length = CONTACT_NAME_MAX_LENGTH
+    )
+    contact_email: str | None = Field(
+        default = None,
+        max_length = CONTACT_EMAIL_MAX_LENGTH
+    )
 
     application_status: ApplicationStatus = ApplicationStatus.SAVED
     job_type: JobType = JobType.UNKNOWN
@@ -63,24 +78,45 @@ class JobApplicationUpdate(BaseSchema):
     """
     Schema for updating a job application
     """
-    identity_name: str | None = Field(default=None, max_length=IDENTITY_NAME_MAX_LENGTH)
-    position_title: str | None = Field(default=None, max_length=POSITION_TITLE_MAX_LENGTH)
-    job_url: str | None = Field(default=None, max_length=JOB_URL_MAX_LENGTH)
+    identity_name: str | None = Field(
+        default = None,
+        max_length = IDENTITY_NAME_MAX_LENGTH
+    )
+    position_title: str | None = Field(
+        default = None,
+        max_length = POSITION_TITLE_MAX_LENGTH
+    )
+    job_url: str | None = Field(
+        default = None,
+        max_length = JOB_URL_MAX_LENGTH
+    )
 
-    salary_min: int | None = Field(default=None, ge=0)
-    salary_max: int | None = Field(default=None, ge=0)
-    offer_amount: int | None = Field(default=None, ge=0)
+    salary_min: int | None = Field(default = None, ge = 0)
+    salary_max: int | None = Field(default = None, ge = 0)
+    offer_amount: int | None = Field(default = None, ge = 0)
 
-    location: str | None = Field(default=None, max_length=LOCATION_MAX_LENGTH)
+    location: str | None = Field(
+        default = None,
+        max_length = LOCATION_MAX_LENGTH
+    )
     remote_type: RemoteType | None = None
 
-    source: str | None = Field(default=None, max_length=SOURCE_MAX_LENGTH)
+    source: str | None = Field(
+        default = None,
+        max_length = SOURCE_MAX_LENGTH
+    )
 
-    contact_name: str | None = Field(default=None, max_length=CONTACT_NAME_MAX_LENGTH)
-    contact_email: str | None = Field(default=None, max_length=CONTACT_EMAIL_MAX_LENGTH)
+    contact_name: str | None = Field(
+        default = None,
+        max_length = CONTACT_NAME_MAX_LENGTH
+    )
+    contact_email: str | None = Field(
+        default = None,
+        max_length = CONTACT_EMAIL_MAX_LENGTH
+    )
 
     application_status: ApplicationStatus | None = None
-    interview_rounds: int | None = Field(default=None, ge=0)
+    interview_rounds: int | None = Field(default = None, ge = 0)
     outcome: Outcome | None = None
 
     job_type: JobType | None = None

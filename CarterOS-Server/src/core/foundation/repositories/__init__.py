@@ -1,4 +1,4 @@
-"""                                                                                                                                             
-ⒸAngelaMos | 2026                                                                
-foundation repos                                                                        
-"""     
+"""
+ⒸAngelaMos | 2026
+foundation repos
+"""

@@ -73,12 +73,38 @@ services:
       - VITE_DOCKER_API_URL=http://localhost:7771
       - VITE_ELEVENLABS_API_KEY=${VITE_ELEVENLABS_API_KEY:-}
       - VITE_ELEVENLABS_VOICE_ID=${VITE_ELEVENLABS_VOICE_ID:-}
-      - VITE_PICOVOICE_ACCESS_KEY=${VITE_PICOVOICE_ACCESS_KEY:-}
+      - VITE_WAKEWORD_ENDPOINT=${VITE_WAKEWORD_ENDPOINT:-ws://localhost:5003/ws}
       - VITE_WHISPER_ENDPOINT=${VITE_WHISPER_ENDPOINT:-http://localhost:8089}
       - VITE_OLLAMA_ENDPOINT=${VITE_OLLAMA_ENDPOINT:-http://localhost:11434}
       - VITE_OLLAMA_MODEL=${VITE_OLLAMA_MODEL:-qwen2.5:7b}
+      - VITE_TTS_PROVIDER=${VITE_TTS_PROVIDER:-edgetts}
+      - VITE_TTS_ENDPOINT=${VITE_TTS_ENDPOINT:-http://localhost:5002}
     networks:
       - frontend
+    depends_on:
+      - wake
+    restart: unless-stopped
+
+  # Angela-Wake (wake word detection)
+  wake:
+    build:
+      context: ./Angela-Wake
+    container_name: ${APP_NAME:-template}-wake-dev
+    ports:
+      - "${WAKE_HOST_PORT:-5003}:5003"
+    volumes:
+      - ./Angela-Wake/models:/app/models:ro
+    environment:
+      - WAKE_THRESHOLD=${WAKE_THRESHOLD:-0.5}
+      - WAKE_ENABLE_VAD=true
+    networks:
+      - frontend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
     restart: unless-stopped
 
   # PostgreSQL DB

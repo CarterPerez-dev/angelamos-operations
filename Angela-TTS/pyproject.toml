@@ -1,0 +1,22 @@
+[project]
+name = "angela-tts"
+version = "1.0.0"
+description = "Angela AI Assistant - TTS Server"
+requires-python = ">=3.12"
+dependencies = [
+    "edge-tts>=7.2.7",
+    "fastapi>=0.128.1",
+    "uvicorn>=0.40.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.15.0",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]

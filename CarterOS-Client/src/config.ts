@@ -76,6 +76,13 @@ export const API_ENDPOINTS = {
     BLOCKS: `/${API_VERSION}/planner/blocks`,
     BLOCK: (id: string) => `/${API_VERSION}/planner/blocks/${id}`,
   },
+  CHECKLIST: {
+    ITEMS: `/${API_VERSION}/checklist/items`,
+    ITEM: (id: string) => `/${API_VERSION}/checklist/items/${id}`,
+    LOG: `/${API_VERSION}/checklist/log`,
+    LOG_ENTRY: (id: string) => `/${API_VERSION}/checklist/log/${id}`,
+    STATS: `/${API_VERSION}/checklist/stats`,
+  },
   NOTES: {
     NOTES: `/${API_VERSION}/notes`,
     NOTE: (id: string) => `/${API_VERSION}/notes/${id}`,
@@ -156,6 +163,12 @@ export const QUERY_KEYS = {
   PLANNER: {
     ALL: ['planner'] as const,
     BLOCKS: (date: string) => [...QUERY_KEYS.PLANNER.ALL, 'blocks', date] as const,
+  },
+  CHECKLIST: {
+    ALL: ['checklist'] as const,
+    ITEMS: () => [...QUERY_KEYS.CHECKLIST.ALL, 'items'] as const,
+    DAY: (date: string) => [...QUERY_KEYS.CHECKLIST.ALL, 'log', date] as const,
+    STATS: () => [...QUERY_KEYS.CHECKLIST.ALL, 'stats'] as const,
   },
   NOTES: {
     ALL: ['notes'] as const,

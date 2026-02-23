@@ -20,7 +20,7 @@ def create_app() -> FastAPI:
     """
     app = FastAPI(
         **get_openapi_config(),
-        lifespan=lifespan,
+        lifespan = lifespan,
     )
 
     setup_middleware(app)

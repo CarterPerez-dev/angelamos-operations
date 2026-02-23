@@ -7,7 +7,7 @@ import type { OllamaMessage, OllamaStreamChunk } from '../types'
 
 export async function* streamChat(
   messages: OllamaMessage[],
-  onChunk?: (text: string) => void
+  signal?: AbortSignal
 ): AsyncGenerator<string, string, unknown> {
   const config = getAngelaConfig()
 
@@ -23,7 +23,12 @@ export async function* streamChat(
       model: config.ollama.model,
       messages: [systemMessage, ...messages],
       stream: true,
+      options: {
+        temperature: config.ollama.temperature,
+        num_predict: config.ollama.maxTokens,
+      },
     }),
+    signal,
   })
 
   if (!response.ok) {
@@ -50,7 +55,6 @@ export async function* streamChat(
         const data: OllamaStreamChunk = JSON.parse(line)
         if (data.message?.content) {
           fullResponse += data.message.content
-          onChunk?.(data.message.content)
           yield data.message.content
         }
       } catch {

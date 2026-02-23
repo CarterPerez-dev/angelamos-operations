@@ -1,0 +1,20 @@
+// ===================
+// © AngelaMos | 2026
+// HeatmapGrid.module.scss
+// ===================
+
+@use '@/styles' as *;
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(53, 1fr);
+  gap: 2px;
+  padding: $space-md $space-lg;
+}
+
+.cell {
+  width: 100%;
+  aspect-ratio: 1;
+  background: $accent-purple;
+  border-radius: $radius-xs;
+}

@@ -14,10 +14,10 @@ class TimeBlockCreate(BaseSchema):
     """
     Schema for creating a time block
     """
-    block_date: date = Field(default_factory=date.today)
+    block_date: date = Field(default_factory = date.today)
     start_time: time
     end_time: time
-    title: str = Field(max_length=200)
+    title: str = Field(max_length = 200)
     description: str | None = None
     color: str | None = None
     sort_order: int = 0
@@ -29,7 +29,7 @@ class TimeBlockUpdate(BaseSchema):
     """
     start_time: time | None = None
     end_time: time | None = None
-    title: str | None = Field(default=None, max_length=200)
+    title: str | None = Field(default = None, max_length = 200)
     description: str | None = None
     color: str | None = None
     sort_order: int | None = None

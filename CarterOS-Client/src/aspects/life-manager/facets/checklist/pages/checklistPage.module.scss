@@ -1,0 +1,129 @@
+// ===================
+// © AngelaMos | 2026
+// checklistPage.module.scss
+// ===================
+
+@use '@/styles' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2xl;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: $space-2xl;
+  min-height: 100%;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: $text-lg;
+  font-weight: $font-semibold;
+  color: $text-default;
+}
+
+.date {
+  font-size: $text-xs;
+  color: $text-lighter;
+  display: block;
+  margin-top: 2px;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+}
+
+.count {
+  font-size: $text-sm;
+  color: $text-lighter;
+}
+
+.editToggle {
+  font-size: $text-xs;
+  color: $text-lighter;
+  padding: $space-xs $space-sm;
+  background: transparent;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: color $transition-fast $ease-out, border-color $transition-fast $ease-out;
+
+  &:hover {
+    color: $text-default;
+    border-color: $border-strong;
+  }
+}
+
+.editActive {
+  color: $accent-purple;
+  border-color: $accent-purple;
+}
+
+.card {
+  background: $bg-surface-100;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  overflow: hidden;
+}
+
+.addRow {
+  display: flex;
+  gap: $space-sm;
+  padding: $space-sm $space-md;
+  border-top: 1px solid $border-muted;
+}
+
+.addInput {
+  flex: 1;
+  background: $bg-control;
+  border: 1px solid $border-control;
+  border-radius: $radius-sm;
+  padding: $space-xs $space-sm;
+  font-size: $text-sm;
+  color: $text-default;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $accent-purple;
+    box-shadow: 0 0 0 2px $accent-purple-10;
+  }
+}
+
+.addBtn {
+  font-size: $text-xs;
+  color: $text-lighter;
+  padding: $space-xs $space-sm;
+  background: transparent;
+  border: 1px solid $border-default;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: color $transition-fast $ease-out;
+
+  &:hover {
+    color: $text-default;
+  }
+}
+
+.loading {
+  font-size: $text-sm;
+  color: $text-lighter;
+  padding: $space-2xl;
+}
