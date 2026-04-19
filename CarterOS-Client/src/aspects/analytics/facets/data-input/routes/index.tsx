@@ -4,8 +4,8 @@
 // ===================
 
 import type { RouteObject } from 'react-router-dom'
-import { DataInputPage } from '../pages/dataInputPage'
 import { InsightsPage } from '../../insights/pages'
+import { DataInputPage } from '../pages/dataInputPage'
 
 export const analyticsRoutes: RouteObject[] = [
   {

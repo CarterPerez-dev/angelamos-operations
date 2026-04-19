@@ -4,15 +4,15 @@
 // ===================
 
 import { useState } from 'react'
+import { ChecklistItem, HeatmapGrid, StatsPanel } from '../components'
 import {
   useChecklistDay,
   useChecklistStats,
-  useUpdateChecklistLog,
-  useUpdateChecklistItem,
-  useDeleteChecklistItem,
   useCreateChecklistItem,
+  useDeleteChecklistItem,
+  useUpdateChecklistItem,
+  useUpdateChecklistLog,
 } from '../hooks/useChecklist'
-import { ChecklistItem, StatsPanel, HeatmapGrid } from '../components'
 import styles from './checklistPage.module.scss'
 
 function todayStr() {
@@ -65,6 +65,7 @@ export function ChecklistPage() {
               {dayData.completed_count}/{dayData.total_count}
             </span>
             <button
+              type="button"
               className={`${styles.editToggle} ${editMode ? styles.editActive : ''}`}
               onClick={() => setEditMode((v) => !v)}
             >
@@ -94,7 +95,11 @@ export function ChecklistPage() {
                 onChange={(e) => setNewTitle(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleAddItem()}
               />
-              <button className={styles.addBtn} onClick={handleAddItem}>
+              <button
+                type="button"
+                className={styles.addBtn}
+                onClick={handleAddItem}
+              >
                 add
               </button>
             </div>

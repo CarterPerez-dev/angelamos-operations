@@ -4,12 +4,23 @@
 // ===================
 
 import { useState } from 'react'
-import { GiPauseButton, GiRecycle, GiShield, GiShieldDisabled } from 'react-icons/gi'
 import { CiPlay1 } from 'react-icons/ci'
-import { HiOutlinePencil, HiOutlineEye, HiOutlineEyeOff, HiCheck, HiX } from 'react-icons/hi'
-import type { Project } from '../types/docker.types'
-import { ProjectStatus, Environment } from '../types/docker.types'
+import {
+  GiPauseButton,
+  GiRecycle,
+  GiShield,
+  GiShieldDisabled,
+} from 'react-icons/gi'
+import {
+  HiCheck,
+  HiOutlineEye,
+  HiOutlineEyeOff,
+  HiOutlinePencil,
+  HiX,
+} from 'react-icons/hi'
 import { ENVIRONMENT_LABELS, STATUS_COLORS } from '../types/docker.enums'
+import type { Project } from '../types/docker.types'
+import { Environment, ProjectStatus } from '../types/docker.types'
 import styles from './projectCard.module.scss'
 
 interface ProjectCardProps {
@@ -39,7 +50,7 @@ export function ProjectCard({
   const isRunning = project.status === ProjectStatus.RUNNING
   const isStopped = project.status === ProjectStatus.STOPPED
 
-  const statusColor = STATUS_COLORS[project.status]
+  const statusColor = STATUS_COLORS[project.status as keyof typeof STATUS_COLORS]
   const displayName = project.display_name ?? project.name
 
   const handleSaveRename = () => {
@@ -74,12 +85,19 @@ export function ProjectCard({
                 onChange={(e) => setEditName(e.target.value)}
                 onKeyDown={handleKeyDown}
                 className={styles.nameInput}
-                autoFocus
               />
-              <button type="button" onClick={handleSaveRename} className={styles.btnIcon}>
+              <button
+                type="button"
+                onClick={handleSaveRename}
+                className={styles.btnIcon}
+              >
                 <HiCheck />
               </button>
-              <button type="button" onClick={handleCancelRename} className={styles.btnIcon}>
+              <button
+                type="button"
+                onClick={handleCancelRename}
+                className={styles.btnIcon}
+              >
                 <HiX />
               </button>
             </div>
@@ -99,7 +117,11 @@ export function ProjectCard({
           <div className={styles.badges}>
             {project.environment !== Environment.UNKNOWN && (
               <span className={styles.envBadge}>
-                {ENVIRONMENT_LABELS[project.environment]}
+                {
+                  ENVIRONMENT_LABELS[
+                    project.environment as keyof typeof ENVIRONMENT_LABELS
+                  ]
+                }
               </span>
             )}
             {project.protected && (
@@ -109,11 +131,11 @@ export function ProjectCard({
             )}
           </div>
         </div>
-        <div
-          className={styles.status}
-          style={{ color: statusColor }}
-        >
-          <span className={styles.statusDot} style={{ backgroundColor: statusColor }} />
+        <div className={styles.status} style={{ color: statusColor }}>
+          <span
+            className={styles.statusDot}
+            style={{ backgroundColor: statusColor }}
+          />
           {project.status}
         </div>
       </div>
@@ -130,7 +152,9 @@ export function ProjectCard({
         <div className={styles.infoRow}>
           <span className={styles.label}>Containers:</span>
           <span className={styles.value}>
-            {project.containers.length} ({project.containers.filter((c) => c.state === 'running').length} running)
+            {project.containers.length} (
+            {project.containers.filter((c) => c.state === 'running').length}{' '}
+            running)
           </span>
         </div>
       </div>
@@ -139,7 +163,9 @@ export function ProjectCard({
         <div className={styles.containers}>
           {project.containers.map((container) => (
             <div key={container.id} className={styles.container}>
-              <span className={styles.containerName}>{container.service_name}</span>
+              <span className={styles.containerName}>
+                {container.service_name}
+              </span>
               <span className={styles.containerState}>{container.state}</span>
             </div>
           ))}

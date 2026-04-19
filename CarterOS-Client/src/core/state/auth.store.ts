@@ -5,8 +5,8 @@
 
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
-import { type UserResponse, UserRole } from '@/core/sys/auth/types'
 import { STORAGE_KEYS } from '@/config'
+import { type UserResponse, UserRole } from '@/core/sys/auth/types'
 
 interface AuthState {
   user: UserResponse | null

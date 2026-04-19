@@ -40,6 +40,9 @@ export const WORKING_DIR = process.env.CLAUDE_WORKING_DIR || `${HOME}/yoshi/dev/
 export const WHISPER_CLI_PATH = process.env.WHISPER_CLI_PATH || `${HOME}/tools/whisper.cpp/build/bin/whisper-cli`;
 export const WHISPER_MODEL_PATH = process.env.WHISPER_MODEL_PATH || `${HOME}/tools/whisper.cpp/models/ggml-medium.bin`;
 
+export const WHISPER_SERVICE_URL = process.env.WHISPER_SERVICE_URL || "http://localhost:5069";
+export const TRANSCRIPTION_DIR = process.env.TRANSCRIPTION_DIR || `${HOME}/Transcriptions`;
+
 let MCP_SERVERS: Record<string, McpServerConfig> = {};
 
 try {

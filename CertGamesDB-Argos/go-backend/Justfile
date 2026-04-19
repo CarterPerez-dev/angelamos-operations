@@ -98,6 +98,17 @@ generate-keys:
     chmod 600 keys/private.pem
     echo "ES256 keypair generated in keys/"
 
+# Analytics
+# ---------
+
+# Generate test analytics for a user
+analytics user:
+    go run ./cmd/analytics --user {{user}}
+
+# Generate test analytics with custom output directory
+analytics-to user output:
+    go run ./cmd/analytics --user {{user}} --output {{output}}
+
 # Clean
 # -----
 

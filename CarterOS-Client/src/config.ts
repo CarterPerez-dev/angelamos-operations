@@ -43,8 +43,10 @@ export const API_ENDPOINTS = {
     LIST: `/${API_VERSION}/career/jobs`,
     STATS: `/${API_VERSION}/career/jobs/stats`,
     FOLLOWUPS: `/${API_VERSION}/career/jobs/followups`,
-    BY_STATUS: (status: string) => `/${API_VERSION}/career/jobs/by-status/${status}`,
-    BY_OUTCOME: (outcome: string) => `/${API_VERSION}/career/jobs/by-outcome/${outcome}`,
+    BY_STATUS: (status: string) =>
+      `/${API_VERSION}/career/jobs/by-status/${status}`,
+    BY_OUTCOME: (outcome: string) =>
+      `/${API_VERSION}/career/jobs/by-outcome/${outcome}`,
     BY_ID: (id: string) => `/${API_VERSION}/career/jobs/${id}`,
     CREATE: `/${API_VERSION}/career/jobs`,
     UPDATE: (id: string) => `/${API_VERSION}/career/jobs/${id}`,
@@ -157,12 +159,12 @@ export const QUERY_KEYS = {
       [...QUERY_KEYS.JOB_TRACKER.ALL, 'by-status', status] as const,
     BY_OUTCOME: (outcome: string) =>
       [...QUERY_KEYS.JOB_TRACKER.ALL, 'by-outcome', outcome] as const,
-    BY_ID: (id: string) =>
-      [...QUERY_KEYS.JOB_TRACKER.ALL, 'detail', id] as const,
+    BY_ID: (id: string) => [...QUERY_KEYS.JOB_TRACKER.ALL, 'detail', id] as const,
   },
   PLANNER: {
     ALL: ['planner'] as const,
-    BLOCKS: (date: string) => [...QUERY_KEYS.PLANNER.ALL, 'blocks', date] as const,
+    BLOCKS: (date: string) =>
+      [...QUERY_KEYS.PLANNER.ALL, 'blocks', date] as const,
   },
   CHECKLIST: {
     ALL: ['checklist'] as const,

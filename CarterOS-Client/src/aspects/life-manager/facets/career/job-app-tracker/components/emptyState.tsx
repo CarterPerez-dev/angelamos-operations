@@ -13,13 +13,10 @@ export function EmptyState() {
     <div className={styles.container}>
       <h2 className={styles.title}>No applications yet</h2>
       <p className={styles.message}>
-        Start tracking your job applications to see stats and manage your job hunt.
+        Start tracking your job applications to see stats and manage your job
+        hunt.
       </p>
-      <button
-        type="button"
-        onClick={openCreateForm}
-        className={styles.button}
-      >
+      <button type="button" onClick={openCreateForm} className={styles.button}>
         Add First Application
       </button>
     </div>

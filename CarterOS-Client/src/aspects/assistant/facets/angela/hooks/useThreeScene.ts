@@ -3,13 +3,13 @@
 // useThreeScene.ts
 // ===================
 
+import { type VRM, VRMLoaderPlugin } from '@pixiv/three-vrm'
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
-import { VRM, VRMLoaderPlugin } from '@pixiv/three-vrm'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import { AnimationController, AnimationManager } from '../lib/animation'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { getAngelaConfig } from '../config'
+import { AnimationController, AnimationManager } from '../lib/animation'
 import { logger } from '../lib/debug'
 
 interface UseThreeSceneResult {
@@ -69,7 +69,10 @@ export function useThreeScene(): UseThreeSceneResult {
     }
 
     const starGeometry = new THREE.BufferGeometry()
-    starGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3))
+    starGeometry.setAttribute(
+      'position',
+      new THREE.BufferAttribute(starPositions, 3)
+    )
 
     const starMaterial = new THREE.ShaderMaterial({
       uniforms: {
@@ -106,7 +109,12 @@ export function useThreeScene(): UseThreeSceneResult {
     const stars = new THREE.Points(starGeometry, starMaterial)
     scene.add(stars)
 
-    const camera = new THREE.PerspectiveCamera(config.scene.cameraFov, width / height, 0.1, 100)
+    const camera = new THREE.PerspectiveCamera(
+      config.scene.cameraFov,
+      width / height,
+      0.1,
+      100
+    )
     camera.position.set(...config.scene.cameraPosition)
 
     const controls = new OrbitControls(camera, canvas)
@@ -151,7 +159,10 @@ export function useThreeScene(): UseThreeSceneResult {
       }
 
       logger.page.log('VRM loaded')
-      logger.page.log('Expressions:', Object.keys(vrm.expressionManager?.expressionMap || {}))
+      logger.page.log(
+        'Expressions:',
+        Object.keys(vrm.expressionManager?.expressionMap || {})
+      )
     })
 
     const clock = new THREE.Clock()
@@ -176,8 +187,14 @@ export function useThreeScene(): UseThreeSceneResult {
         if (animControllerRef.current) {
           animControllerRef.current.update(delta)
 
-          if (isPlayingRef.current && analyserRef.current && dataArrayRef.current) {
-            analyserRef.current.getByteFrequencyData(dataArrayRef.current)
+          if (
+            isPlayingRef.current &&
+            analyserRef.current &&
+            dataArrayRef.current
+          ) {
+            analyserRef.current.getByteFrequencyData(
+              dataArrayRef.current as Uint8Array<ArrayBuffer>
+            )
             let sum = 0
             const lowFreqEnd = Math.floor(dataArrayRef.current.length * 0.3)
             for (let i = 0; i < lowFreqEnd; i++) {

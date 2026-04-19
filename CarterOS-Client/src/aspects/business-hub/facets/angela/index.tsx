@@ -10,11 +10,7 @@ export function MossPage() {
     <div className={styles.page}>
       <div className={styles.content}>
         <div className={styles.imageContainer}>
-          <img
-            src="/angela/1.webp"
-            alt="Angela"
-            className={styles.image}
-          />
+          <img src="/angela/1.webp" alt="Angela" className={styles.image} />
         </div>
         <div className={styles.textContainer}>
           <div className={styles.textBlock}>
@@ -29,7 +25,9 @@ export function MossPage() {
             <div className={styles.line}>low performers, less successful</div>
             <div className={styles.line}>have very small transitions</div>
             <div className={styles.line}>if you pay attention to your life</div>
-            <div className={styles.line}>what you'll find is that there is a correlation </div>
+            <div className={styles.line}>
+              what you'll find is that there is a correlation{' '}
+            </div>
             <div className={styles.line}>between rabid transitions</div>
           </div>
 

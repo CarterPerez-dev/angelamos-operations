@@ -275,3 +275,8 @@ unresolved-attribute = "warn"
 [tool.ty.terminal]
 error-on-warning = false
 output-format = "full"
+
+[dependency-groups]
+dev = [
+    "tiktokapi>=7.3.1",
+]

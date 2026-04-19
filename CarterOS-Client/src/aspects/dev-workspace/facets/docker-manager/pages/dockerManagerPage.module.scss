@@ -16,7 +16,7 @@
 .header {
   grid-column: 1 / -1;
   padding-bottom: 1rem;
-  border-bottom: 1px solid hsl(0, 0%, 14.1%);
+  border-bottom: 1px solid hsl(0deg 0% 14.1%);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -30,13 +30,13 @@
 .title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: hsl(0, 0%, 98%);
-  margin: 0 0 0.25rem 0;
+  color: hsl(0deg 0% 98%);
+  margin: 0 0 0.25rem;
 }
 
 .subtitle {
   font-size: 0.875rem;
-  color: hsl(0, 0%, 53.7%);
+  color: hsl(0deg 0% 53.7%);
   margin: 0;
 }
 
@@ -57,7 +57,7 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.875rem;
-  color: hsl(0, 0%, 70.6%);
+  color: hsl(0deg 0% 70.6%);
   cursor: pointer;
   user-select: none;
   white-space: nowrap;
@@ -70,7 +70,7 @@
   }
 
   &:hover {
-    color: hsl(0, 0%, 98%);
+    color: hsl(0deg 0% 98%);
   }
 }
 
@@ -101,7 +101,7 @@
   justify-content: center;
   padding: 3rem 1.5rem;
   text-align: center;
-  color: hsl(0, 0%, 53.7%);
+  color: hsl(0deg 0% 53.7%);
 }
 
 .loading {
@@ -115,45 +115,45 @@
 
 .emptyHint {
   font-size: 0.75rem;
-  color: hsl(0, 0%, 30.2%);
+  color: hsl(0deg 0% 30.2%);
 }
 
 .error {
-  background: hsl(0, 0%, 12.2%);
-  border: 1px solid hsl(0, 0%, 18%);
+  background: hsl(0deg 0% 12.2%);
+  border: 1px solid hsl(0deg 0% 18%);
   border-radius: 6px;
 
   h2 {
     font-size: 1rem;
     font-weight: 600;
     color: #e74c3c;
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.5rem;
   }
 
   p {
     margin: 0.25rem 0;
     font-size: 0.875rem;
-    color: hsl(0, 0%, 70.6%);
+    color: hsl(0deg 0% 70.6%);
   }
 }
 
 .errorHint {
   font-size: 0.75rem;
-  color: hsl(0, 0%, 30.2%);
+  color: hsl(0deg 0% 30.2%);
   margin-top: 1rem;
 }
 
 .loadingCard {
-  background: hsl(0, 0%, 12.2%);
-  border: 1px solid hsl(0, 0%, 18%);
+  background: hsl(0deg 0% 12.2%);
+  border: 1px solid hsl(0deg 0% 18%);
   border-radius: 6px;
   padding: 1.5rem 1rem;
   text-align: center;
   font-size: 0.75rem;
-  color: hsl(0, 0%, 53.7%);
+  color: hsl(0deg 0% 53.7%);
 }
 
-@media (max-width: 1200px) {
+@media (width <= 1200px) {
   .page {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto 1fr;
@@ -162,8 +162,7 @@
   .sidebar {
     grid-column: 1;
     flex-direction: row;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: auto hidden;
     padding-bottom: 0.5rem;
 
     > * {
@@ -176,7 +175,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .page {
     padding: 1rem;
     gap: 1rem;

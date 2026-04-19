@@ -25,7 +25,8 @@ export const ProtectionReason = {
   USER_MARKED: 'user_marked',
   AUTO_DETECTED: 'auto_detected',
 } as const
-export type ProtectionReason = (typeof ProtectionReason)[keyof typeof ProtectionReason]
+export type ProtectionReason =
+  (typeof ProtectionReason)[keyof typeof ProtectionReason]
 
 export const portMappingSchema = z.object({
   host_ip: z.string().optional(),
@@ -56,7 +57,7 @@ export const containerSchema = z.object({
   state: z.string(),
   health: z.string().optional(),
   ports: z.array(portMappingSchema),
-  labels: z.record(z.string()),
+  labels: z.record(z.string(), z.string()),
   stats: containerStatsSchema.optional(),
   created_at: z.string(),
   started_at: z.string().optional(),
@@ -148,7 +149,7 @@ export const pruneResponseSchema = z.object({
 
 export const projectListResponseSchema = z.array(projectSchema)
 
-export const containerStatsMapSchema = z.record(containerStatsSchema)
+export const containerStatsMapSchema = z.record(z.string(), containerStatsSchema)
 
 export type PortMapping = z.infer<typeof portMappingSchema>
 export type ContainerStats = z.infer<typeof containerStatsSchema>
@@ -191,14 +192,8 @@ export const isValidProject = (data: unknown): data is Project => {
 }
 
 export const isValidProjectList = (data: unknown): data is Project[] => {
-  if (data === null || data === undefined) {
-    console.error('Data is null or undefined')
-    return false
-  }
-  if (!Array.isArray(data)) {
-    console.error('Data is not an array')
-    return false
-  }
+  if (data === null || data === undefined) return false
+  if (!Array.isArray(data)) return false
   return true
 }
 
@@ -230,7 +225,9 @@ export const isValidPruneResponse = (data: unknown): data is PruneResponse => {
   return result.success
 }
 
-export const isValidContainerStatsMap = (data: unknown): data is ContainerStatsMap => {
+export const isValidContainerStatsMap = (
+  data: unknown
+): data is ContainerStatsMap => {
   if (data === null || data === undefined) return false
   if (typeof data !== 'object') return false
   const result = containerStatsMapSchema.safeParse(data)
@@ -238,12 +235,12 @@ export const isValidContainerStatsMap = (data: unknown): data is ContainerStatsM
 }
 
 export class DockerManagerResponseError extends Error {
-  constructor(
-    message: string,
-    public readonly endpoint?: string
-  ) {
+  readonly endpoint?: string
+
+  constructor(message: string, endpoint?: string) {
     super(message)
     this.name = 'DockerManagerResponseError'
+    this.endpoint = endpoint
     Object.setPrototypeOf(this, DockerManagerResponseError.prototype)
   }
 }
@@ -266,7 +263,8 @@ export const DOCKER_SUCCESS_MESSAGES = {
   PROTECTION_ENABLED: (name: string) => `${name} is now protected`,
   PROTECTION_DISABLED: (name: string) => `${name} protection removed`,
   PRUNE_COMPLETED: (mb: number) => `Freed ${mb.toFixed(2)} MB of disk space`,
-  PROJECT_RENAMED: (oldName: string, newName: string) => `Renamed ${oldName} to ${newName}`,
+  PROJECT_RENAMED: (oldName: string, newName: string) =>
+    `Renamed ${oldName} to ${newName}`,
   PROJECT_HIDDEN: (name: string) => `${name} is now hidden`,
   PROJECT_UNHIDDEN: (name: string) => `${name} is now visible`,
 } as const

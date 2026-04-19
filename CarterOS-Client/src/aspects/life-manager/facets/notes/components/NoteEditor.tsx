@@ -3,17 +3,17 @@
 // NoteEditor.tsx
 // ===================
 
-import { useState, useEffect, useRef, useCallback } from 'react'
-import ReactMarkdown from 'react-markdown'
-import jsPDF from 'jspdf'
-import { EditorView, keymap, placeholder } from '@codemirror/view'
-import { EditorState } from '@codemirror/state'
 import { defaultKeymap, history, historyKeymap } from '@codemirror/commands'
-import { search, searchKeymap, openSearchPanel } from '@codemirror/search'
 import { markdown } from '@codemirror/lang-markdown'
-import { darkTheme } from './codemirror-theme'
-import type { Note } from '../types/notes.types'
+import { openSearchPanel, search, searchKeymap } from '@codemirror/search'
+import { EditorState } from '@codemirror/state'
+import { EditorView, keymap, placeholder } from '@codemirror/view'
+import jsPDF from 'jspdf'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import ReactMarkdown from 'react-markdown'
 import styles from '../pages/NotesPage.module.scss'
+import type { Note } from '../types/notes.types'
+import { darkTheme } from './codemirror-theme'
 
 interface NoteEditorProps {
   selectedNote: Note | undefined
@@ -39,6 +39,11 @@ export function NoteEditor({
   const [previewMode, setPreviewMode] = useState(false)
   const editorRef = useRef<HTMLDivElement>(null)
   const viewRef = useRef<EditorView | null>(null)
+  const onContentChangeRef = useRef(onContentChange)
+  const editingContentRef = useRef(editingContent)
+
+  onContentChangeRef.current = onContentChange
+  editingContentRef.current = editingContent
 
   const handleOpenSearch = useCallback(() => {
     if (viewRef.current) {
@@ -51,12 +56,12 @@ export function NoteEditor({
 
     const updateListener = EditorView.updateListener.of((update) => {
       if (update.docChanged && !viewingDeleted) {
-        onContentChange(update.state.doc.toString())
+        onContentChangeRef.current(update.state.doc.toString())
       }
     })
 
     const state = EditorState.create({
-      doc: editingContent,
+      doc: editingContentRef.current,
       extensions: [
         darkTheme,
         placeholder('Write your notes here...'),
@@ -81,7 +86,7 @@ export function NoteEditor({
       view.destroy()
       viewRef.current = null
     }
-  }, [selectedNote?.id, previewMode, viewingDeleted])
+  }, [selectedNote, previewMode, viewingDeleted])
 
   useEffect(() => {
     if (viewRef.current && !previewMode) {
@@ -147,17 +152,33 @@ export function NoteEditor({
                   {previewMode ? 'Edit' : 'Preview'}
                 </button>
                 {!previewMode && (
-                  <button type="button" onClick={handleOpenSearch} className={styles.findBtn}>
+                  <button
+                    type="button"
+                    onClick={handleOpenSearch}
+                    className={styles.findBtn}
+                  >
                     Find
                   </button>
                 )}
-                <button type="button" onClick={handleExportMarkdown} className={styles.exportBtn}>
+                <button
+                  type="button"
+                  onClick={handleExportMarkdown}
+                  className={styles.exportBtn}
+                >
                   Export MD
                 </button>
-                <button type="button" onClick={handleExportPDF} className={styles.exportBtn}>
+                <button
+                  type="button"
+                  onClick={handleExportPDF}
+                  className={styles.exportBtn}
+                >
                   Export PDF
                 </button>
-                <button type="button" onClick={onCopyAll} className={styles.copyBtn}>
+                <button
+                  type="button"
+                  onClick={onCopyAll}
+                  className={styles.copyBtn}
+                >
                   Copy
                 </button>
                 <div className={styles.saveStatus}>
@@ -166,7 +187,11 @@ export function NoteEditor({
                   ) : isSaving ? (
                     <span className={styles.savingText}>Saving...</span>
                   ) : hasUnsavedChanges ? (
-                    <button type="button" onClick={onSaveContent} className={styles.saveBtn}>
+                    <button
+                      type="button"
+                      onClick={onSaveContent}
+                      className={styles.saveBtn}
+                    >
                       Save Now
                     </button>
                   ) : (
@@ -177,7 +202,9 @@ export function NoteEditor({
             </div>
             {previewMode ? (
               <div className={styles.markdownPreview}>
-                <ReactMarkdown>{editingContent || '*No content to preview*'}</ReactMarkdown>
+                <ReactMarkdown>
+                  {editingContent || '*No content to preview*'}
+                </ReactMarkdown>
               </div>
             ) : (
               <div ref={editorRef} className={styles.codemirrorWrapper} />

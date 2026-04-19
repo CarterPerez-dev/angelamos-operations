@@ -30,6 +30,12 @@ from aspects.life_manager.facets.career.job_app_tracker.schemas import (
 )
 from aspects.challenge.facets.tracker.service import ChallengeService
 from aspects.challenge.facets.tracker.schemas import LogCreate
+from aspects.analytics.facets.data_input.service import DataInputService
+from aspects.analytics.facets.data_input.schemas import (
+    TikTokVideoCreate,
+    TikTokVideoUpdate,
+)
+from aspects.analytics.facets.insights.service import InsightsService
 
 
 mcp = FastMCP("carteros")
@@ -576,3 +582,375 @@ async def get_my_interests() -> list[dict]:
                 "why": i.why,
             } for i in interests
         ]
+
+
+@mcp.tool()
+async def create_tiktok_video(
+    rank: int,
+    date_posted: str,
+    hook: str,
+    description: str,
+    length: float,
+    views: int,
+    comments: int,
+    likes: int,
+    bookmarks: int,
+    shares: int,
+    avg_watch_time: float,
+    new_followers: int,
+    watched_full_video_percentage: float,
+    video_url: str | None = None,
+    text_on_screen_hook: str | None = None,
+    hashtags: list[str] | None = None,
+    cta: str | None = None,
+    full_transcription: str | None = None,
+    notes: str | None = None,
+    top_comment_words: dict[str, int] | None = None,
+    search_queries: dict[str, float] | None = None,
+    traffic_sources: dict[str, float] | None = None,
+) -> dict:
+    """
+    Create a new TikTok video record with performance metrics.
+    Date format: YYYY-MM-DD. Length in seconds.
+    avg_watch_time in seconds. watched_full_video_percentage 0-100.
+    top_comment_words: {"word": count}. search_queries: {"query": percentage}.
+    traffic_sources: {"source": percentage}.
+    """
+    data = TikTokVideoCreate(
+        rank = rank,
+        date_posted = date.fromisoformat(date_posted),
+        video_url = video_url,
+        views = views,
+        comments = comments,
+        likes = likes,
+        bookmarks = bookmarks,
+        shares = shares,
+        avg_watch_time = avg_watch_time,
+        new_followers = new_followers,
+        watched_full_video_percentage = watched_full_video_percentage,
+        top_comment_words = top_comment_words,
+        search_queries = search_queries,
+        traffic_sources = traffic_sources,
+        hook = hook,
+        text_on_screen_hook = text_on_screen_hook,
+        length = length,
+        description = description,
+        hashtags = hashtags,
+        cta = cta,
+        full_transcription = full_transcription,
+        notes = notes,
+    )
+
+    async with sessionmanager.session() as session:
+        result = await DataInputService.create_video(session, data)
+        return result.model_dump(mode = "json")
+
+
+@mcp.tool()
+async def get_tiktok_videos(
+    page: int = 1,
+    page_size: int = 50,
+) -> dict:
+    """
+    Get all TikTok videos with pagination.
+    Returns {items: [...], total, page, page_size}.
+    """
+    async with sessionmanager.session() as session:
+        result = await DataInputService.get_all_videos(
+            session,
+            page,
+            page_size
+        )
+        return result.model_dump(mode = "json")
+
+
+@mcp.tool()
+async def get_tiktok_video(video_id: str) -> dict:
+    """
+    Get a single TikTok video by ID.
+    """
+    async with sessionmanager.session() as session:
+        result = await DataInputService.get_video(
+            session,
+            UUID(video_id)
+        )
+        return result.model_dump(mode = "json")
+
+
+@mcp.tool()
+async def update_tiktok_video(
+    video_id: str,
+    rank: int | None = None,
+    date_posted: str | None = None,
+    video_url: str | None = None,
+    views: int | None = None,
+    comments: int | None = None,
+    likes: int | None = None,
+    bookmarks: int | None = None,
+    shares: int | None = None,
+    avg_watch_time: float | None = None,
+    new_followers: int | None = None,
+    watched_full_video_percentage: float | None = None,
+    top_comment_words: dict[str, int] | None = None,
+    search_queries: dict[str, float] | None = None,
+    traffic_sources: dict[str, float] | None = None,
+    hook: str | None = None,
+    text_on_screen_hook: str | None = None,
+    length: float | None = None,
+    description: str | None = None,
+    hashtags: list[str] | None = None,
+    cta: str | None = None,
+    full_transcription: str | None = None,
+    notes: str | None = None,
+) -> dict:
+    """
+    Update a TikTok video record. Only updates provided fields.
+    Date format: YYYY-MM-DD.
+    """
+    update_data = {}
+    if rank is not None:
+        update_data["rank"] = rank
+    if date_posted is not None:
+        update_data["date_posted"] = date.fromisoformat(date_posted)
+    if video_url is not None:
+        update_data["video_url"] = video_url
+    if views is not None:
+        update_data["views"] = views
+    if comments is not None:
+        update_data["comments"] = comments
+    if likes is not None:
+        update_data["likes"] = likes
+    if bookmarks is not None:
+        update_data["bookmarks"] = bookmarks
+    if shares is not None:
+        update_data["shares"] = shares
+    if avg_watch_time is not None:
+        update_data["avg_watch_time"] = avg_watch_time
+    if new_followers is not None:
+        update_data["new_followers"] = new_followers
+    if watched_full_video_percentage is not None:
+        update_data["watched_full_video_percentage"] = (
+            watched_full_video_percentage
+        )
+    if top_comment_words is not None:
+        update_data["top_comment_words"] = top_comment_words
+    if search_queries is not None:
+        update_data["search_queries"] = search_queries
+    if traffic_sources is not None:
+        update_data["traffic_sources"] = traffic_sources
+    if hook is not None:
+        update_data["hook"] = hook
+    if text_on_screen_hook is not None:
+        update_data["text_on_screen_hook"] = text_on_screen_hook
+    if length is not None:
+        update_data["length"] = length
+    if description is not None:
+        update_data["description"] = description
+    if hashtags is not None:
+        update_data["hashtags"] = hashtags
+    if cta is not None:
+        update_data["cta"] = cta
+    if full_transcription is not None:
+        update_data["full_transcription"] = full_transcription
+    if notes is not None:
+        update_data["notes"] = notes
+
+    data = TikTokVideoUpdate(**update_data)
+
+    async with sessionmanager.session() as session:
+        result = await DataInputService.update_video(
+            session,
+            UUID(video_id),
+            data
+        )
+        return result.model_dump(mode = "json")
+
+
+@mcp.tool()
+async def delete_tiktok_video(video_id: str) -> dict:
+    """
+    Delete a TikTok video record by ID.
+    """
+    async with sessionmanager.session() as session:
+        await DataInputService.delete_video(session, UUID(video_id))
+        return {"success": True, "deleted_id": video_id}
+
+
+@mcp.tool()
+async def search_tiktok_videos(query: str) -> list[dict]:
+    """
+    Search TikTok videos by text across hook, description, hashtags,
+    CTA, and transcription (case-insensitive).
+    """
+    async with sessionmanager.session() as session:
+        results = await DataInputService.search_videos(session, query)
+        return [r.model_dump(mode = "json") for r in results]
+
+
+@mcp.tool()
+async def filter_tiktok_videos_by_date_range(
+    start_date: str,
+    end_date: str,
+) -> list[dict]:
+    """
+    Get TikTok videos within a date range.
+    Date format: YYYY-MM-DD.
+    """
+    async with sessionmanager.session() as session:
+        results = await DataInputService.get_videos_by_date_range(
+            session,
+            date.fromisoformat(start_date),
+            date.fromisoformat(end_date)
+        )
+        return [r.model_dump(mode = "json") for r in results]
+
+
+@mcp.tool()
+async def get_analytics_overview() -> dict:
+    """
+    Get high-level TikTok analytics overview.
+    Returns total videos, views, likes, comments, shares, bookmarks,
+    new followers, avg engagement rate, avg watch time, top video,
+    and recent performance trend (improving/declining/stable).
+    """
+    async with sessionmanager.session() as session:
+        result = await InsightsService.get_overview_insights(session)
+        return result.model_dump(mode = "json")
+
+
+@mcp.tool()
+async def get_analytics_rankings(limit: int = 10) -> dict:
+    """
+    Get top performing TikTok videos ranked by different metrics.
+    Returns four rankings: by_views, by_engagement_rate,
+    by_follower_conversion, by_watch_time.
+    """
+    async with sessionmanager.session() as session:
+        result = await InsightsService.get_performance_rankings(
+            session,
+            limit
+        )
+        return result.model_dump(mode = "json")
+
+
+@mcp.tool()
+async def get_analytics_hooks(limit: int = 10) -> dict:
+    """
+    Get hook effectiveness analysis.
+    Shows which hooks perform best by avg views, watch time,
+    and engagement rate.
+    """
+    async with sessionmanager.session() as session:
+        result = await InsightsService.get_hook_insights(session, limit)
+        return result.model_dump(mode = "json")
+
+
+@mcp.tool()
+async def get_analytics_ctas(limit: int = 10) -> dict:
+    """
+    Get CTA (call-to-action) performance comparison.
+    Shows which CTAs drive the most shares, new followers,
+    and engagement.
+    """
+    async with sessionmanager.session() as session:
+        result = await InsightsService.get_cta_insights(session, limit)
+        return result.model_dump(mode = "json")
+
+
+@mcp.tool()
+async def get_analytics_traffic_sources() -> dict:
+    """
+    Get traffic source breakdown across all TikTok videos.
+    Shows percentage distribution of where views come from
+    (For You page, Following, Search, etc).
+    """
+    async with sessionmanager.session() as session:
+        result = await InsightsService.get_traffic_source_insights(session)
+        return result.model_dump(mode = "json")
+
+
+@mcp.tool()
+async def get_analytics_search_queries(limit: int = 20) -> dict:
+    """
+    Get search query trends that led viewers to TikTok videos.
+    Shows which search terms drive the most traffic.
+    """
+    async with sessionmanager.session() as session:
+        result = await InsightsService.get_search_query_insights(
+            session,
+            limit
+        )
+        return result.model_dump(mode = "json")
+
+
+@mcp.tool()
+async def get_analytics_comment_words(limit: int = 50) -> dict:
+    """
+    Get comment word frequency data (word cloud).
+    Shows most common words appearing in video comments.
+    """
+    async with sessionmanager.session() as session:
+        result = await InsightsService.get_comment_word_insights(
+            session,
+            limit
+        )
+        return result.model_dump(mode = "json")
+
+
+@mcp.tool()
+async def get_analytics_video_length() -> dict:
+    """
+    Get performance breakdown by video length ranges.
+    Shows which duration ranges (0:30-1:00, 1:00-1:30, etc)
+    perform best by views, engagement, and watch percentage.
+    """
+    async with sessionmanager.session() as session:
+        result = await InsightsService.get_video_length_insights(session)
+        return result.model_dump(mode = "json")
+
+
+@mcp.tool()
+async def get_analytics_hashtags(limit: int = 20) -> dict:
+    """
+    Get hashtag performance analysis.
+    Shows which hashtags drive the most views and engagement.
+    """
+    async with sessionmanager.session() as session:
+        result = await InsightsService.get_hashtag_insights(session, limit)
+        return result.model_dump(mode = "json")
+
+
+@mcp.tool()
+async def get_analytics_posting_time() -> dict:
+    """
+    Get optimal posting time analysis.
+    Shows which days of the week perform best
+    by views and engagement rate.
+    """
+    async with sessionmanager.session() as session:
+        result = await InsightsService.get_posting_time_insights(session)
+        return result.model_dump(mode = "json")
+
+
+@mcp.tool()
+async def get_analytics_time_series() -> dict:
+    """
+    Get TikTok performance trends over time.
+    Returns data points with date, views, engagement rate,
+    new followers, and video count per period.
+    """
+    async with sessionmanager.session() as session:
+        result = await InsightsService.get_time_series_insights(session)
+        return result.model_dump(mode = "json")
+
+
+@mcp.tool()
+async def export_analytics_data() -> dict:
+    """
+    Export all TikTok video data as JSON with calculated fields
+    (engagement rate, follower conversion rate).
+    Returns {videos: [...], total_count, export_date}.
+    """
+    async with sessionmanager.session() as session:
+        result = await InsightsService.export_all_data(session)
+        return result.model_dump(mode = "json")

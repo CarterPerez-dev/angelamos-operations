@@ -3,30 +3,28 @@
 // NotesPage.tsx
 // ===================
 
-import { useState, useEffect, useRef, useCallback } from 'react'
-import {
-  useNotes,
-  useCreateNote,
-  useUpdateNote,
-  useDeleteNote,
-  useCreateFolder,
-  useDeleteFolder,
-  useDeletedNotes,
-  useRestoreNote,
-  useRestoreFolder,
-  usePermanentDeleteNote,
-  usePermanentDeleteFolder,
-  useBulkDeleteNotes,
-  useBulkDeleteFolders,
-} from '../hooks/useNotes'
-import { useResizablePanels } from '../hooks/useResizablePanels'
-import { useNotesUIStore } from '../stores/notes.ui.store'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   ConfirmDeleteModal,
   FolderSidebar,
-  NotesList,
   NoteEditor,
+  NotesList,
 } from '../components'
+import {
+  useBulkDeleteFolders,
+  useBulkDeleteNotes,
+  useCreateFolder,
+  useCreateNote,
+  useDeletedNotes,
+  useNotes,
+  usePermanentDeleteFolder,
+  usePermanentDeleteNote,
+  useRestoreFolder,
+  useRestoreNote,
+  useUpdateNote,
+} from '../hooks/useNotes'
+import { useResizablePanels } from '../hooks/useResizablePanels'
+import { useNotesUIStore } from '../stores/notes.ui.store'
 import type { Note } from '../types/notes.types'
 import styles from './NotesPage.module.scss'
 
@@ -35,9 +33,7 @@ export function NotesPage() {
   const { data: deletedData, isLoading: isLoadingDeleted } = useDeletedNotes()
   const { mutate: createNote, isPending: isCreatingNote } = useCreateNote()
   const { mutate: updateNote, isPending: isSaving } = useUpdateNote()
-  const { mutate: deleteNote } = useDeleteNote()
   const { mutate: createFolder, isPending: isCreatingFolder } = useCreateFolder()
-  const { mutate: deleteFolder } = useDeleteFolder()
   const { mutate: restoreNote } = useRestoreNote()
   const { mutate: restoreFolder } = useRestoreFolder()
   const { mutate: permanentDeleteNote } = usePermanentDeleteNote()
@@ -63,14 +59,22 @@ export function NotesPage() {
   const clearSelections = useNotesUIStore((s) => s.clearSelections)
 
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
-  const [confirmDelete, setConfirmDelete] = useState<{ id: string; type: 'note' | 'folder' } | null>(null)
-  const saveTimeoutRef = useRef<NodeJS.Timeout>()
+  const [confirmDelete, setConfirmDelete] = useState<{
+    id: string
+    type: 'note' | 'folder'
+  } | null>(null)
+  const saveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const lastSavedContentRef = useRef('')
 
-  const { panelWidths, dragging, setDragging, containerRef } = useResizablePanels()
+  const { panelWidths, dragging, setDragging, containerRef } =
+    useResizablePanels()
 
   useEffect(() => {
-    if (data && selectedFolderId && !data.folders.some((f) => f.id === selectedFolderId)) {
+    if (
+      data &&
+      selectedFolderId &&
+      !data.folders.some((f) => f.id === selectedFolderId)
+    ) {
       setSelectedFolder(null)
     }
   }, [data, selectedFolderId, setSelectedFolder])
@@ -217,20 +221,21 @@ export function NotesPage() {
   const handleCopyAll = async () => {
     try {
       await navigator.clipboard.writeText(editingContent)
-    } catch (err) {
-      console.error('Failed to copy:', err)
-    }
+    } catch (_) {}
   }
 
   const filteredNotes = viewingDeleted
     ? deletedData?.notes
     : data?.notes
         .filter((n) =>
-          selectedFolderId ? n.folder_id === selectedFolderId : n.folder_id === null
+          selectedFolderId
+            ? n.folder_id === selectedFolderId
+            : n.folder_id === null
         )
         .sort((a, b) => a.sort_order - b.sort_order)
 
-  const deletedCount = (deletedData?.notes.length || 0) + (deletedData?.folders.length || 0)
+  const deletedCount =
+    (deletedData?.notes.length || 0) + (deletedData?.folders.length || 0)
 
   return (
     <div ref={containerRef} className={styles.page}>
@@ -251,6 +256,7 @@ export function NotesPage() {
       />
 
       <div
+        role="separator"
         className={`${styles.resizeHandle} ${dragging === 'sidebar' ? styles.dragging : ''}`}
         onMouseDown={() => setDragging('sidebar')}
       />
@@ -277,6 +283,7 @@ export function NotesPage() {
       />
 
       <div
+        role="separator"
         className={`${styles.resizeHandle} ${dragging === 'notesList' ? styles.dragging : ''}`}
         onMouseDown={() => setDragging('notesList')}
       />

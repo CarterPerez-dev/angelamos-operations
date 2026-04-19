@@ -38,9 +38,9 @@
   align-items: center;
   gap: $space-xl;
   padding: $space-2xl $space-3xl;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgb(255 255 255 / 15%);
   border-radius: $radius-md;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgb(255 255 255 / 2%);
   backdrop-filter: blur(8px);
   max-width: 600px;
   width: 100%;
@@ -67,6 +67,6 @@
   padding: 0;
   width: 100%;
   white-space: normal;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
 }                                                                           
                

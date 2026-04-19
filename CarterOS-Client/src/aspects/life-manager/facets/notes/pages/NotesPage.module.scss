@@ -82,8 +82,7 @@
 
 .folderList {
   flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden auto;
   padding: $space-xs;
   min-height: 0;
 }
@@ -290,7 +289,7 @@
 
 .deleteSelectedBtn {
   padding: $space-xs $space-sm;
-  background: hsl(0, 60%, 50%);
+  background: hsl(0deg 60% 50%);
   border: none;
   border-radius: $radius-sm;
   color: $text-default;
@@ -454,7 +453,7 @@
   }
 
   &:hover {
-    color: hsl(0, 60%, 60%);
+    color: hsl(0deg 60% 60%);
   }
 
   @container (max-width: 180px) {
@@ -523,7 +522,7 @@
   white-space: nowrap;
 
   &:hover {
-    color: hsl(0, 60%, 60%);
+    color: hsl(0deg 60% 60%);
   }
 
   @container (max-width: 180px) {
@@ -647,7 +646,7 @@
 
 .savedText {
   font-size: $text-xs;
-  color: hsl(120, 40%, 50%);
+  color: hsl(120deg 40% 50%);
   font-weight: $font-medium;
   display: flex;
   align-items: center;
@@ -796,11 +795,8 @@
 
 .confirmOverlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background: rgb(0 0 0 / 50%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -820,13 +816,13 @@
   font-size: $text-lg;
   font-weight: $font-semibold;
   color: $text-default;
-  margin: 0 0 $space-md 0;
+  margin: 0 0 $space-md;
 }
 
 .confirmText {
   font-size: $text-sm;
   color: $text-light;
-  margin: 0 0 $space-xl 0;
+  margin: 0 0 $space-xl;
   line-height: 1.5;
 }
 
@@ -854,7 +850,7 @@
 
 .confirmDelete {
   padding: $space-sm $space-lg;
-  background: hsl(0, 60%, 50%);
+  background: hsl(0deg 60% 50%);
   border: none;
   border-radius: $radius-sm;
   color: $text-default;

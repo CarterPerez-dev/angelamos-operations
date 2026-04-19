@@ -133,12 +133,12 @@
 }
 
 .trendUp {
-  color: hsl(142, 76%, 36%);
+  color: hsl(142deg 76% 36%);
   font-size: 24px;
 }
 
 .trendDown {
-  color: hsl(0, 72%, 51%);
+  color: hsl(0deg 72% 51%);
   font-size: 24px;
 }
 
@@ -251,7 +251,7 @@
   border-left: 3px solid $accent-purple;
 }
 
-@media (max-width: 900px) {
+@media (width <= 900px) {
   .page {
     padding: $space-xl $space-lg;
   }
@@ -281,7 +281,7 @@
   }
 }
 
-@media (max-width: 500px) {
+@media (width <= 500px) {
   .page {
     padding: $space-lg $space-md;
   }

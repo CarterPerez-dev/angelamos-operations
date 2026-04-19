@@ -4,8 +4,8 @@
 // ===================
 
 import { useEffect, useRef, useState } from 'react'
-import type { ContainerStatsMap } from '../types/docker.types'
 import { getDockerWSUrl } from '../types/docker.enums'
+import type { ContainerStatsMap } from '../types/docker.types'
 
 interface UseDockerWebSocketReturn {
   stats: ContainerStatsMap | null
@@ -18,7 +18,7 @@ export const useDockerWebSocket = (enabled = true): UseDockerWebSocketReturn => 
   const [isConnected, setIsConnected] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const wsRef = useRef<WebSocket | null>(null)
-  const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const reconnectAttempts = useRef(0)
   const maxReconnectAttempts = 10
 
@@ -46,13 +46,10 @@ export const useDockerWebSocket = (enabled = true): UseDockerWebSocketReturn => 
             if (message.type === 'container_stats' && message.payload) {
               setStats(message.payload)
             }
-          } catch (err) {
-            console.error('Failed to parse WebSocket message:', err)
-          }
+          } catch {}
         }
 
-        ws.onerror = (event) => {
-          console.error('WebSocket error:', event)
+        ws.onerror = () => {
           setError('WebSocket connection error')
         }
 
@@ -61,7 +58,7 @@ export const useDockerWebSocket = (enabled = true): UseDockerWebSocketReturn => 
           wsRef.current = null
 
           if (enabled && reconnectAttempts.current < maxReconnectAttempts) {
-            const delay = Math.min(1000 * Math.pow(2, reconnectAttempts.current), 30000)
+            const delay = Math.min(1000 * 2 ** reconnectAttempts.current, 30000)
             reconnectAttempts.current++
 
             reconnectTimeoutRef.current = setTimeout(() => {
@@ -71,9 +68,8 @@ export const useDockerWebSocket = (enabled = true): UseDockerWebSocketReturn => 
             setError('Max reconnection attempts reached')
           }
         }
-      } catch (err) {
+      } catch {
         setError('Failed to create WebSocket connection')
-        console.error('WebSocket connection error:', err)
       }
     }
 

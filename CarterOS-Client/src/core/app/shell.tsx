@@ -9,11 +9,12 @@ import { Outlet } from 'react-router-dom'
 import { Header } from './header'
 import styles from './shell.module.scss'
 
-function ShellErrorFallback({ error }: { error: Error }): React.ReactElement {
+function ShellErrorFallback({ error }: { error: unknown }): React.ReactElement {
+  const message = error instanceof Error ? error.message : 'Unknown error'
   return (
     <div className={styles.error}>
       <h2>Something went wrong</h2>
-      <pre>{error.message}</pre>
+      <pre>{message}</pre>
     </div>
   )
 }

@@ -3,7 +3,7 @@
 // card.tsx
 // ===========================
 
-import { type HTMLAttributes } from 'react'
+import type { HTMLAttributes } from 'react'
 import styles from './card.module.scss'
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {

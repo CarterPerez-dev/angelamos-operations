@@ -3,14 +3,11 @@
 // protected-route.tsx
 // ===================
 
-import {
-  Navigate,
-  Outlet,
-  useLocation,
-} from 'react-router-dom'
+import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { ROUTES } from '@/config'
 import { useAuthStore } from '@/core/state'
 import type { UserRole } from '@/core/sys/auth/types'
+
 interface ProtectedRouteProps {
   allowedRoles?: UserRole[]
   redirectTo?: string

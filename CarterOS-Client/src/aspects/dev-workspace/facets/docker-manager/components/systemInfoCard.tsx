@@ -51,7 +51,9 @@ export function SystemInfoCard({ info }: SystemInfoCardProps) {
           </div>
           <div className={styles.stat}>
             <span className={styles.label}>Running</span>
-            <span className={styles.valueHighlight}>{info.containers_running}</span>
+            <span className={styles.valueHighlight}>
+              {info.containers_running}
+            </span>
           </div>
           <div className={styles.stat}>
             <span className={styles.label}>Paused</span>

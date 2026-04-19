@@ -11,10 +11,27 @@ interface ConfirmDeleteModalProps {
   onConfirm: () => void
 }
 
-export function ConfirmDeleteModal({ deleteType, onCancel, onConfirm }: ConfirmDeleteModalProps) {
+export function ConfirmDeleteModal({
+  deleteType,
+  onCancel,
+  onConfirm,
+}: ConfirmDeleteModalProps) {
   return (
-    <div className={styles.confirmOverlay} onClick={onCancel}>
-      <div className={styles.confirmModal} onClick={(e) => e.stopPropagation()}>
+    <div
+      role="button"
+      tabIndex={0}
+      className={styles.confirmOverlay}
+      onClick={onCancel}
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') onCancel()
+      }}
+    >
+      <div
+        role="dialog"
+        className={styles.confirmModal}
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
         <h3 className={styles.confirmTitle}>Delete Forever?</h3>
         <p className={styles.confirmText}>
           {deleteType === 'folder'

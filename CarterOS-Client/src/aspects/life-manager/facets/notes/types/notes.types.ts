@@ -39,7 +39,9 @@ export const deletedNotesListResponseSchema = z.object({
 export type NoteFolder = z.infer<typeof noteFolderSchema>
 export type Note = z.infer<typeof noteSchema>
 export type NotesListResponse = z.infer<typeof notesListResponseSchema>
-export type DeletedNotesListResponse = z.infer<typeof deletedNotesListResponseSchema>
+export type DeletedNotesListResponse = z.infer<
+  typeof deletedNotesListResponseSchema
+>
 
 export interface NoteFolderCreate {
   name: string
@@ -79,7 +81,9 @@ export const isValidNote = (data: unknown): data is Note => {
   return noteSchema.safeParse(data).success
 }
 
-export const isValidNotesListResponse = (data: unknown): data is NotesListResponse => {
+export const isValidNotesListResponse = (
+  data: unknown
+): data is NotesListResponse => {
   if (data === null || data === undefined) return false
   if (typeof data !== 'object') return false
   return notesListResponseSchema.safeParse(data).success

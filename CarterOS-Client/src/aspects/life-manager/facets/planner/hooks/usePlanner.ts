@@ -4,13 +4,13 @@
 // ===================
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { apiClient as api } from '@/core/api'
 import { API_ENDPOINTS } from '@/config'
+import { apiClient as api } from '@/core/api'
 import type {
   TimeBlock,
   TimeBlockCreate,
-  TimeBlockUpdate,
   TimeBlockListResponse,
+  TimeBlockUpdate,
 } from '../types/planner.types'
 
 const PLANNER_API = API_ENDPOINTS.PLANNER
@@ -41,10 +41,13 @@ export function useCreateBlock() {
     },
     onSuccess: (newBlock) => {
       const blockDate = newBlock.block_date
-      queryClient.setQueryData<TimeBlockListResponse>(QUERY_KEYS.blocks(blockDate), (old) => {
-        if (!old) return { items: [newBlock], date: blockDate }
-        return { ...old, items: [...old.items, newBlock] }
-      })
+      queryClient.setQueryData<TimeBlockListResponse>(
+        QUERY_KEYS.blocks(blockDate),
+        (old) => {
+          if (!old) return { items: [newBlock], date: blockDate }
+          return { ...old, items: [...old.items, newBlock] }
+        }
+      )
     },
   })
 }
@@ -54,18 +57,26 @@ export function useUpdateBlock() {
 
   return useMutation({
     mutationFn: async ({ id, data }: { id: string; data: TimeBlockUpdate }) => {
-      const { data: result } = await api.put<TimeBlock>(PLANNER_API.BLOCK(id), data)
+      const { data: result } = await api.put<TimeBlock>(
+        PLANNER_API.BLOCK(id),
+        data
+      )
       return result
     },
     onSuccess: (updatedBlock) => {
       const blockDate = updatedBlock.block_date
-      queryClient.setQueryData<TimeBlockListResponse>(QUERY_KEYS.blocks(blockDate), (old) => {
-        if (!old) return old
-        return {
-          ...old,
-          items: old.items.map((b) => (b.id === updatedBlock.id ? updatedBlock : b)),
+      queryClient.setQueryData<TimeBlockListResponse>(
+        QUERY_KEYS.blocks(blockDate),
+        (old) => {
+          if (!old) return old
+          return {
+            ...old,
+            items: old.items.map((b) =>
+              b.id === updatedBlock.id ? updatedBlock : b
+            ),
+          }
         }
-      })
+      )
     },
   })
 }
@@ -78,8 +89,10 @@ export function useDeleteBlock() {
       await api.delete(PLANNER_API.BLOCK(id))
       return id
     },
-    onSuccess: (deletedId, variables) => {
-      const queries = queryClient.getQueriesData<TimeBlockListResponse>({ queryKey: ['planner', 'blocks'] })
+    onSuccess: (deletedId, _variables) => {
+      const queries = queryClient.getQueriesData<TimeBlockListResponse>({
+        queryKey: ['planner', 'blocks'],
+      })
       for (const [key, data] of queries) {
         if (data) {
           queryClient.setQueryData<TimeBlockListResponse>(key, {

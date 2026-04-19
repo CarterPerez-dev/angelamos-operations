@@ -3,21 +3,21 @@
 // useVoicePipeline.ts
 // ===================
 
-import { useRef, useCallback } from 'react'
-import { AnimationController, AnimationManager } from '../lib/animation'
-import { AudioRecorder, SilenceDetector } from '../lib/audio'
-import { transcribeAudio } from '../api/whisper.client'
+import { useCallback, useRef } from 'react'
 import { streamChat } from '../api/ollama.client'
 import { synthesizeSpeech } from '../api/tts.client'
+import { transcribeAudio } from '../api/whisper.client'
 import { getAngelaConfig } from '../config'
+import type { AnimationController, AnimationManager } from '../lib/animation'
+import { type AudioRecorder, SilenceDetector } from '../lib/audio'
 import { logger } from '../lib/debug'
-import type { OllamaMessage, AngelaStatus } from '../types'
+import type { AngelaStatus, OllamaMessage } from '../types'
 
 type WakeWordEngine = {
   start: () => Promise<void>
-  stop: () => Promise<void>
+  stop: () => void
   dispose: () => Promise<void>
-  onWakeWord: (() => void) | null
+  onWakeWord?: (() => void) | null
 }
 
 interface UseVoicePipelineProps {
@@ -53,117 +53,147 @@ export function useVoicePipeline({
   const statusRef = useRef<AngelaStatus>('initializing')
   const abortControllerRef = useRef<AbortController | null>(null)
 
-  const updateStatus = useCallback((newStatus: AngelaStatus) => {
-    statusRef.current = newStatus
-    onStatusChange(newStatus)
+  const updateStatus = useCallback(
+    (newStatus: AngelaStatus) => {
+      statusRef.current = newStatus
+      onStatusChange(newStatus)
 
-    const state = newStatus === 'processing' ? 'thinking' : newStatus
+      const state = newStatus === 'processing' ? 'thinking' : newStatus
 
-    if (animControllerRef.current) {
-      animControllerRef.current.setState(state as 'idle' | 'listening' | 'thinking' | 'speaking' | 'error')
-    }
-
-    if (animManagerRef.current) {
-      animManagerRef.current.setState(state as 'idle' | 'listening' | 'thinking' | 'speaking' | 'error')
-    }
-  }, [animControllerRef, animManagerRef, onStatusChange])
-
-  const playAudioWithLipSync = useCallback(async (audioBuffer: ArrayBuffer): Promise<void> => {
-    audioContextRef.current = new AudioContext()
-    analyserRef.current = audioContextRef.current.createAnalyser()
-    analyserRef.current.fftSize = 256
-    dataArrayRef.current = new Uint8Array(analyserRef.current.frequencyBinCount)
-
-    const decoded = await audioContextRef.current.decodeAudioData(audioBuffer.slice(0))
-
-    sourceRef.current = audioContextRef.current.createBufferSource()
-    sourceRef.current.buffer = decoded
-    sourceRef.current.connect(analyserRef.current)
-    analyserRef.current.connect(audioContextRef.current.destination)
-
-    isPlayingRef.current = true
-
-    return new Promise((resolve) => {
-      sourceRef.current!.onended = () => {
-        isPlayingRef.current = false
-        animControllerRef.current?.setMouthOpen(0)
-        audioContextRef.current?.close()
-        resolve()
-      }
-      sourceRef.current!.start(0)
-    })
-  }, [analyserRef, dataArrayRef, isPlayingRef, animControllerRef])
-
-  const processAudio = useCallback(async (audioBlob: Blob) => {
-    updateStatus('processing')
-
-    try {
-      logger.pipeline.log('Transcribing...')
-      const result = await transcribeAudio(audioBlob)
-      logger.pipeline.log('Transcription:', result.text)
-
-      if (!result.text?.trim()) {
-        logger.pipeline.log('Empty transcription')
-        updateStatus('idle')
-        wakeWordRef.current?.start()
-        return
+      if (animControllerRef.current) {
+        animControllerRef.current.setState(
+          state as 'idle' | 'listening' | 'thinking' | 'speaking' | 'error'
+        )
       }
 
-      onTranscriptChange(result.text)
-      messagesRef.current.push({ role: 'user', content: result.text })
+      if (animManagerRef.current) {
+        animManagerRef.current.setState(
+          state as 'idle' | 'listening' | 'thinking' | 'speaking' | 'error'
+        )
+      }
+    },
+    [animControllerRef, animManagerRef, onStatusChange]
+  )
 
-      updateStatus('thinking')
-      logger.pipeline.log('Calling LLM...')
+  const playAudioWithLipSync = useCallback(
+    async (audioBuffer: ArrayBuffer): Promise<void> => {
+      audioContextRef.current = new AudioContext()
+      analyserRef.current = audioContextRef.current.createAnalyser()
+      analyserRef.current.fftSize = 256
+      dataArrayRef.current = new Uint8Array(analyserRef.current.frequencyBinCount)
 
-      abortControllerRef.current = new AbortController()
+      const decoded = await audioContextRef.current.decodeAudioData(
+        audioBuffer.slice(0)
+      )
 
-      let fullResponse = ''
-      try {
-        for await (const chunk of streamChat(messagesRef.current, abortControllerRef.current.signal)) {
-          fullResponse += chunk
-          onResponseChange(fullResponse)
-        }
-      } catch (err) {
-        if (err instanceof Error && err.name === 'AbortError') {
-          logger.pipeline.log('LLM generation aborted')
+      sourceRef.current = audioContextRef.current.createBufferSource()
+      sourceRef.current.buffer = decoded
+      sourceRef.current.connect(analyserRef.current)
+      analyserRef.current.connect(audioContextRef.current.destination)
+
+      isPlayingRef.current = true
+
+      return new Promise<void>((resolve) => {
+        const source = sourceRef.current
+        if (!source) {
+          resolve()
           return
         }
-        throw err
-      }
-      logger.pipeline.log('LLM response:', fullResponse.slice(0, 50) + '...')
+        source.onended = () => {
+          isPlayingRef.current = false
+          animControllerRef.current?.setMouthOpen(0)
+          audioContextRef.current?.close()
+          resolve()
+        }
+        source.start(0)
+      })
+    },
+    [analyserRef, dataArrayRef, isPlayingRef, animControllerRef]
+  )
 
-      if (!fullResponse.trim()) {
-        logger.pipeline.log('Empty LLM response')
+  const processAudio = useCallback(
+    async (audioBlob: Blob) => {
+      updateStatus('processing')
+
+      try {
+        logger.pipeline.log('Transcribing...')
+        const result = await transcribeAudio(audioBlob)
+        logger.pipeline.log('Transcription:', result.text)
+
+        if (!result.text?.trim()) {
+          logger.pipeline.log('Empty transcription')
+          updateStatus('idle')
+          wakeWordRef.current?.start()
+          return
+        }
+
+        onTranscriptChange(result.text)
+        messagesRef.current.push({ role: 'user', content: result.text })
+
+        updateStatus('thinking')
+        logger.pipeline.log('Calling LLM...')
+
+        abortControllerRef.current = new AbortController()
+
+        let fullResponse = ''
+        try {
+          for await (const chunk of streamChat(
+            messagesRef.current,
+            abortControllerRef.current.signal
+          )) {
+            fullResponse += chunk
+            onResponseChange(fullResponse)
+          }
+        } catch (err) {
+          if (err instanceof Error && err.name === 'AbortError') {
+            logger.pipeline.log('LLM generation aborted')
+            return
+          }
+          throw err
+        }
+        logger.pipeline.log('LLM response:', `${fullResponse.slice(0, 50)}...`)
+
+        if (!fullResponse.trim()) {
+          logger.pipeline.log('Empty LLM response')
+          updateStatus('idle')
+          wakeWordRef.current?.start()
+          return
+        }
+
+        messagesRef.current.push({ role: 'assistant', content: fullResponse })
+
+        updateStatus('speaking')
+        logger.pipeline.log('Synthesizing speech...')
+
+        const audioBuffer = await synthesizeSpeech(fullResponse)
+        logger.pipeline.log('Audio buffer:', audioBuffer.byteLength)
+
+        await playAudioWithLipSync(audioBuffer)
+        logger.pipeline.log('Playback complete')
+
         updateStatus('idle')
         wakeWordRef.current?.start()
-        return
+      } catch (err) {
+        logger.pipeline.error('Error:', err)
+        onError(err instanceof Error ? err.message : 'Processing failed')
+        updateStatus('error')
+
+        setTimeout(() => {
+          updateStatus('idle')
+          onError('')
+          wakeWordRef.current?.start()
+        }, 3000)
       }
-
-      messagesRef.current.push({ role: 'assistant', content: fullResponse })
-
-      updateStatus('speaking')
-      logger.pipeline.log('Synthesizing speech...')
-
-      const audioBuffer = await synthesizeSpeech(fullResponse)
-      logger.pipeline.log('Audio buffer:', audioBuffer.byteLength)
-
-      await playAudioWithLipSync(audioBuffer)
-      logger.pipeline.log('Playback complete')
-
-      updateStatus('idle')
-      wakeWordRef.current?.start()
-    } catch (err) {
-      logger.pipeline.error('Error:', err)
-      onError(err instanceof Error ? err.message : 'Processing failed')
-      updateStatus('error')
-
-      setTimeout(() => {
-        updateStatus('idle')
-        onError('')
-        wakeWordRef.current?.start()
-      }, 3000)
-    }
-  }, [updateStatus, wakeWordRef, onTranscriptChange, onResponseChange, onError, playAudioWithLipSync])
+    },
+    [
+      updateStatus,
+      wakeWordRef,
+      onTranscriptChange,
+      onResponseChange,
+      onError,
+      playAudioWithLipSync,
+    ]
+  )
 
   const handleWakeWord = useCallback(async () => {
     if (!recorderRef.current) return
@@ -198,7 +228,14 @@ export function useVoicePipeline({
 
     logger.pipeline.log('Starting recorder')
     recorderRef.current.start()
-  }, [recorderRef, wakeWordRef, updateStatus, onTranscriptChange, onResponseChange, processAudio])
+  }, [
+    recorderRef,
+    wakeWordRef,
+    updateStatus,
+    onTranscriptChange,
+    onResponseChange,
+    processAudio,
+  ])
 
   const stopAudio = useCallback(() => {
     if (sourceRef.current) {

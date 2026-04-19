@@ -20,6 +20,8 @@ import {
   handleText,
   handleVoice,
   handlePhoto,
+  handleVideo,
+  handleTranscribeUrl,
   handleDocument,
 } from "./handlers";
 
@@ -47,10 +49,13 @@ bot.command("status", handleStatus);
 bot.command("resume", handleResume);
 bot.command("restart", handleRestart);
 bot.command("retry", handleRetry);
+bot.command("transcribe", handleTranscribeUrl);
 
 bot.on("message:text", handleText);
 bot.on("message:voice", handleVoice);
 bot.on("message:photo", handlePhoto);
+bot.on("message:video", handleVideo);
+bot.on("message:video_note", handleVideo);
 bot.on("message:document", handleDocument);
 
 bot.catch((err) => {

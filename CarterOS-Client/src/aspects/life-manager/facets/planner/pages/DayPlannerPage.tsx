@@ -5,12 +5,15 @@
 
 import { useState } from 'react'
 import { FaGripVertical } from 'react-icons/fa'
-import { useTimeBlocks, useCreateBlock, useDeleteBlock, useUpdateBlock } from '../hooks/usePlanner'
+import {
+  useCreateBlock,
+  useDeleteBlock,
+  useTimeBlocks,
+  useUpdateBlock,
+} from '../hooks/usePlanner'
 import { usePlannerStore } from '../stores/planner.store'
 import type { TimeBlockCreate, TimeBlockUpdate } from '../types/planner.types'
 import styles from './DayPlannerPage.module.scss'
-
-type Period = 'AM' | 'PM'
 
 const DURATION_OPTIONS = [
   { label: '15m', minutes: 15 },
@@ -23,9 +26,23 @@ const DURATION_OPTIONS = [
 ]
 
 const START_TIME_OPTIONS = [
-  '6:00 AM', '7:00 AM', '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM',
-  '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM',
-  '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM',
+  '6:00 AM',
+  '7:00 AM',
+  '8:00 AM',
+  '9:00 AM',
+  '10:00 AM',
+  '11:00 AM',
+  '12:00 PM',
+  '1:00 PM',
+  '2:00 PM',
+  '3:00 PM',
+  '4:00 PM',
+  '5:00 PM',
+  '6:00 PM',
+  '7:00 PM',
+  '8:00 PM',
+  '9:00 PM',
+  '10:00 PM',
 ]
 
 export function DayPlannerPage() {
@@ -47,8 +64,8 @@ export function DayPlannerPage() {
   const parseTimeString = (timeStr: string): { hour: number; minute: number } => {
     const [time, period] = timeStr.split(' ')
     const [hourStr, minStr] = time.split(':')
-    let hour = parseInt(hourStr)
-    const minute = parseInt(minStr)
+    let hour = parseInt(hourStr, 10)
+    const minute = parseInt(minStr, 10)
 
     if (period === 'PM' && hour !== 12) hour += 12
     if (period === 'AM' && hour === 12) hour = 0
@@ -71,7 +88,7 @@ export function DayPlannerPage() {
 
   const formatTime = (time24: string): string => {
     const [hours, minutes] = time24.split(':')
-    const hour = parseInt(hours)
+    const hour = parseInt(hours, 10)
     const ampm = hour >= 12 ? 'PM' : 'AM'
     const displayHour = hour % 12 || 12
     return `${displayHour}:${minutes} ${ampm}`
@@ -95,7 +112,9 @@ export function DayPlannerPage() {
 
   const getLastBlockEndTime = (): string | null => {
     if (!data?.items.length) return null
-    const sorted = [...data.items].sort((a, b) => a.start_time.localeCompare(b.start_time))
+    const sorted = [...data.items].sort((a, b) =>
+      a.start_time.localeCompare(b.start_time)
+    )
     const lastBlock = sorted[sorted.length - 1]
     return lastBlock.end_time
   }
@@ -167,8 +186,8 @@ export function DayPlannerPage() {
     if (!draggedId || draggedId === targetId) return
 
     const items = data?.items || []
-    const draggedIndex = items.findIndex(b => b.id === draggedId)
-    const targetIndex = items.findIndex(b => b.id === targetId)
+    const draggedIndex = items.findIndex((b) => b.id === draggedId)
+    const targetIndex = items.findIndex((b) => b.id === targetId)
 
     if (draggedIndex === -1 || targetIndex === -1) return
 
@@ -183,21 +202,32 @@ export function DayPlannerPage() {
     setDraggedId(null)
   }
 
-  const sortedBlocks = data?.items.slice().sort((a, b) => {
-    if (a.sort_order !== b.sort_order) return a.sort_order - b.sort_order
-    return a.start_time.localeCompare(b.start_time)
-  }) || []
+  const sortedBlocks =
+    data?.items.slice().sort((a, b) => {
+      if (a.sort_order !== b.sort_order) return a.sort_order - b.sort_order
+      return a.start_time.localeCompare(b.start_time)
+    }) || []
 
   return (
     <div className={styles.page}>
       <header className={styles.header}>
         <h1 className={styles.title}>Day Planner</h1>
         <div className={styles.dateNav}>
-          <button type="button" onClick={() => handleDateChange(-1)} className={styles.navBtn}>
+          <button
+            type="button"
+            onClick={() => handleDateChange(-1)}
+            className={styles.navBtn}
+          >
             ← Prev
           </button>
-          <span className={styles.currentDate}>{formatDisplayDate(selectedDate)}</span>
-          <button type="button" onClick={() => handleDateChange(1)} className={styles.navBtn}>
+          <span className={styles.currentDate}>
+            {formatDisplayDate(selectedDate)}
+          </span>
+          <button
+            type="button"
+            onClick={() => handleDateChange(1)}
+            className={styles.navBtn}
+          >
             Next →
           </button>
         </div>
@@ -206,28 +236,35 @@ export function DayPlannerPage() {
       <div className={styles.addSection}>
         <div className={styles.topRow}>
           <div className={styles.startTimeGroup}>
-            <label className={styles.label}>Start Time</label>
-            <select
-              value={startTime}
-              onChange={(e) => setStartTime(e.target.value)}
-              className={styles.timeSelect}
-              disabled={!!getLastBlockEndTime()}
-            >
-              {START_TIME_OPTIONS.map(time => (
-                <option key={time} value={time}>{time}</option>
-              ))}
-            </select>
-            {getLastBlockEndTime() && (
-              <span className={styles.autoNote}>
-                (Auto: {formatTime(getLastBlockEndTime()!)})
-              </span>
-            )}
+            <label className={styles.label}>
+              Start Time
+              <select
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+                className={styles.timeSelect}
+                disabled={!!getLastBlockEndTime()}
+              >
+                {START_TIME_OPTIONS.map((time) => (
+                  <option key={time} value={time}>
+                    {time}
+                  </option>
+                ))}
+              </select>
+            </label>
+            {(() => {
+              const lastEnd = getLastBlockEndTime()
+              return lastEnd ? (
+                <span className={styles.autoNote}>
+                  (Auto: {formatTime(lastEnd)})
+                </span>
+              ) : null
+            })()}
           </div>
 
           <div className={styles.durationGroup}>
-            <label className={styles.label}>Duration</label>
+            <span className={styles.label}>Duration</span>
             <div className={styles.durationButtons}>
-              {DURATION_OPTIONS.map(opt => (
+              {DURATION_OPTIONS.map((opt) => (
                 <button
                   key={opt.minutes}
                   type="button"
@@ -265,15 +302,21 @@ export function DayPlannerPage() {
         {isLoading ? (
           <div className={styles.empty}>Loading...</div>
         ) : sortedBlocks.length === 0 ? (
-          <div className={styles.empty}>No time blocks for today. Add one above.</div>
+          <div className={styles.empty}>
+            No time blocks for today. Add one above.
+          </div>
         ) : (
           sortedBlocks.map((block) => {
-            const durationMinutes = calculateDuration(block.start_time, block.end_time)
+            const durationMinutes = calculateDuration(
+              block.start_time,
+              block.end_time
+            )
             const isEditing = editingId === block.id
 
             return (
               <div
                 key={block.id}
+                role="listitem"
                 className={`${styles.block} ${draggedId === block.id ? styles.dragging : ''}`}
                 draggable
                 onDragStart={(e) => handleDragStart(e, block.id)}
@@ -305,7 +348,6 @@ export function DayPlannerPage() {
                           if (e.key === 'Escape') handleEditCancel()
                         }}
                         className={styles.editInput}
-                        autoFocus
                       />
                       <button
                         type="button"
@@ -325,8 +367,14 @@ export function DayPlannerPage() {
                   ) : (
                     <>
                       <div
+                        role="button"
+                        tabIndex={0}
                         className={styles.blockTitle}
                         onClick={() => handleEditClick(block.id, block.title)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ')
+                            handleEditClick(block.id, block.title)
+                        }}
                       >
                         {block.title}
                       </div>

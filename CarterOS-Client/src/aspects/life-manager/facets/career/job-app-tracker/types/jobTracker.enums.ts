@@ -4,12 +4,12 @@
 // ===================
 
 import type {
-  RemoteType,
   ApplicationStatus,
-  Outcome,
-  JobType,
   ExperienceLevel,
+  JobType,
+  Outcome,
   Priority,
+  RemoteType,
 } from './jobTracker.types'
 
 export interface EnumOption<T> {

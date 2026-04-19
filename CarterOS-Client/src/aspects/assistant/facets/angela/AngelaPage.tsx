@@ -3,9 +3,9 @@
 // AngelaPage.tsx
 // ===================
 
-import { useState, useCallback, useEffect } from 'react'
-import { useThreeScene, useWakeWord, useVoicePipeline } from './hooks'
+import { useCallback, useEffect, useState } from 'react'
 import { StatusOverlay } from './components'
+import { useThreeScene, useVoicePipeline, useWakeWord } from './hooks'
 import type { AngelaStatus } from './types'
 
 export function AngelaPage() {
@@ -59,14 +59,22 @@ export function AngelaPage() {
   }
 
   return (
-    <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', position: 'relative' }}>
+    <div
+      style={{
+        width: '100vw',
+        height: '100vh',
+        overflow: 'hidden',
+        position: 'relative',
+      }}
+    >
       <canvas ref={canvasRef} style={{ display: 'block' }} />
       <div
         style={{
           position: 'absolute',
           inset: 0,
           pointerEvents: 'none',
-          background: 'radial-gradient(ellipse at center, transparent 32%, rgba(0,0,0,0.6 100%)',
+          background:
+            'radial-gradient(ellipse at center, transparent 32%, rgba(0,0,0,0.6 100%)',
         }}
       />
       <StatusOverlay

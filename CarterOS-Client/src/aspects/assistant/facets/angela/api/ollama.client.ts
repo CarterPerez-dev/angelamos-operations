@@ -2,7 +2,7 @@
  * Angela AI Assistant - Ollama LLM Client
  */
 
-import { getAngelaConfig, ANGELA_SYSTEM_PROMPT } from '../config'
+import { ANGELA_SYSTEM_PROMPT, getAngelaConfig } from '../config'
 import type { OllamaMessage, OllamaStreamChunk } from '../types'
 
 export async function* streamChat(
@@ -57,9 +57,7 @@ export async function* streamChat(
           fullResponse += data.message.content
           yield data.message.content
         }
-      } catch {
-        continue
-      }
+      } catch {}
     }
   }
 

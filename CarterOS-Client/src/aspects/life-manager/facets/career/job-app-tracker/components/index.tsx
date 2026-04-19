@@ -3,9 +3,9 @@
 // index.tsx
 // ===================
 
-export { StatsCards } from './statsCards'
-export { FilterBar } from './filterBar'
-export { ApplicationTable } from './applicationTable'
 export { ApplicationForm } from './applicationForm'
+export { ApplicationTable } from './applicationTable'
 export { DeleteModal } from './deleteModal'
 export { EmptyState } from './emptyState'
+export { FilterBar } from './filterBar'
+export { StatsCards } from './statsCards'

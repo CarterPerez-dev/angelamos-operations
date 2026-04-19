@@ -53,10 +53,20 @@ export default defineConfig(({ mode }) => {
       minify: 'esbuild',
       rollupOptions: {
         output: {
-          manualChunks: {
-            'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-            'vendor-query': ['@tanstack/react-query'],
-            'vendor-state': ['zustand'],
+          manualChunks(id: string) {
+            if (
+              id.includes('node_modules/react/') ||
+              id.includes('node_modules/react-dom/') ||
+              id.includes('node_modules/react-router')
+            ) {
+              return 'vendor-react'
+            }
+            if (id.includes('node_modules/@tanstack/react-query')) {
+              return 'vendor-query'
+            }
+            if (id.includes('node_modules/zustand')) {
+              return 'vendor-state'
+            }
           },
         },
       },

@@ -3,23 +3,23 @@
 // header.tsx
 // ===========================
 
-import { Link, useLocation } from 'react-router-dom'
 import {
-  GiHouse,
+  GiBookshelf,
   GiCalendar,
+  GiFox,
+  GiHouse,
   GiMagnifyingGlass,
   GiRingingBell,
-  GiSpeedometer,
-  GiBookshelf,
   GiScrollUnfurled,
   GiShare,
-  GiFox,
+  GiSpeedometer,
 } from 'react-icons/gi'
 import { GrDocker } from 'react-icons/gr'
-import { APP, USER, ROUTES } from '@/config'
+import { Link, useLocation } from 'react-router-dom'
+import { APP, USER } from '@/config'
 import { useShellUIStore } from '@/core/state'
-import { ProfileDropdown } from './profileDropdown'
 import styles from './header.module.scss'
+import { ProfileDropdown } from './profileDropdown'
 
 export function Header() {
   const location = useLocation()
@@ -87,19 +87,24 @@ export function Header() {
         </nav>
 
         <div className={styles.actions}>
-          <button className={styles.iconButton} title="Notifications">
+          <button
+            type="button"
+            className={styles.iconButton}
+            title="Notifications"
+          >
             <GiRingingBell />
           </button>
-          <button className={styles.iconButton} title="Quick Nav">
+          <button type="button" className={styles.iconButton} title="Quick Nav">
             <GiSpeedometer />
           </button>
-          <button className={styles.iconButton} title="Search">
+          <button type="button" className={styles.iconButton} title="Search">
             <GiMagnifyingGlass />
           </button>
         </div>
 
         <div className={styles.profile}>
           <button
+            type="button"
             className={styles.avatarButton}
             onClick={toggleProfileDropdown}
           >

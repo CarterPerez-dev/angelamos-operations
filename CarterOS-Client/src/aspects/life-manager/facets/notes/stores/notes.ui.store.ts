@@ -39,30 +39,43 @@ export const useNotesUIStore = create<NotesUIState>()(
       selectedNoteIds: [],
       selectedFolderIds: [],
       setSelectedNote: (id) => set({ selectedNoteId: id }),
-      setSelectedFolder: (id) => set({ selectedFolderId: id, viewingDeleted: false }),
+      setSelectedFolder: (id) =>
+        set({ selectedFolderId: id, viewingDeleted: false }),
       setEditingContent: (content) => set({ editingContent: content }),
-      startEditingNote: (id, content) => set({
-        selectedNoteId: id,
-        editingNoteId: id,
-        editingContent: content
-      }),
-      clearEditing: () => set({ editingContent: '', editingNoteId: null, selectedNoteId: null }),
-      setViewingDeleted: (viewing) => set({ viewingDeleted: viewing, selectedFolderId: null, selectedNoteId: null, editingContent: '', editingNoteId: null }),
-      toggleSelectionMode: () => set((state) => ({
-        selectionMode: !state.selectionMode,
-        selectedNoteIds: !state.selectionMode ? [] : state.selectedNoteIds,
-        selectedFolderIds: !state.selectionMode ? [] : state.selectedFolderIds
-      })),
-      toggleNoteSelection: (id) => set((state) => ({
-        selectedNoteIds: state.selectedNoteIds.includes(id)
-          ? state.selectedNoteIds.filter((noteId) => noteId !== id)
-          : [...state.selectedNoteIds, id]
-      })),
-      toggleFolderSelection: (id) => set((state) => ({
-        selectedFolderIds: state.selectedFolderIds.includes(id)
-          ? state.selectedFolderIds.filter((folderId) => folderId !== id)
-          : [...state.selectedFolderIds, id]
-      })),
+      startEditingNote: (id, content) =>
+        set({
+          selectedNoteId: id,
+          editingNoteId: id,
+          editingContent: content,
+        }),
+      clearEditing: () =>
+        set({ editingContent: '', editingNoteId: null, selectedNoteId: null }),
+      setViewingDeleted: (viewing) =>
+        set({
+          viewingDeleted: viewing,
+          selectedFolderId: null,
+          selectedNoteId: null,
+          editingContent: '',
+          editingNoteId: null,
+        }),
+      toggleSelectionMode: () =>
+        set((state) => ({
+          selectionMode: !state.selectionMode,
+          selectedNoteIds: !state.selectionMode ? [] : state.selectedNoteIds,
+          selectedFolderIds: !state.selectionMode ? [] : state.selectedFolderIds,
+        })),
+      toggleNoteSelection: (id) =>
+        set((state) => ({
+          selectedNoteIds: state.selectedNoteIds.includes(id)
+            ? state.selectedNoteIds.filter((noteId) => noteId !== id)
+            : [...state.selectedNoteIds, id],
+        })),
+      toggleFolderSelection: (id) =>
+        set((state) => ({
+          selectedFolderIds: state.selectedFolderIds.includes(id)
+            ? state.selectedFolderIds.filter((folderId) => folderId !== id)
+            : [...state.selectedFolderIds, id],
+        })),
       clearSelections: () => set({ selectedNoteIds: [], selectedFolderIds: [] }),
     }),
     {

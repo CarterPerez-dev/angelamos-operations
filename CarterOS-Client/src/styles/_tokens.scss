@@ -9,42 +9,42 @@
 // ============================================================================
 
 // Backgrounds
-$bg-default: hsl(0, 0%, 7.1%);              // #121212 - Main background
-$bg-alternative: hsl(0, 0%, 5.9%);          // #0f0f0f - Darker alternative
-$bg-surface-75: hsl(0, 0%, 9%);             // #171717 - Slightly lighter
-$bg-surface-100: hsl(0, 0%, 12.2%);         // #1f1f1f - Cards/panels (PRIMARY)
-$bg-surface-200: hsl(0, 0%, 12.9%);         // #212121 - Elevated surface
-$bg-surface-300: hsl(0, 0%, 16.1%);         // #292929 - Highest (dropdowns)
-$bg-control: hsl(0, 0%, 14.1%);             // #242424 - Input backgrounds
-$bg-selection: hsl(0, 0%, 19.2%);           // #313131 - Selected state
-$bg-overlay: hsl(0, 0%, 14.1%);             // #242424 - Overlay background
-$bg-overlay-hover: hsl(0, 0%, 18%);         // #2e2e2e - Overlay hover
+$bg-default: hsl(0deg 0% 7.1%);              // #121212 - Main background
+$bg-alternative: hsl(0deg 0% 5.9%);          // #0f0f0f - Darker alternative
+$bg-surface-75: hsl(0deg 0% 9%);             // #171717 - Slightly lighter
+$bg-surface-100: hsl(0deg 0% 12.2%);         // #1f1f1f - Cards/panels (PRIMARY)
+$bg-surface-200: hsl(0deg 0% 12.9%);         // #212121 - Elevated surface
+$bg-surface-300: hsl(0deg 0% 16.1%);         // #292929 - Highest (dropdowns)
+$bg-control: hsl(0deg 0% 14.1%);             // #242424 - Input backgrounds
+$bg-selection: hsl(0deg 0% 19.2%);           // #313131 - Selected state
+$bg-overlay: hsl(0deg 0% 14.1%);             // #242424 - Overlay background
+$bg-overlay-hover: hsl(0deg 0% 18%);         // #2e2e2e - Overlay hover
 
 // Borders
-$border-muted: hsl(0, 0%, 14.1%);           // #242424 - Subtle dividers
-$border-default: hsl(0, 0%, 18%);           // #2e2e2e - Standard (MOST COMMON)
-$border-strong: hsl(0, 0%, 21.2%);          // #363636 - Emphasized
-$border-stronger: hsl(0, 0%, 27.1%);        // #454545 - Strongest
-$border-control: hsl(0, 0%, 22.4%);         // #393939 - Input borders
-$border-overlay: hsl(0, 0%, 20%);           // #333333 - Overlay borders
+$border-muted: hsl(0deg 0% 14.1%);           // #242424 - Subtle dividers
+$border-default: hsl(0deg 0% 18%);           // #2e2e2e - Standard (MOST COMMON)
+$border-strong: hsl(0deg 0% 21.2%);          // #363636 - Emphasized
+$border-stronger: hsl(0deg 0% 27.1%);        // #454545 - Strongest
+$border-control: hsl(0deg 0% 22.4%);         // #393939 - Input borders
+$border-overlay: hsl(0deg 0% 20%);           // #333333 - Overlay borders
 
 // Text/Foreground
-$text-default: hsl(0, 0%, 98%);             // #fafafa - Primary text
-$text-light: hsl(0, 0%, 70.6%);             // #b4b4b4 - Secondary text
-$text-lighter: hsl(0, 0%, 53.7%);           // #898989 - Tertiary text
-$text-muted: hsl(0, 0%, 30.2%);             // #4d4d4d - Muted/disabled text
+$text-default: hsl(0deg 0% 98%);             // #fafafa - Primary text
+$text-light: hsl(0deg 0% 70.6%);             // #b4b4b4 - Secondary text
+$text-lighter: hsl(0deg 0% 53.7%);           // #898989 - Tertiary text
+$text-muted: hsl(0deg 0% 30.2%);             // #4d4d4d - Muted/disabled text
 
 // Accent
 $accent-purple: #C06648;                     // CarterOS brand purple
 $accent-purple-hover: #e89b82;               // Lighter for hovers
 $accent-purple-active: #d13d0d;              // Darker for active states
-$accent-purple-30: rgba(192, 102, 72, 0.3);    // 30% opacity for focus rings
-$accent-purple-10: rgba(192, 102, 72, 0.1);    // 10% opacity for subtle
+$accent-purple-30: rgb(192 102 72 / 30%);    // 30% opacity for focus rings
+$accent-purple-10: rgb(192 102 72 / 10%);    // 10% opacity for subtle
 
 // Dotted Grid Backgrounds 
-$bg-dot-page: hsl(0, 0%, 12%);               // Lighter dots for main pages
-$bg-dot-surface: hsl(0, 0%, 16.5%);          // Dots for cards/panels
-$bg-dot-dark: hsl(0, 0%, 12.5%);              // Dots for darker surfaces
+$bg-dot-page: hsl(0deg 0% 12%);               // Lighter dots for main pages
+$bg-dot-surface: hsl(0deg 0% 16.5%);          // Dots for cards/panels
+$bg-dot-dark: hsl(0deg 0% 12.5%);              // Dots for darker surfaces
 
 // ============================================================================
 // TYPOGRAPHY

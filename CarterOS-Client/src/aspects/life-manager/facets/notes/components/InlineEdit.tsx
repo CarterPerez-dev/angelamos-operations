@@ -3,7 +3,7 @@
 // InlineEdit.tsx
 // ===================
 
-import { useState, useRef, useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styles from './InlineEdit.module.scss'
 
 interface InlineEditProps {
@@ -79,7 +79,15 @@ export function InlineEdit({
 
   return (
     <span
+      role="button"
+      tabIndex={disabled ? -1 : 0}
       onDoubleClick={handleDoubleClick}
+      onKeyDown={(e) => {
+        if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault()
+          setIsEditing(true)
+        }
+      }}
       className={`${styles.text} ${disabled ? styles.disabled : ''} ${className}`}
       title={disabled ? '' : 'Double-click to edit'}
     >

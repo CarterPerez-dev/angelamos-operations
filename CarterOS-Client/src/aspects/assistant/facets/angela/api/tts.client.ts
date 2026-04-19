@@ -4,9 +4,9 @@
 // ===================
 
 import { getAngelaConfig } from '../config'
-import * as elevenlabs from './elevenlabs.client'
-import * as edgetts from './edgetts.client'
 import type { TTSProvider } from '../types'
+import * as edgetts from './edgetts.client'
+import * as elevenlabs from './elevenlabs.client'
 
 export async function synthesizeSpeech(text: string): Promise<ArrayBuffer> {
   const config = getAngelaConfig()
@@ -19,7 +19,10 @@ export async function synthesizeSpeech(text: string): Promise<ArrayBuffer> {
   return elevenlabs.synthesizeSpeech(text)
 }
 
-export async function checkTTSHealth(): Promise<{ provider: TTSProvider; healthy: boolean }> {
+export async function checkTTSHealth(): Promise<{
+  provider: TTSProvider
+  healthy: boolean
+}> {
   const config = getAngelaConfig()
   const provider = config.tts.provider
 

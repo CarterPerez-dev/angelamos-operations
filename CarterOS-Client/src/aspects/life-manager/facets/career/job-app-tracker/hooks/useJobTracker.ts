@@ -11,24 +11,24 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { apiClient } from '@/core/api'
 import { API_ENDPOINTS, QUERY_KEYS } from '@/config'
+import { apiClient } from '@/core/api'
 import type {
+  ApplicationStatus,
   JobApplication,
+  JobApplicationCreateRequest,
   JobApplicationListResponse,
   JobApplicationStats,
-  JobApplicationCreateRequest,
   JobApplicationUpdateRequest,
-  ApplicationStatus,
   Outcome,
 } from '../types'
 import {
-  isValidJobApplicationListResponse,
   isValidJobApplication,
+  isValidJobApplicationListResponse,
   isValidJobApplicationStats,
-  JobTrackerResponseError,
   JOB_TRACKER_ERROR_MESSAGES,
   JOB_TRACKER_SUCCESS_MESSAGES,
+  JobTrackerResponseError,
 } from '../types'
 
 const fetchApplications = async (
@@ -77,7 +77,7 @@ export const useJobApplication = (
 ): UseQueryResult<JobApplication, Error> => {
   return useQuery({
     queryKey: QUERY_KEYS.JOB_TRACKER.BY_ID(id ?? ''),
-    queryFn: () => fetchApplicationById(id!),
+    queryFn: () => fetchApplicationById(id ?? ''),
     enabled: id !== null,
     staleTime: 1000 * 60,
   })
@@ -96,7 +96,10 @@ const fetchStats = async (): Promise<JobApplicationStats> => {
   return response.data
 }
 
-export const useJobApplicationStats = (): UseQueryResult<JobApplicationStats, Error> => {
+export const useJobApplicationStats = (): UseQueryResult<
+  JobApplicationStats,
+  Error
+> => {
   return useQuery({
     queryKey: QUERY_KEYS.JOB_TRACKER.STATS(),
     queryFn: fetchStats,

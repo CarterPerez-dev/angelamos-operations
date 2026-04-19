@@ -11,16 +11,16 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { apiClient } from '@/core/api'
 import { API_ENDPOINTS, QUERY_KEYS } from '@/config'
+import { apiClient } from '@/core/api'
 import { useTrackerStore } from '../stores/tracker.store'
 import type {
-  ChallengeWithStats,
   ChallengeHistoryResponse,
+  ChallengeLog,
   ChallengeStartRequest,
+  ChallengeWithStats,
   LogCreateRequest,
   LogUpdateRequest,
-  ChallengeLog,
 } from '../types/tracker.types'
 
 const fetchActiveChallenge = async (): Promise<ChallengeWithStats> => {
@@ -30,7 +30,10 @@ const fetchActiveChallenge = async (): Promise<ChallengeWithStats> => {
   return response.data
 }
 
-export const useActiveChallenge = (): UseQueryResult<ChallengeWithStats, Error> => {
+export const useActiveChallenge = (): UseQueryResult<
+  ChallengeWithStats,
+  Error
+> => {
   const setChallenge = useTrackerStore((s) => s.setChallenge)
   const setLoading = useTrackerStore((s) => s.setLoading)
 
@@ -203,7 +206,7 @@ export const useLogByDate = (
 ): UseQueryResult<ChallengeLog, Error> => {
   return useQuery({
     queryKey: QUERY_KEYS.CHALLENGE.LOG(date ?? ''),
-    queryFn: () => fetchLogByDate(date!),
+    queryFn: () => fetchLogByDate(date ?? ''),
     enabled: !!date,
     staleTime: 1000 * 60,
   })

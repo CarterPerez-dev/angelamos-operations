@@ -3,10 +3,10 @@
 // useWakeWord.ts
 // ===================
 
-import { useEffect, useRef, useCallback } from 'react'
-import { createWakeWordEngine } from '../lib/wakeword'
+import { useCallback, useEffect, useRef } from 'react'
 import { AudioRecorder } from '../lib/audio'
 import { logger } from '../lib/debug'
+import { createWakeWordEngine } from '../lib/wakeword'
 
 type WakeWordEngine = Awaited<ReturnType<typeof createWakeWordEngine>>
 

@@ -17,7 +17,7 @@
   background: transparent;
 
   &::backdrop {
-    background: rgba(0, 0, 0, 0.6);
+    background: rgb(0 0 0 / 60%);
   }
 
   &[open] {

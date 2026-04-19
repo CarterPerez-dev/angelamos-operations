@@ -4,33 +4,37 @@
 // ===================
 
 import { useQuery } from '@tanstack/react-query'
-import { apiClient } from '@/core/api/api.config'
 import { API_ENDPOINTS } from '@/config'
+import { apiClient } from '@/core/api/api.config'
 import type {
+  CommentWordInsights,
+  CTAInsights,
+  ExportData,
+  HashtagInsights,
+  HookInsights,
   OverviewInsights,
   PerformanceRankings,
-  HookInsights,
-  CTAInsights,
-  TrafficSourceInsights,
-  SearchQueryInsights,
-  CommentWordInsights,
-  VideoLengthInsights,
-  HashtagInsights,
   PostingTimeInsights,
+  SearchQueryInsights,
   TimeSeriesInsights,
-  ExportData,
+  TrafficSourceInsights,
+  VideoLengthInsights,
 } from '../types'
 
 const QUERY_KEYS = {
   overview: ['analytics', 'insights', 'overview'] as const,
-  rankings: (limit: number) => ['analytics', 'insights', 'rankings', limit] as const,
+  rankings: (limit: number) =>
+    ['analytics', 'insights', 'rankings', limit] as const,
   hooks: (limit: number) => ['analytics', 'insights', 'hooks', limit] as const,
   ctas: (limit: number) => ['analytics', 'insights', 'ctas', limit] as const,
   trafficSources: ['analytics', 'insights', 'traffic-sources'] as const,
-  searchQueries: (limit: number) => ['analytics', 'insights', 'search-queries', limit] as const,
-  commentWords: (limit: number) => ['analytics', 'insights', 'comment-words', limit] as const,
+  searchQueries: (limit: number) =>
+    ['analytics', 'insights', 'search-queries', limit] as const,
+  commentWords: (limit: number) =>
+    ['analytics', 'insights', 'comment-words', limit] as const,
   videoLength: ['analytics', 'insights', 'video-length'] as const,
-  hashtags: (limit: number) => ['analytics', 'insights', 'hashtags', limit] as const,
+  hashtags: (limit: number) =>
+    ['analytics', 'insights', 'hashtags', limit] as const,
   postingTime: ['analytics', 'insights', 'posting-time'] as const,
   timeSeries: ['analytics', 'insights', 'time-series'] as const,
   export: ['analytics', 'insights', 'export'] as const,

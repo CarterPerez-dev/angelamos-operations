@@ -13,7 +13,8 @@ export const darkTheme = EditorView.theme({
   },
   '.cm-content': {
     caretColor: '#c15f3c',
-    fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif",
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif",
     fontSize: '1rem',
     lineHeight: '1.6',
     padding: '24px',

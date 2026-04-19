@@ -67,5 +67,6 @@ export function LoginPage() {
   )
 }
 
-export const Component = LoginPage
-Component.displayName = 'LoginPage'
+export const Component = Object.assign(LoginPage, {
+  displayName: 'LoginPage',
+})

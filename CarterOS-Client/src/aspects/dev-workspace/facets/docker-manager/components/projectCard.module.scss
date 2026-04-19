@@ -4,8 +4,8 @@
 // ===================
 
 .card {
-  background: hsl(0, 0%, 12.2%);
-  border: 1px solid hsl(0, 0%, 18%);
+  background: hsl(0deg 0% 12.2%);
+  border: 1px solid hsl(0deg 0% 18%);
   border-radius: 6px;
   padding: 0.75rem 1rem;
   transition: filter 100ms ease-out;
@@ -21,7 +21,7 @@
   gap: 0.5rem;
   margin-bottom: 0.75rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid hsl(0, 0%, 14.1%);
+  border-bottom: 1px solid hsl(0deg 0% 14.1%);
 }
 
 .titleRow {
@@ -34,7 +34,7 @@
 .name {
   font-size: 0.875rem;
   font-weight: 600;
-  color: hsl(0, 0%, 98%);
+  color: hsl(0deg 0% 98%);
   margin: 0;
 }
 
@@ -46,9 +46,9 @@
 
 .envBadge {
   font-size: 0.75rem;
-  color: hsl(0, 0%, 70.6%);
+  color: hsl(0deg 0% 70.6%);
   padding: 0.125rem 0.5rem;
-  background: hsl(0, 0%, 14.1%);
+  background: hsl(0deg 0% 14.1%);
   border-radius: 4px;
 }
 
@@ -56,7 +56,7 @@
   font-size: 0.75rem;
   color: #36d7b7;
   padding: 0.125rem 0.5rem;
-  background: hsl(155.1deg, 100%, 8%);
+  background: hsl(155.1deg 100% 8%);
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -97,12 +97,12 @@
 }
 
 .label {
-  color: hsl(0, 0%, 53.7%);
+  color: hsl(0deg 0% 53.7%);
   min-width: 80px;
 }
 
 .value {
-  color: hsl(0, 0%, 70.6%);
+  color: hsl(0deg 0% 70.6%);
   word-break: break-all;
 }
 
@@ -112,7 +112,7 @@
   gap: 0.25rem;
   margin-bottom: 0.75rem;
   padding: 0.5rem;
-  background: hsl(0, 0%, 9%);
+  background: hsl(0deg 0% 9%);
   border-radius: 4px;
 }
 
@@ -124,11 +124,11 @@
 }
 
 .containerName {
-  color: hsl(0, 0%, 70.6%);
+  color: hsl(0deg 0% 70.6%);
 }
 
 .containerState {
-  color: hsl(0, 0%, 53.7%);
+  color: hsl(0deg 0% 53.7%);
   text-transform: capitalize;
 }
 
@@ -172,38 +172,38 @@
 .btnStart {
   background: #36d7b7;
   border-color: #36d7b7;
-  color: hsl(0, 0%, 7.1%);
+  color: hsl(0deg 0% 7.1%);
 }
 
 .btnStop {
   background: transparent;
-  border-color: hsl(0, 0%, 21.2%);
-  color: hsl(0, 0%, 98%);
+  border-color: hsl(0deg 0% 21.2%);
+  color: hsl(0deg 0% 98%);
 
   &:hover:not(:disabled) {
-    background: hsl(0, 0%, 14.1%);
+    background: hsl(0deg 0% 14.1%);
     filter: none;
   }
 }
 
 .btnRestart {
   background: transparent;
-  border-color: hsl(0, 0%, 21.2%);
-  color: hsl(0, 0%, 98%);
+  border-color: hsl(0deg 0% 21.2%);
+  color: hsl(0deg 0% 98%);
 
   &:hover:not(:disabled) {
-    background: hsl(0, 0%, 14.1%);
+    background: hsl(0deg 0% 14.1%);
     filter: none;
   }
 }
 
 .btnProtect {
   background: transparent;
-  border-color: hsl(0, 0%, 21.2%);
-  color: hsl(0, 0%, 70.6%);
+  border-color: hsl(0deg 0% 21.2%);
+  color: hsl(0deg 0% 70.6%);
 
   &:hover:not(:disabled) {
-    background: hsl(0, 0%, 14.1%);
+    background: hsl(0deg 0% 14.1%);
     color: #36d7b7;
     filter: none;
   }
@@ -211,12 +211,12 @@
 
 .btnHide {
   background: transparent;
-  border-color: hsl(0, 0%, 21.2%);
-  color: hsl(0, 0%, 70.6%);
+  border-color: hsl(0deg 0% 21.2%);
+  color: hsl(0deg 0% 70.6%);
 
   &:hover:not(:disabled) {
-    background: hsl(0, 0%, 14.1%);
-    color: hsl(0, 0%, 98%);
+    background: hsl(0deg 0% 14.1%);
+    color: hsl(0deg 0% 98%);
     filter: none;
   }
 }
@@ -235,7 +235,7 @@
 .btnPen {
   background: transparent;
   border: none;
-  color: hsl(0, 0%, 53.7%);
+  color: hsl(0deg 0% 53.7%);
   cursor: pointer;
   padding: 0.25rem;
   display: flex;
@@ -245,8 +245,8 @@
   transition: color 150ms ease-out, background 150ms ease-out;
 
   &:hover {
-    color: hsl(0, 0%, 98%);
-    background: hsl(0, 0%, 18%);
+    color: hsl(0deg 0% 98%);
+    background: hsl(0deg 0% 18%);
   }
 
   svg {
@@ -264,13 +264,13 @@
 
 .nameInput {
   flex: 1;
-  background: hsl(0, 0%, 9%);
-  border: 1px solid hsl(0, 0%, 21.2%);
+  background: hsl(0deg 0% 9%);
+  border: 1px solid hsl(0deg 0% 21.2%);
   border-radius: 4px;
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
   font-weight: 600;
-  color: hsl(0, 0%, 98%);
+  color: hsl(0deg 0% 98%);
 
   &:focus {
     outline: none;
@@ -281,7 +281,7 @@
 .btnIcon {
   background: transparent;
   border: none;
-  color: hsl(0, 0%, 53.7%);
+  color: hsl(0deg 0% 53.7%);
   cursor: pointer;
   padding: 0.25rem;
   display: flex;
@@ -291,8 +291,8 @@
   transition: color 150ms ease-out, background 150ms ease-out;
 
   &:hover {
-    color: hsl(0, 0%, 98%);
-    background: hsl(0, 0%, 18%);
+    color: hsl(0deg 0% 98%);
+    background: hsl(0deg 0% 18%);
   }
 
   svg {

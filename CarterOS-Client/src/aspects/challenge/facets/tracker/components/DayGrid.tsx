@@ -4,9 +4,9 @@
 // ===================
 
 import { useMemo } from 'react'
-import { DayCell } from './DayCell'
 import { useTrackerStore } from '../stores/tracker.store'
 import type { ChallengeWithStats } from '../types/tracker.types'
+import { DayCell } from './DayCell'
 import styles from './DayGrid.module.scss'
 
 interface DayGridProps {

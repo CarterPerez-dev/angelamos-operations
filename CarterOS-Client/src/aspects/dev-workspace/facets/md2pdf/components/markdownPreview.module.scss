@@ -20,7 +20,7 @@
   font-family: $font-sans;
   font-size: $text-base;
   line-height: 1.6;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
 
   h1, h2, h3, h4, h5, h6 {
     margin-top: $space-xl;
@@ -30,12 +30,34 @@
     color: $text-default;
   }
 
-  h1 { font-size: 2rem; padding-bottom: 0.3em; border-bottom: 1px solid $border-default; }
-  h2 { font-size: 1.5rem; padding-bottom: 0.3em; border-bottom: 1px solid $border-default; }
-  h3 { font-size: 1.25rem; }
-  h4 { font-size: 1rem; }
-  h5 { font-size: $text-sm; }
-  h6 { font-size: $text-xs; color: $text-lighter; }
+  h1 {
+    font-size: 2rem;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid $border-default;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid $border-default;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+
+  h4 {
+    font-size: 1rem;
+  }
+
+  h5 {
+    font-size: $text-sm;
+  }
+
+  h6 {
+    font-size: $text-xs;
+    color: $text-lighter;
+  }
 
   p {
     margin-top: 0;
@@ -59,7 +81,7 @@
   }
 
   blockquote {
-    margin: 0 0 $space-lg 0;
+    margin: 0 0 $space-lg;
     padding: 0.5em 1em;
     color: $text-light;
     border-left: 4px solid $accent-purple;
@@ -198,7 +220,7 @@
       border-color: #d0d7de;
       overflow-x: visible;
       white-space: pre-wrap;
-      word-wrap: break-word;
+      overflow-wrap: break-word;
 
       code { background: transparent; }
     }
@@ -222,6 +244,6 @@
     :global(.hljs-string) { color: #0a3069; }
     :global(.hljs-comment) { color: #6e7781; }
     :global(.hljs-number) { color: #0550ae; }
-    :global(.hljs-function .hljs-title) { color: #8250df; }
+    :global(.hljs-title) { color: #8250df; }
   }
 }

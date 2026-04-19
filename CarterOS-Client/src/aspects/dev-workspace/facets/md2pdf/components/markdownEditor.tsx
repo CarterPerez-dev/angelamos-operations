@@ -3,12 +3,12 @@
 // markdownEditor.tsx
 // ===================
 
-import { useEffect, useRef } from 'react'
-import { EditorView, keymap, lineNumbers } from '@codemirror/view'
-import { EditorState } from '@codemirror/state'
-import { markdown } from '@codemirror/lang-markdown'
 import { defaultKeymap, history, historyKeymap } from '@codemirror/commands'
+import { markdown } from '@codemirror/lang-markdown'
 import { searchKeymap } from '@codemirror/search'
+import { EditorState } from '@codemirror/state'
+import { EditorView, keymap, lineNumbers } from '@codemirror/view'
+import { useEffect, useRef } from 'react'
 import styles from './markdownEditor.module.scss'
 
 interface MarkdownEditorProps {
@@ -51,9 +51,16 @@ const editorTheme = EditorView.theme({
 
 const darkHighlight = EditorView.theme({}, { dark: true })
 
-export function MarkdownEditor({ initialValue, onChange, width }: MarkdownEditorProps) {
+export function MarkdownEditor({
+  initialValue,
+  onChange,
+  width,
+}: MarkdownEditorProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const viewRef = useRef<EditorView | null>(null)
+
+  const onChangeRef = useRef(onChange)
+  onChangeRef.current = onChange
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -68,7 +75,7 @@ export function MarkdownEditor({ initialValue, onChange, width }: MarkdownEditor
         EditorView.lineWrapping,
         EditorView.updateListener.of((update) => {
           if (update.docChanged) {
-            onChange(update.state.doc.toString())
+            onChangeRef.current(update.state.doc.toString())
           }
         }),
         editorTheme,
@@ -86,13 +93,7 @@ export function MarkdownEditor({ initialValue, onChange, width }: MarkdownEditor
     return () => {
       view.destroy()
     }
-  }, [])
+  }, [initialValue])
 
-  return (
-    <div
-      ref={containerRef}
-      className={styles.editor}
-      style={{ width }}
-    />
-  )
+  return <div ref={containerRef} className={styles.editor} style={{ width }} />
 }

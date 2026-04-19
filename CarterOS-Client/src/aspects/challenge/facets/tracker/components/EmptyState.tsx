@@ -20,9 +20,7 @@ export function EmptyState() {
     <div className={styles.container}>
       <div className={styles.content}>
         <h2 className={styles.title}>1,500/1,000 Challenge</h2>
-        <p className={styles.description}>
-          No active challenge. Ready to begin?
-        </p>
+        <p className={styles.description}>No active challenge. Ready to begin?</p>
         <button
           type="button"
           className={styles.startButton}

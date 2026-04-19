@@ -3,17 +3,14 @@
 // FolderSidebar.tsx
 // ===================
 
-import { useState } from 'react'
-import { GoTrash } from 'react-icons/go'
-import { PiDotsNineLight } from 'react-icons/pi'
 import {
-  DndContext,
   closestCenter,
+  DndContext,
+  type DragEndEvent,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
-  type DragEndEvent,
 } from '@dnd-kit/core'
 import {
   arrayMove,
@@ -22,12 +19,14 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
 import { useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
+import { GoTrash } from 'react-icons/go'
+import { PiDotsNineLight } from 'react-icons/pi'
 import { useUpdateFolder } from '../hooks/useNotes'
-import { InlineEdit } from './InlineEdit'
-import type { NoteFolder, NotesListResponse } from '../types/notes.types'
 import styles from '../pages/NotesPage.module.scss'
+import type { NoteFolder, NotesListResponse } from '../types/notes.types'
+import { InlineEdit } from './InlineEdit'
 
 interface FolderSidebarProps {
   folders: NoteFolder[]
@@ -64,9 +63,10 @@ function SortableFolder({
   onToggleFolderSelection,
   onRename,
 }: SortableFolderProps) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: folder.id,
-  })
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+    useSortable({
+      id: folder.id,
+    })
 
   const style = {
     transform: transform ? `translate3d(0, ${transform.y}px, 0)` : undefined,
@@ -77,12 +77,20 @@ function SortableFolder({
   return (
     <div
       ref={setNodeRef}
+      role="button"
+      tabIndex={0}
       style={style}
       onClick={() => {
         if (selectionMode) {
           onToggleFolderSelection(folder.id)
         } else {
           onSelectFolder(folder.id)
+        }
+      }}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          if (selectionMode) onToggleFolderSelection(folder.id)
+          else onSelectFolder(folder.id)
         }
       }}
       className={`${styles.folderItem} ${selectedFolderId === folder.id && !selectionMode ? styles.active : ''} ${selectionMode && isSelected ? styles.selected : ''}`}
@@ -186,15 +194,27 @@ export function FolderSidebar({
         )}
       </div>
 
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
         <div className={styles.folderList}>
           <div
+            role="button"
+            tabIndex={0}
             onClick={() => onSelectFolder(null)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') onSelectFolder(null)
+            }}
             className={`${styles.folderItem} ${selectedFolderId === null && !viewingDeleted ? styles.active : ''}`}
           >
             All Notes
           </div>
-          <SortableContext items={folders.map((f) => f.id)} strategy={verticalListSortingStrategy}>
+          <SortableContext
+            items={folders.map((f) => f.id)}
+            strategy={verticalListSortingStrategy}
+          >
             {folders.map((folder) => {
               const isSelected = selectedFolderIds.includes(folder.id)
               return (
@@ -213,7 +233,12 @@ export function FolderSidebar({
           </SortableContext>
           <div className={styles.folderSeparator} />
           <div
+            role="button"
+            tabIndex={0}
             onClick={onViewDeleted}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') onViewDeleted()
+            }}
             className={`${styles.folderItem} ${styles.deletedFolder} ${viewingDeleted ? styles.active : ''}`}
           >
             <GoTrash className={styles.trashIcon} />

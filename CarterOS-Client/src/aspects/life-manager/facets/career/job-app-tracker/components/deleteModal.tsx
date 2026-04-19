@@ -3,13 +3,13 @@
 // deleteModal.tsx
 // ===================
 
-import {
-  useJobTrackerStore,
-  useIsDeleteModalOpen,
-  useDeletingApplicationId,
-  useIsDeleting,
-} from '../stores'
 import { useDeleteJobApplication } from '../hooks'
+import {
+  useDeletingApplicationId,
+  useIsDeleteModalOpen,
+  useIsDeleting,
+  useJobTrackerStore,
+} from '../stores'
 import styles from './deleteModal.module.scss'
 
 export function DeleteModal() {
@@ -37,11 +37,25 @@ export function DeleteModal() {
   }
 
   return (
-    <div className={styles.overlay} onClick={closeModal}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+    <div
+      role="button"
+      tabIndex={0}
+      className={styles.overlay}
+      onClick={closeModal}
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') closeModal()
+      }}
+    >
+      <div
+        role="dialog"
+        className={styles.modal}
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
         <h2 className={styles.title}>Delete Application</h2>
         <p className={styles.message}>
-          Are you sure you want to delete this application? This action cannot be undone.
+          Are you sure you want to delete this application? This action cannot be
+          undone.
         </p>
         <div className={styles.actions}>
           <button

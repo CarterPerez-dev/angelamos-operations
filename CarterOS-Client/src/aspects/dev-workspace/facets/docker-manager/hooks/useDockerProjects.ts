@@ -3,21 +3,27 @@
 // useDockerProjects.ts
 // ===================
 
-import { useQuery, useMutation, useQueryClient, type UseQueryResult, type UseMutationResult } from '@tanstack/react-query'
+import {
+  type UseMutationResult,
+  type UseQueryResult,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { dockerApiClient } from '../api/docker.client'
+import { DOCKER_API, REFRESH_INTERVALS } from '../types/docker.enums'
 import {
-  type Project,
-  type SetProtectionRequest,
-  type SetDisplayNameRequest,
-  type SetHiddenRequest,
-  isValidProjectList,
-  isValidProject,
   DOCKER_ERROR_MESSAGES,
   DOCKER_SUCCESS_MESSAGES,
   DockerManagerResponseError,
+  isValidProject,
+  isValidProjectList,
+  type Project,
+  type SetDisplayNameRequest,
+  type SetHiddenRequest,
+  type SetProtectionRequest,
 } from '../types/docker.types'
-import { DOCKER_API, REFRESH_INTERVALS } from '../types/docker.enums'
 
 export const dockerQueries = {
   all: () => ['docker'] as const,
@@ -30,11 +36,7 @@ const fetchProjects = async (): Promise<Project[]> => {
   const response = await dockerApiClient.get<unknown>(DOCKER_API.PROJECTS_LIST)
   const data: unknown = response.data
 
-  console.log('Raw API response:', data)
-  console.log('Is array?', Array.isArray(data))
-
   if (!isValidProjectList(data)) {
-    console.error('Validation failed for project list')
     throw new DockerManagerResponseError(
       DOCKER_ERROR_MESSAGES.INVALID_PROJECT_LIST_RESPONSE,
       DOCKER_API.PROJECTS_LIST
@@ -77,7 +79,9 @@ export const useDockerProject = (id: string): UseQueryResult<Project, Error> => 
 }
 
 const startProject = async (id: string): Promise<Project> => {
-  const response = await dockerApiClient.post<unknown>(DOCKER_API.PROJECT_START(id))
+  const response = await dockerApiClient.post<unknown>(
+    DOCKER_API.PROJECT_START(id)
+  )
   const data: unknown = response.data
 
   if (!isValidProject(data)) {
@@ -101,13 +105,19 @@ export const useStartProject = (): UseMutationResult<Project, Error, string> => 
       toast.success(DOCKER_SUCCESS_MESSAGES.PROJECT_STARTED(data.name))
     },
     onError: (error) => {
-      const message = error instanceof DockerManagerResponseError ? error.message : 'Failed to start project'
+      const message =
+        error instanceof DockerManagerResponseError
+          ? error.message
+          : 'Failed to start project'
       toast.error(message)
     },
   })
 }
 
-const stopProject = async (params: { id: string; force?: boolean }): Promise<Project> => {
+const stopProject = async (params: {
+  id: string
+  force?: boolean
+}): Promise<Project> => {
   const url = params.force
     ? `${DOCKER_API.PROJECT_STOP(params.id)}?force=true`
     : DOCKER_API.PROJECT_STOP(params.id)
@@ -125,7 +135,11 @@ const stopProject = async (params: { id: string; force?: boolean }): Promise<Pro
   return data
 }
 
-export const useStopProject = (): UseMutationResult<Project, Error, { id: string; force?: boolean }> => {
+export const useStopProject = (): UseMutationResult<
+  Project,
+  Error,
+  { id: string; force?: boolean }
+> => {
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -136,14 +150,19 @@ export const useStopProject = (): UseMutationResult<Project, Error, { id: string
       toast.success(DOCKER_SUCCESS_MESSAGES.PROJECT_STOPPED(data.name))
     },
     onError: (error) => {
-      const message = error instanceof DockerManagerResponseError ? error.message : 'Failed to stop project'
+      const message =
+        error instanceof DockerManagerResponseError
+          ? error.message
+          : 'Failed to stop project'
       toast.error(message)
     },
   })
 }
 
 const restartProject = async (id: string): Promise<Project> => {
-  const response = await dockerApiClient.post<unknown>(DOCKER_API.PROJECT_RESTART(id))
+  const response = await dockerApiClient.post<unknown>(
+    DOCKER_API.PROJECT_RESTART(id)
+  )
   const data: unknown = response.data
 
   if (!isValidProject(data)) {
@@ -156,7 +175,11 @@ const restartProject = async (id: string): Promise<Project> => {
   return data
 }
 
-export const useRestartProject = (): UseMutationResult<Project, Error, string> => {
+export const useRestartProject = (): UseMutationResult<
+  Project,
+  Error,
+  string
+> => {
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -167,13 +190,19 @@ export const useRestartProject = (): UseMutationResult<Project, Error, string> =
       toast.success(DOCKER_SUCCESS_MESSAGES.PROJECT_RESTARTED(data.name))
     },
     onError: (error) => {
-      const message = error instanceof DockerManagerResponseError ? error.message : 'Failed to restart project'
+      const message =
+        error instanceof DockerManagerResponseError
+          ? error.message
+          : 'Failed to restart project'
       toast.error(message)
     },
   })
 }
 
-const setProtection = async (params: { id: string; request: SetProtectionRequest }): Promise<Project> => {
+const setProtection = async (params: {
+  id: string
+  request: SetProtectionRequest
+}): Promise<Project> => {
   const response = await dockerApiClient.post<unknown>(
     DOCKER_API.PROJECT_PROTECT(params.id),
     params.request
@@ -210,13 +239,19 @@ export const useSetProjectProtection = (): UseMutationResult<
       toast.success(message)
     },
     onError: (error) => {
-      const message = error instanceof DockerManagerResponseError ? error.message : 'Failed to update protection'
+      const message =
+        error instanceof DockerManagerResponseError
+          ? error.message
+          : 'Failed to update protection'
       toast.error(message)
     },
   })
 }
 
-const setDisplayName = async (params: { id: string; request: SetDisplayNameRequest }): Promise<Project> => {
+const setDisplayName = async (params: {
+  id: string
+  request: SetDisplayNameRequest
+}): Promise<Project> => {
   const response = await dockerApiClient.put<unknown>(
     DOCKER_API.PROJECT_NAME(params.id),
     params.request
@@ -241,22 +276,34 @@ export const useSetProjectDisplayName = (): UseMutationResult<
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: setDisplayName,
+    mutationFn: (params: {
+      id: string
+      oldName: string
+      request: SetDisplayNameRequest
+    }) => setDisplayName({ id: params.id, request: params.request }),
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: dockerQueries.projects() })
       queryClient.invalidateQueries({ queryKey: dockerQueries.project(data.id) })
 
       const newName = variables.request.display_name ?? data.name
-      toast.success(DOCKER_SUCCESS_MESSAGES.PROJECT_RENAMED(variables.oldName, newName))
+      toast.success(
+        DOCKER_SUCCESS_MESSAGES.PROJECT_RENAMED(variables.oldName, newName)
+      )
     },
     onError: (error) => {
-      const message = error instanceof DockerManagerResponseError ? error.message : 'Failed to rename project'
+      const message =
+        error instanceof DockerManagerResponseError
+          ? error.message
+          : 'Failed to rename project'
       toast.error(message)
     },
   })
 }
 
-const setHidden = async (params: { id: string; request: SetHiddenRequest }): Promise<Project> => {
+const setHidden = async (params: {
+  id: string
+  request: SetHiddenRequest
+}): Promise<Project> => {
   const response = await dockerApiClient.put<unknown>(
     DOCKER_API.PROJECT_HIDDEN(params.id),
     params.request
@@ -294,7 +341,10 @@ export const useSetProjectHidden = (): UseMutationResult<
       toast.success(message)
     },
     onError: (error) => {
-      const message = error instanceof DockerManagerResponseError ? error.message : 'Failed to update visibility'
+      const message =
+        error instanceof DockerManagerResponseError
+          ? error.message
+          : 'Failed to update visibility'
       toast.error(message)
     },
   })

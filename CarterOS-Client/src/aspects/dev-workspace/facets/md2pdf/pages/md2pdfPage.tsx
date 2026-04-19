@@ -3,8 +3,8 @@
 // md2pdfPage.tsx
 // ===================
 
-import { useState, useRef } from 'react'
-import { MarkdownEditor, MarkdownPreview, DragBar } from '../components'
+import { useRef, useState } from 'react'
+import { DragBar, MarkdownEditor, MarkdownPreview } from '../components'
 import { useDragResize } from '../hooks'
 import { INITIAL_MARKDOWN } from '../types'
 import styles from './md2pdfPage.module.scss'
@@ -57,12 +57,14 @@ export function Md2pdfPage() {
             className={styles.fileInput}
           />
           <button
+            type="button"
             className={styles.buttonSecondary}
             onClick={() => fileInputRef.current?.click()}
           >
             Choose
           </button>
           <button
+            type="button"
             className={styles.buttonPrimary}
             onClick={handleTransform}
           >

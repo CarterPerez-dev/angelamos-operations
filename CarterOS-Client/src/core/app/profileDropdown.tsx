@@ -4,23 +4,23 @@
 // ===========================
 
 import { useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
 import {
+  GiBookshelf,
+  GiBrain,
+  GiBriefcase,
+  GiCalendar,
   GiChart,
+  GiChecklist,
+  GiExitDoor,
+  GiFactory,
+  GiFox,
+  GiScrollUnfurled,
+  GiShare,
   GiSparkles,
   GiTrophy,
-  GiCalendar,
-  GiBookshelf,
-  GiChecklist,
-  GiBriefcase,
-  GiShare,
-  GiFox,
-  GiBrain,
-  GiFactory,
-  GiExitDoor,
-  GiScrollUnfurled,
 } from 'react-icons/gi'
 import { GrDocker } from 'react-icons/gr'
+import { Link } from 'react-router-dom'
 import { USER } from '@/config'
 import { useLogout } from '@/core/sys/auth/hooks'
 import styles from './profileDropdown.module.scss'
@@ -50,15 +50,17 @@ const NAV_SECTIONS = [
   {
     label: 'Dev Workspace',
     items: [
-      { to: '/dev-workspace/docker-manager', label: 'Docker Manager', icon: GrDocker },
+      {
+        to: '/dev-workspace/docker-manager',
+        label: 'Docker Manager',
+        icon: GrDocker,
+      },
       { to: '/dev-workspace/md2pdf', label: 'md2pdf', icon: GiScrollUnfurled },
     ],
   },
   {
     label: 'Business Hub',
-    items: [
-      { to: '/dashboard', label: 'Hub', icon: GiFactory },
-    ],
+    items: [{ to: '/dashboard', label: 'Hub', icon: GiFactory }],
   },
   {
     label: 'System',
@@ -76,7 +78,10 @@ export function ProfileDropdown({ onClose }: ProfileDropdownProps) {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         onClose()
       }
     }
@@ -114,7 +119,11 @@ export function ProfileDropdown({ onClose }: ProfileDropdownProps) {
 
       <div className={styles.divider} />
 
-      <button className={styles.logoutButton} onClick={handleLogout}>
+      <button
+        type="button"
+        className={styles.logoutButton}
+        onClick={handleLogout}
+      >
         <GiExitDoor />
         <span>Sign out</span>
       </button>

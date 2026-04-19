@@ -3,20 +3,16 @@
 // useChecklist.ts
 // ===================
 
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { apiClient } from '@/core/api'
 import { API_ENDPOINTS, QUERY_KEYS } from '@/config'
+import { apiClient } from '@/core/api'
 import type {
+  ChecklistDayResponse,
   ChecklistItem,
   ChecklistItemCreateRequest,
-  ChecklistItemUpdateRequest,
   ChecklistItemListResponse,
-  ChecklistDayResponse,
+  ChecklistItemUpdateRequest,
   ChecklistLogEntry,
   ChecklistLogUpdateRequest,
   ChecklistStatsResponse,
@@ -27,7 +23,7 @@ export const useChecklistItems = () => {
     queryKey: QUERY_KEYS.CHECKLIST.ITEMS(),
     queryFn: async () => {
       const { data } = await apiClient.get<ChecklistItemListResponse>(
-        API_ENDPOINTS.CHECKLIST.ITEMS,
+        API_ENDPOINTS.CHECKLIST.ITEMS
       )
       return data
     },
@@ -40,7 +36,7 @@ export const useChecklistDay = (date: string) => {
     queryFn: async () => {
       const { data } = await apiClient.get<ChecklistDayResponse>(
         API_ENDPOINTS.CHECKLIST.LOG,
-        { params: { log_date: date } },
+        { params: { log_date: date } }
       )
       return data
     },
@@ -52,7 +48,7 @@ export const useChecklistStats = () => {
     queryKey: QUERY_KEYS.CHECKLIST.STATS(),
     queryFn: async () => {
       const { data } = await apiClient.get<ChecklistStatsResponse>(
-        API_ENDPOINTS.CHECKLIST.STATS,
+        API_ENDPOINTS.CHECKLIST.STATS
       )
       return data
     },
@@ -66,7 +62,7 @@ export const useCreateChecklistItem = () => {
     mutationFn: async (payload: ChecklistItemCreateRequest) => {
       const { data } = await apiClient.post<ChecklistItem>(
         API_ENDPOINTS.CHECKLIST.ITEMS,
-        payload,
+        payload
       )
       return data
     },
@@ -76,7 +72,7 @@ export const useCreateChecklistItem = () => {
         (old) => {
           if (!old) return { items: [newItem] }
           return { items: [...old.items, newItem] }
-        },
+        }
       )
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.CHECKLIST.ALL })
       toast.success('Checklist item created')
@@ -91,10 +87,16 @@ export const useUpdateChecklistItem = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async ({ id, data }: { id: string; data: ChecklistItemUpdateRequest }) => {
+    mutationFn: async ({
+      id,
+      data,
+    }: {
+      id: string
+      data: ChecklistItemUpdateRequest
+    }) => {
       const { data: result } = await apiClient.put<ChecklistItem>(
         API_ENDPOINTS.CHECKLIST.ITEM(id),
-        data,
+        data
       )
       return result
     },
@@ -103,8 +105,12 @@ export const useUpdateChecklistItem = () => {
         QUERY_KEYS.CHECKLIST.ITEMS(),
         (old) => {
           if (!old) return old
-          return { items: old.items.map((i) => (i.id === updatedItem.id ? updatedItem : i)) }
-        },
+          return {
+            items: old.items.map((i) =>
+              i.id === updatedItem.id ? updatedItem : i
+            ),
+          }
+        }
       )
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.CHECKLIST.ALL })
     },
@@ -128,7 +134,7 @@ export const useDeleteChecklistItem = () => {
         (old) => {
           if (!old) return old
           return { items: old.items.filter((i) => i.id !== deletedId) }
-        },
+        }
       )
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.CHECKLIST.ALL })
       toast.success('Checklist item removed')
@@ -143,10 +149,16 @@ export const useUpdateChecklistLog = (date: string) => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async ({ id, data }: { id: string; data: ChecklistLogUpdateRequest }) => {
+    mutationFn: async ({
+      id,
+      data,
+    }: {
+      id: string
+      data: ChecklistLogUpdateRequest
+    }) => {
       const { data: result } = await apiClient.patch<ChecklistLogEntry>(
         API_ENDPOINTS.CHECKLIST.LOG_ENTRY(id),
-        data,
+        data
       )
       return result
     },
@@ -156,14 +168,14 @@ export const useUpdateChecklistLog = (date: string) => {
         (old) => {
           if (!old) return old
           const entries = old.entries.map((e) =>
-            e.id === updatedEntry.id ? updatedEntry : e,
+            e.id === updatedEntry.id ? updatedEntry : e
           )
           return {
             ...old,
             entries,
             completed_count: entries.filter((e) => e.completed).length,
           }
-        },
+        }
       )
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.CHECKLIST.STATS() })
     },

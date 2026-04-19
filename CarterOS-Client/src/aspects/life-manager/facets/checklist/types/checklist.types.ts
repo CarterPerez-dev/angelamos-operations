@@ -56,7 +56,9 @@ export const ChecklistStatsResponseSchema = z.object({
 })
 
 export type ChecklistItem = z.infer<typeof ChecklistItemSchema>
-export type ChecklistItemListResponse = z.infer<typeof ChecklistItemListResponseSchema>
+export type ChecklistItemListResponse = z.infer<
+  typeof ChecklistItemListResponseSchema
+>
 export type ChecklistLogEntry = z.infer<typeof ChecklistLogEntrySchema>
 export type ChecklistDayResponse = z.infer<typeof ChecklistDayResponseSchema>
 export type HeatmapDay = z.infer<typeof HeatmapDaySchema>

@@ -11,6 +11,8 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import { API_ENDPOINTS, PAGINATION, QUERY_KEYS } from '@/config'
+import { apiClient, QUERY_STRATEGIES } from '@/core/api'
 import {
   type AdminUserCreateRequest,
   type AdminUserUpdateRequest,
@@ -22,12 +24,6 @@ import {
   type UserResponse,
   UserResponseError,
 } from '@/core/sys/auth/types'
-import {
-  API_ENDPOINTS,
-  PAGINATION,
-  QUERY_KEYS,
-} from '@/config'
-import { apiClient, QUERY_STRATEGIES } from '@/core/api'
 
 export const adminQueries = {
   all: () => QUERY_KEYS.ADMIN.ALL,

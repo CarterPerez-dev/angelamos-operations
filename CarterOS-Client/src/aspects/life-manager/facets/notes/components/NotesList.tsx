@@ -3,16 +3,14 @@
 // NotesList.tsx
 // ===================
 
-import { useState } from 'react'
-import { PiDotsNineLight } from 'react-icons/pi'
 import {
-  DndContext,
   closestCenter,
+  DndContext,
+  type DragEndEvent,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
-  type DragEndEvent,
 } from '@dnd-kit/core'
 import {
   arrayMove,
@@ -21,12 +19,13 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
 import { useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
+import { PiDotsNineLight } from 'react-icons/pi'
 import { useUpdateNote } from '../hooks/useNotes'
-import { InlineEdit } from './InlineEdit'
-import type { Note, NoteFolder, NotesListResponse } from '../types/notes.types'
 import styles from '../pages/NotesPage.module.scss'
+import type { Note, NoteFolder, NotesListResponse } from '../types/notes.types'
+import { InlineEdit } from './InlineEdit'
 
 interface NotesListProps {
   notes: Note[] | undefined
@@ -72,10 +71,11 @@ function SortableNote({
   onRestoreNote,
   onPermanentDeleteNote,
 }: SortableNoteProps) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: note.id,
-    disabled: viewingDeleted,
-  })
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+    useSortable({
+      id: note.id,
+      disabled: viewingDeleted,
+    })
 
   const style = {
     transform: transform ? `translate3d(0, ${transform.y}px, 0)` : undefined,
@@ -86,8 +86,13 @@ function SortableNote({
   return (
     <div
       ref={setNodeRef}
+      role="button"
+      tabIndex={0}
       style={style}
       onClick={() => onSelectNote(note)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') onSelectNote(note)
+      }}
       className={`${styles.noteItem} ${selectedNoteId === note.id && !selectionMode ? styles.active : ''} ${viewingDeleted ? styles.deletedItem : ''} ${selectionMode && isSelected ? styles.selected : ''}`}
     >
       <InlineEdit
@@ -184,7 +189,9 @@ export function NotesList({
       if (!old) return old
 
       const updatedNotes = old.notes.map((note) => {
-        const folderMatches = selectedFolderId ? note.folder_id === selectedFolderId : note.folder_id === null
+        const folderMatches = selectedFolderId
+          ? note.folder_id === selectedFolderId
+          : note.folder_id === null
         if (!folderMatches) return note
 
         const reorderedIndex = reorderedNotes.findIndex((n) => n.id === note.id)
@@ -212,7 +219,11 @@ export function NotesList({
     >
       <div className={styles.notesHeader}>
         <h2 className={styles.notesTitle}>
-          {viewingDeleted ? 'Deleted Notes' : selectionMode ? `${selectedNoteIds.length} Selected` : 'Notes'}
+          {viewingDeleted
+            ? 'Deleted Notes'
+            : selectionMode
+              ? `${selectedNoteIds.length} Selected`
+              : 'Notes'}
         </h2>
         {!viewingDeleted && (
           <div className={styles.notesActions}>
@@ -270,10 +281,20 @@ export function NotesList({
 
       {isLoading ? (
         <div className={styles.loading}>Loading...</div>
-      ) : (viewingDeleted ? (notes?.length === 0 && deletedFolders?.length === 0) : notes?.length === 0) ? (
-        <div className={styles.empty}>{viewingDeleted ? 'No deleted items' : 'No notes yet'}</div>
       ) : (
-        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          viewingDeleted
+            ? notes?.length === 0 && deletedFolders?.length === 0
+            : notes?.length === 0
+        ) ? (
+        <div className={styles.empty}>
+          {viewingDeleted ? 'No deleted items' : 'No notes yet'}
+        </div>
+      ) : (
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
           <div className={styles.notes}>
             {viewingDeleted && deletedFolders && deletedFolders.length > 0 && (
               <>
@@ -302,10 +323,15 @@ export function NotesList({
                     </div>
                   </div>
                 ))}
-                {notes && notes.length > 0 && <div className={styles.deletedSectionHeader}>Deleted Notes</div>}
+                {notes && notes.length > 0 && (
+                  <div className={styles.deletedSectionHeader}>Deleted Notes</div>
+                )}
               </>
             )}
-            <SortableContext items={notes?.map((n) => n.id) || []} strategy={verticalListSortingStrategy}>
+            <SortableContext
+              items={notes?.map((n) => n.id) || []}
+              strategy={verticalListSortingStrategy}
+            >
               {notes?.map((note) => {
                 const isSelected = selectedNoteIds.includes(note.id)
                 return (

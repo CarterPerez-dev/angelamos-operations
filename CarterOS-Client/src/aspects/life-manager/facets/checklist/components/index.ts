@@ -4,5 +4,5 @@
 // ===================
 
 export { ChecklistItem } from './ChecklistItem'
-export { StatsPanel } from './StatsPanel'
 export { HeatmapGrid } from './HeatmapGrid'
+export { StatsPanel } from './StatsPanel'

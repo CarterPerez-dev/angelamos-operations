@@ -13,6 +13,7 @@ interface DragBarProps {
 export function DragBar({ onMouseDown, isDragging }: DragBarProps) {
   return (
     <div
+      role="separator"
       className={`${styles.dragBar} ${isDragging ? styles.active : ''}`}
       onMouseDown={onMouseDown}
     />

@@ -3,19 +3,19 @@
 // useAnalytics.ts
 // ===================
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { apiClient } from '@/core/api/api.config'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { API_ENDPOINTS } from '@/config'
+import { apiClient } from '@/core/api/api.config'
 import type {
   TikTokVideo,
   TikTokVideoCreate,
-  TikTokVideoUpdate,
   TikTokVideoListResponse,
-  VideoFilters,
+  TikTokVideoUpdate,
 } from '../types/analytics.types'
 
 const QUERY_KEYS = {
-  videos: (page: number, pageSize: number) => ['analytics', 'videos', page, pageSize] as const,
+  videos: (page: number, pageSize: number) =>
+    ['analytics', 'videos', page, pageSize] as const,
   video: (id: string) => ['analytics', 'videos', id] as const,
 }
 
@@ -36,7 +36,9 @@ export function useVideo(id: string) {
   return useQuery({
     queryKey: QUERY_KEYS.video(id),
     queryFn: async () => {
-      const { data } = await apiClient.get<TikTokVideo>(API_ENDPOINTS.ANALYTICS.VIDEO(id))
+      const { data } = await apiClient.get<TikTokVideo>(
+        API_ENDPOINTS.ANALYTICS.VIDEO(id)
+      )
       return data
     },
     enabled: !!id,
@@ -56,7 +58,7 @@ export function useCreateVideo() {
     },
     onSuccess: (newVideo) => {
       const queries = queryClient.getQueriesData<TikTokVideoListResponse>({
-        queryKey: ['analytics', 'videos']
+        queryKey: ['analytics', 'videos'],
       })
 
       for (const [key, data] of queries) {
@@ -85,7 +87,7 @@ export function useUpdateVideo() {
     },
     onSuccess: (updatedVideo) => {
       const queries = queryClient.getQueriesData<TikTokVideoListResponse>({
-        queryKey: ['analytics', 'videos']
+        queryKey: ['analytics', 'videos'],
       })
 
       for (const [key, data] of queries) {
@@ -99,10 +101,7 @@ export function useUpdateVideo() {
         }
       }
 
-      queryClient.setQueryData(
-        QUERY_KEYS.video(updatedVideo.id),
-        updatedVideo
-      )
+      queryClient.setQueryData(QUERY_KEYS.video(updatedVideo.id), updatedVideo)
     },
   })
 }
@@ -117,7 +116,7 @@ export function useDeleteVideo() {
     },
     onSuccess: (deletedId) => {
       const queries = queryClient.getQueriesData<TikTokVideoListResponse>({
-        queryKey: ['analytics', 'videos']
+        queryKey: ['analytics', 'videos'],
       })
 
       for (const [key, data] of queries) {

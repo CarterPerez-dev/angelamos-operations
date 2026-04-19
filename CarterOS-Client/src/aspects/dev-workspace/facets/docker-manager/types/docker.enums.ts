@@ -26,7 +26,7 @@ export const getDockerWSUrl = (): string => {
   const envURL = import.meta.env.VITE_DOCKER_API_URL
 
   if (envURL) {
-    return envURL.replace('http', 'ws') + '/ws/stats'
+    return `${envURL.replace('http', 'ws')}/ws/stats`
   }
 
   return 'ws://localhost:7771/ws/stats'
@@ -70,7 +70,7 @@ export const formatBytes = (bytes: number, decimals = 2): string => {
 
   const i = Math.floor(Math.log(bytes) / Math.log(k))
 
-  return `${Number.parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
+  return `${Number.parseFloat((bytes / k ** i).toFixed(dm))} ${sizes[i]}`
 }
 
 export const formatPercent = (value: number, decimals = 1): string => {

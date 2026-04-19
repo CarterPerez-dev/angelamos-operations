@@ -4,21 +4,21 @@
 // ===================
 
 import { createBrowserRouter, Navigate, type RouteObject } from 'react-router-dom'
+import { analyticsRoutes } from '@/aspects/analytics/facets/data-input/routes'
+import { AngelaPage } from '@/aspects/assistant/facets/angela/AngelaPage'
+import { MossPage } from '@/aspects/business-hub/facets/angela'
+import { trackerRoutes } from '@/aspects/challenge/facets/tracker/routes'
+import { dockerManagerRoutes } from '@/aspects/dev-workspace/facets/docker-manager/routes'
+import { md2pdfRoutes } from '@/aspects/dev-workspace/facets/md2pdf/routes'
+import { jobTrackerRoutes } from '@/aspects/life-manager/facets/career/job-app-tracker/routes'
+import { checklistRoutes } from '@/aspects/life-manager/facets/checklist/routes'
+import { notesRoutes } from '@/aspects/life-manager/facets/notes/routes'
+import { plannerRoutes } from '@/aspects/life-manager/facets/planner/routes'
+import { LifeManagerHub } from '@/aspects/life-manager/shared/ui'
+import { dashboardRoutes } from '@/aspects/ops/facets/dashboard/routes'
 import { ROUTES } from '@/config'
 import { ProtectedRoute } from './protected-route'
 import { Shell } from './shell'
-import { trackerRoutes } from '@/aspects/challenge/facets/tracker/routes'
-import { plannerRoutes } from '@/aspects/life-manager/facets/planner/routes'
-import { notesRoutes } from '@/aspects/life-manager/facets/notes/routes'
-import { jobTrackerRoutes } from '@/aspects/life-manager/facets/career/job-app-tracker/routes'
-import { checklistRoutes } from '@/aspects/life-manager/facets/checklist/routes'
-import { LifeManagerHub } from '@/aspects/life-manager/shared/ui'
-import { dashboardRoutes } from '@/aspects/ops/facets/dashboard/routes'
-import { dockerManagerRoutes } from '@/aspects/dev-workspace/facets/docker-manager/routes'
-import { md2pdfRoutes } from '@/aspects/dev-workspace/facets/md2pdf/routes'
-import { MossPage } from '@/aspects/business-hub/facets/angela'
-import { AngelaPage } from '@/aspects/assistant/facets/angela/AngelaPage'
-import { analyticsRoutes } from '@/aspects/analytics/facets/data-input/routes'
 
 const routes: RouteObject[] = [
   {
