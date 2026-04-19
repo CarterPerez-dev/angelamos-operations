@@ -158,3 +158,10 @@ dialog {
   background-color: $accent-purple-30;
   color: $text-default;
 }
+
+@media print {
+  .tsqd-parent-container,
+  [class*="ReactQueryDevtools"] {
+    display: none !important;
+  }
+}
