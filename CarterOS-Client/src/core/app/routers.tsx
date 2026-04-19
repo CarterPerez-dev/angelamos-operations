@@ -15,6 +15,7 @@ import { checklistRoutes } from '@/aspects/life-manager/facets/checklist/routes'
 import { LifeManagerHub } from '@/aspects/life-manager/shared/ui'
 import { dashboardRoutes } from '@/aspects/ops/facets/dashboard/routes'
 import { dockerManagerRoutes } from '@/aspects/dev-workspace/facets/docker-manager/routes'
+import { md2pdfRoutes } from '@/aspects/dev-workspace/facets/md2pdf/routes'
 import { MossPage } from '@/aspects/business-hub/facets/angela'
 import { AngelaPage } from '@/aspects/assistant/facets/angela/AngelaPage'
 import { analyticsRoutes } from '@/aspects/analytics/facets/data-input/routes'
@@ -62,7 +63,7 @@ const routes: RouteObject[] = [
           },
           {
             path: 'dev-workspace',
-            children: [...dockerManagerRoutes],
+            children: [...dockerManagerRoutes, ...md2pdfRoutes],
           },
           {
             path: 'angela',
