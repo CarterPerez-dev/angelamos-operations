@@ -1,0 +1,227 @@
+// ===================
+// © AngelaMos | 2026
+// markdownPreview.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.preview {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: $space-lg;
+  background: $bg-surface-100;
+}
+
+.markdownBody {
+  max-width: 900px;
+  margin: 0 auto;
+  color: $text-default;
+  font-family: $font-sans;
+  font-size: $text-base;
+  line-height: 1.6;
+  word-wrap: break-word;
+
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: $space-xl;
+    margin-bottom: $space-lg;
+    font-weight: $font-semibold;
+    line-height: $line-height-tight;
+    color: $text-default;
+  }
+
+  h1 { font-size: 2rem; padding-bottom: 0.3em; border-bottom: 1px solid $border-default; }
+  h2 { font-size: 1.5rem; padding-bottom: 0.3em; border-bottom: 1px solid $border-default; }
+  h3 { font-size: 1.25rem; }
+  h4 { font-size: 1rem; }
+  h5 { font-size: $text-sm; }
+  h6 { font-size: $text-xs; color: $text-lighter; }
+
+  p {
+    margin-top: 0;
+    margin-bottom: $space-lg;
+  }
+
+  a {
+    color: $accent-purple;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  strong { font-weight: $font-semibold; }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  blockquote {
+    margin: 0 0 $space-lg 0;
+    padding: 0.5em 1em;
+    color: $text-light;
+    border-left: 4px solid $accent-purple;
+    background: $bg-surface-75;
+    border-radius: 0 $radius-sm $radius-sm 0;
+
+    > :first-child { margin-top: 0; }
+    > :last-child { margin-bottom: 0; }
+  }
+
+  code {
+    padding: 0.2em 0.4em;
+    font-size: 85%;
+    font-family: $font-mono;
+    background: $bg-surface-300;
+    border-radius: $radius-xs;
+  }
+
+  pre {
+    padding: $space-lg;
+    overflow-x: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    background: $bg-surface-300;
+    border-radius: $radius-md;
+    border: 1px solid $border-default;
+    margin-bottom: $space-lg;
+
+    code {
+      padding: 0;
+      background: transparent;
+      border-radius: 0;
+      font-size: 100%;
+    }
+  }
+
+  ul, ol {
+    margin-top: 0;
+    margin-bottom: $space-lg;
+    padding-left: 2em;
+  }
+
+  li {
+    margin-bottom: $space-xs;
+
+    + li {
+      margin-top: $space-xs;
+    }
+  }
+
+  li > ul,
+  li > ol {
+    margin-top: $space-xs;
+    margin-bottom: 0;
+  }
+
+  input[type="checkbox"] {
+    margin-right: 0.5em;
+    accent-color: $accent-purple;
+  }
+
+  hr {
+    height: 1px;
+    margin: $space-xl 0;
+    background-color: $border-default;
+    border: 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: $space-lg;
+    font-size: $text-sm;
+  }
+
+  th {
+    font-weight: $font-semibold;
+    padding: $space-sm $space-md;
+    border: 1px solid $border-default;
+    background: $bg-surface-200;
+    text-align: left;
+  }
+
+  td {
+    padding: $space-sm $space-md;
+    border: 1px solid $border-default;
+  }
+
+  tr:nth-child(even) {
+    background: $bg-surface-75;
+  }
+
+  del {
+    color: $text-lighter;
+  }
+
+  :global(.hljs) {
+    background: transparent;
+    padding: 0;
+  }
+}
+
+@media print {
+  .preview {
+    overflow: visible;
+    padding: 0;
+    background: white;
+  }
+
+  .markdownBody {
+    max-width: 100%;
+    color: #1a1a1a;
+    font-size: 12pt;
+
+    h1, h2, h3, h4, h5, h6 { color: #1a1a1a; }
+    h1, h2 { border-bottom-color: #d0d0d0; }
+    h6 { color: #666; }
+
+    a {
+      color: #0969da;
+      text-decoration: underline;
+    }
+
+    blockquote {
+      color: #57606a;
+      border-left-color: #d0d7de;
+      background: #f6f8fa;
+    }
+
+    code {
+      background: #eff1f3;
+    }
+
+    pre {
+      background: #f6f8fa;
+      border-color: #d0d7de;
+      overflow-x: visible;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+
+      code { background: transparent; }
+    }
+
+    th {
+      background: #f6f8fa;
+      border-color: #d0d7de;
+    }
+
+    td { border-color: #d0d7de; }
+    tr:nth-child(even) { background: #f6f8fa; }
+    hr { background-color: #d0d7de; }
+    del { color: #666; }
+
+    :global(.hljs) {
+      color: #1a1a1a;
+    }
+
+    :global(.hljs-keyword),
+    :global(.hljs-built_in) { color: #cf222e; }
+    :global(.hljs-string) { color: #0a3069; }
+    :global(.hljs-comment) { color: #6e7781; }
+    :global(.hljs-number) { color: #0550ae; }
+    :global(.hljs-function .hljs-title) { color: #8250df; }
+  }
+}

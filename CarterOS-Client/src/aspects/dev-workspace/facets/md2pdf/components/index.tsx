@@ -5,3 +5,4 @@
 
 export * from './dragBar'
 export * from './markdownEditor'
+export * from './markdownPreview'
