@@ -4,3 +4,4 @@
 // ===================
 
 export * from './dragBar'
+export * from './markdownEditor'

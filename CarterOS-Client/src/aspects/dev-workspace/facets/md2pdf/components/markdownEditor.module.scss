@@ -1,0 +1,23 @@
+// ===================
+// © AngelaMos | 2026
+// markdownEditor.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.editor {
+  height: 100%;
+  flex-shrink: 0;
+  background: $bg-surface-75;
+  overflow: hidden;
+
+  :global(.cm-editor) {
+    height: 100%;
+  }
+}
+
+@media print {
+  .editor {
+    display: none !important;
+  }
+}
