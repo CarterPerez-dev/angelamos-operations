@@ -5,7 +5,9 @@
 import { getAngelaConfig } from '../config'
 import type { TranscriptResult } from '../types'
 
-export async function transcribeAudio(audioBlob: Blob): Promise<TranscriptResult> {
+export async function transcribeAudio(
+  audioBlob: Blob
+): Promise<TranscriptResult> {
   const config = getAngelaConfig()
   const formData = new FormData()
   formData.append('file', audioBlob, 'audio.wav')

@@ -20,9 +20,9 @@ export const tiktokVideoSchema = z.object({
   new_followers: z.number().int().nonnegative(),
   watched_full_video_percentage: z.number().nonnegative(),
 
-  top_comment_words: z.record(z.number()).nullable(),
-  search_queries: z.record(z.number()).nullable(),
-  traffic_sources: z.record(z.number()).nullable(),
+  top_comment_words: z.record(z.string(), z.number()).nullable(),
+  search_queries: z.record(z.string(), z.number()).nullable(),
+  traffic_sources: z.record(z.string(), z.number()).nullable(),
 
   hook: z.string(),
   text_on_screen_hook: z.string().nullable(),
@@ -45,7 +45,9 @@ export const tiktokVideoListResponseSchema = z.object({
 })
 
 export type TikTokVideo = z.infer<typeof tiktokVideoSchema>
-export type TikTokVideoListResponse = z.infer<typeof tiktokVideoListResponseSchema>
+export type TikTokVideoListResponse = z.infer<
+  typeof tiktokVideoListResponseSchema
+>
 
 export interface TikTokVideoCreate {
   rank: number

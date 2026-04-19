@@ -54,10 +54,11 @@ export const CHALLENGE_DEFAULTS = {
   DAILY_JOBS_TARGET: 5,
 } as const
 
-export enum TrackerTab {
-  DASHBOARD = 'dashboard',
-  ALL_DAYS = 'all_days',
-}
+export const TrackerTab = {
+  DASHBOARD: 'dashboard',
+  ALL_DAYS: 'all_days',
+} as const
+export type TrackerTab = (typeof TrackerTab)[keyof typeof TrackerTab]
 
 const API_VERSION = 'v1'
 

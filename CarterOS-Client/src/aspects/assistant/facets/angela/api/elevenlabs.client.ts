@@ -7,7 +7,10 @@ import type { ElevenLabsVoice } from '../types'
 
 const ELEVENLABS_BASE_URL = 'https://api.elevenlabs.io/v1'
 
-export async function synthesizeSpeech(text: string, voiceId?: string): Promise<ArrayBuffer> {
+export async function synthesizeSpeech(
+  text: string,
+  voiceId?: string
+): Promise<ArrayBuffer> {
   const config = getAngelaConfig()
   const voice = voiceId || config.elevenlabs.voiceId
 
@@ -62,11 +65,13 @@ export async function getVoices(): Promise<ElevenLabsVoice[]> {
   }
 
   const data = await response.json()
-  return data.voices.map((v: { voice_id: string; name: string; category: string }) => ({
-    voice_id: v.voice_id,
-    name: v.name,
-    category: v.category,
-  }))
+  return data.voices.map(
+    (v: { voice_id: string; name: string; category: string }) => ({
+      voice_id: v.voice_id,
+      name: v.name,
+      category: v.category,
+    })
+  )
 }
 
 export async function checkElevenLabsHealth(): Promise<boolean> {

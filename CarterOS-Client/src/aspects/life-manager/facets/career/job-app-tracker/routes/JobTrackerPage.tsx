@@ -4,26 +4,31 @@
 // ===================
 
 import { useMemo } from 'react'
-import { useJobApplications, useJobApplicationStats } from '../hooks'
 import {
-  useJobTrackerStore,
+  ApplicationForm,
+  ApplicationTable,
+  DeleteModal,
+  EmptyState,
+  FilterBar,
+  StatsCards,
+} from '../components'
+import { useJobApplicationStats, useJobApplications } from '../hooks'
+import {
   useIsFormOpen,
   useJobTrackerFilters,
   useJobTrackerSort,
+  useJobTrackerStore,
 } from '../stores'
 import type { JobApplication } from '../types'
-import {
-  StatsCards,
-  FilterBar,
-  ApplicationTable,
-  ApplicationForm,
-  DeleteModal,
-  EmptyState,
-} from '../components'
 import styles from './jobTrackerPage.module.scss'
 
 export function JobTrackerPage() {
-  const { data: applicationsData, isLoading, error, refetch } = useJobApplications()
+  const {
+    data: applicationsData,
+    isLoading,
+    error,
+    refetch,
+  } = useJobApplications()
   const { data: statsData } = useJobApplicationStats()
 
   const isFormOpen = useIsFormOpen()
@@ -42,7 +47,7 @@ export function JobTrackerPage() {
         (app) =>
           app.identity_name.toLowerCase().includes(searchLower) ||
           app.position_title.toLowerCase().includes(searchLower) ||
-          (app.location && app.location.toLowerCase().includes(searchLower))
+          app.location?.toLowerCase().includes(searchLower)
       )
     }
 
@@ -62,21 +67,38 @@ export function JobTrackerPage() {
       result = result.filter((app) => app.remote_type === filters.remoteType)
     }
 
-    const priorityOrder = { high: 0, medium: 1, low: 2, unknown: 3 }
-    const outcomeOrder = { offer: 0, pending: 1, rejected: 2, ghosted: 3, withdrawn: 4, unknown: 5 }
+    const priorityOrder: Record<string, number> = {
+      dream: 0,
+      high: 1,
+      medium: 2,
+      low: 3,
+      unknown: 4,
+    }
+    const outcomeOrder: Record<string, number> = {
+      offer: 0,
+      accepted: 1,
+      pending: 2,
+      declined: 3,
+      rejected: 4,
+      ghosted: 5,
+      withdrawn: 6,
+      unknown: 7,
+    }
 
     result.sort((a: JobApplication, b: JobApplication) => {
       let comparison = 0
 
       switch (sort.field) {
         case 'created_at':
-          comparison = new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+          comparison =
+            new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
           break
-        case 'date_applied':
+        case 'date_applied': {
           const dateA = a.date_applied ? new Date(a.date_applied).getTime() : 0
           const dateB = b.date_applied ? new Date(b.date_applied).getTime() : 0
           comparison = dateA - dateB
           break
+        }
         case 'identity_name':
           comparison = a.identity_name.localeCompare(b.identity_name)
           break
@@ -107,7 +129,11 @@ export function JobTrackerPage() {
       <div className={styles.page}>
         <div className={styles.error}>
           <span>Failed to load applications</span>
-          <button type="button" onClick={() => refetch()} className={styles.retryButton}>
+          <button
+            type="button"
+            onClick={() => refetch()}
+            className={styles.retryButton}
+          >
             Retry
           </button>
         </div>
@@ -115,7 +141,8 @@ export function JobTrackerPage() {
     )
   }
 
-  const hasApplications = applicationsData?.items && applicationsData.items.length > 0
+  const hasApplications =
+    applicationsData?.items && applicationsData.items.length > 0
 
   return (
     <div className={styles.page}>
@@ -126,7 +153,11 @@ export function JobTrackerPage() {
             Track your job applications and manage your job hunt
           </p>
         </div>
-        <button type="button" onClick={openCreateForm} className={styles.addButton}>
+        <button
+          type="button"
+          onClick={openCreateForm}
+          className={styles.addButton}
+        >
           Add Application
         </button>
       </header>

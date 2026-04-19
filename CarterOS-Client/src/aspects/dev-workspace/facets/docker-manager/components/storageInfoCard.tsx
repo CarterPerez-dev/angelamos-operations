@@ -3,10 +3,10 @@
 // storageInfoCard.tsx
 // ===================
 
-import { GiTrashCan } from 'react-icons/gi'
 import { CiHardDrive } from 'react-icons/ci'
-import type { StorageInfo } from '../types/docker.types'
+import { GiTrashCan } from 'react-icons/gi'
 import { formatBytes } from '../types/docker.enums'
+import type { StorageInfo } from '../types/docker.types'
 import styles from './storageInfoCard.module.scss'
 
 interface StorageInfoCardProps {
@@ -15,10 +15,13 @@ interface StorageInfoCardProps {
   isPruning?: boolean
 }
 
-export function StorageInfoCard({ info, onPrune, isPruning = false }: StorageInfoCardProps) {
-  const reclaimablePercent = info.total_size > 0
-    ? (info.reclaimable / info.total_size) * 100
-    : 0
+export function StorageInfoCard({
+  info,
+  onPrune,
+  isPruning = false,
+}: StorageInfoCardProps) {
+  const reclaimablePercent =
+    info.total_size > 0 ? (info.reclaimable / info.total_size) * 100 : 0
 
   return (
     <div className={styles.card}>
@@ -45,26 +48,36 @@ export function StorageInfoCard({ info, onPrune, isPruning = false }: StorageInf
       <div className={styles.breakdown}>
         <div className={styles.breakdownItem}>
           <span className={styles.breakdownLabel}>Images</span>
-          <span className={styles.breakdownValue}>{formatBytes(info.images_size)}</span>
+          <span className={styles.breakdownValue}>
+            {formatBytes(info.images_size)}
+          </span>
         </div>
         <div className={styles.breakdownItem}>
           <span className={styles.breakdownLabel}>Containers</span>
-          <span className={styles.breakdownValue}>{formatBytes(info.containers_size)}</span>
+          <span className={styles.breakdownValue}>
+            {formatBytes(info.containers_size)}
+          </span>
         </div>
         <div className={styles.breakdownItem}>
           <span className={styles.breakdownLabel}>Volumes</span>
-          <span className={styles.breakdownValue}>{formatBytes(info.volumes_size)}</span>
+          <span className={styles.breakdownValue}>
+            {formatBytes(info.volumes_size)}
+          </span>
         </div>
         <div className={styles.breakdownItem}>
           <span className={styles.breakdownLabel}>Build Cache</span>
-          <span className={styles.breakdownValue}>{formatBytes(info.build_cache_size)}</span>
+          <span className={styles.breakdownValue}>
+            {formatBytes(info.build_cache_size)}
+          </span>
         </div>
       </div>
 
       <div className={styles.reclaimable}>
         <div className={styles.reclaimableHeader}>
           <span className={styles.reclaimableLabel}>Reclaimable</span>
-          <span className={styles.reclaimableValue}>{formatBytes(info.reclaimable)}</span>
+          <span className={styles.reclaimableValue}>
+            {formatBytes(info.reclaimable)}
+          </span>
         </div>
         <div className={styles.progressBar}>
           <div
@@ -72,7 +85,9 @@ export function StorageInfoCard({ info, onPrune, isPruning = false }: StorageInf
             style={{ width: `${Math.min(reclaimablePercent, 100)}%` }}
           />
         </div>
-        <span className={styles.reclaimablePercent}>{reclaimablePercent.toFixed(1)}%</span>
+        <span className={styles.reclaimablePercent}>
+          {reclaimablePercent.toFixed(1)}%
+        </span>
       </div>
     </div>
   )

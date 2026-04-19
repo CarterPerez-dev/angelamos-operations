@@ -93,5 +93,11 @@ export default {
         'scss/comment-no-empty': null,
       },
     },
+    {
+      files: ['**/md2pdf/components/markdownPreview.module.scss'],
+      rules: {
+        'selector-class-pattern': null,
+      },
+    },
   ],
 }

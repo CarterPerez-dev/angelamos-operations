@@ -13,14 +13,14 @@ interface StatsCardsProps {
 export function StatsCards({ stats }: StatsCardsProps) {
   const responseRate =
     stats.applied > 0
-      ? Math.round(((stats.interviews + stats.offers + stats.rejected) / stats.applied) * 100)
+      ? Math.round(
+          ((stats.interviews + stats.offers + stats.rejected) / stats.applied) *
+            100
+        )
       : 0
 
   const interviewRate =
     stats.applied > 0 ? Math.round((stats.interviews / stats.applied) * 100) : 0
-
-  const offerRate =
-    stats.interviews > 0 ? Math.round((stats.offers / stats.interviews) * 100) : 0
 
   return (
     <div className={styles.grid}>

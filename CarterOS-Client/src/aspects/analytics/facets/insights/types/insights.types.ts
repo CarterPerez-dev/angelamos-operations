@@ -155,7 +155,7 @@ export interface OverviewInsights {
 }
 
 export interface ExportData {
-  videos: Record<string, any>[]
+  videos: Record<string, unknown>[]
   total_count: number
   export_date: string
 }

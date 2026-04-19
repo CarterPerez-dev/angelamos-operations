@@ -1,0 +1,25 @@
+// ===================
+// © AngelaMos | 2026
+// dragBar.module.scss
+// ===================
+
+@use '@/styles/tokens' as *;
+
+.dragBar {
+  width: 4px;
+  cursor: col-resize;
+  background: $border-default;
+  flex-shrink: 0;
+  transition: background-color $transition-fast $ease-out;
+
+  &:hover,
+  &.active {
+    background: $accent-purple;
+  }
+}
+
+@media print {
+  .dragBar {
+    display: none;
+  }
+}

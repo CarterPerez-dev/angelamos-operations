@@ -3,7 +3,8 @@
 // filterBar.tsx
 // ===================
 
-import { useJobTrackerStore, useJobTrackerFilters } from '../stores'
+import { useJobTrackerFilters, useJobTrackerStore } from '../stores'
+import type { ApplicationStatus, Outcome, Priority } from '../types'
 import {
   APPLICATION_STATUS_OPTIONS,
   OUTCOME_OPTIONS,
@@ -19,10 +20,7 @@ export function FilterBar() {
   const openCreateForm = useJobTrackerStore((s) => s.openCreateForm)
 
   const hasActiveFilters =
-    filters.search ||
-    filters.status ||
-    filters.outcome ||
-    filters.priority
+    filters.search || filters.status || filters.outcome || filters.priority
 
   return (
     <div className={styles.bar}>
@@ -38,7 +36,9 @@ export function FilterBar() {
         <select
           value={filters.status ?? ''}
           onChange={(e) =>
-            setFilters({ status: e.target.value || null })
+            setFilters({
+              status: (e.target.value || null) as ApplicationStatus | null,
+            })
           }
           className={styles.select}
         >
@@ -53,7 +53,9 @@ export function FilterBar() {
         <select
           value={filters.outcome ?? ''}
           onChange={(e) =>
-            setFilters({ outcome: e.target.value || null })
+            setFilters({
+              outcome: (e.target.value || null) as Outcome | null,
+            })
           }
           className={styles.select}
         >
@@ -68,7 +70,9 @@ export function FilterBar() {
         <select
           value={filters.priority ?? ''}
           onChange={(e) =>
-            setFilters({ priority: e.target.value || null })
+            setFilters({
+              priority: (e.target.value || null) as Priority | null,
+            })
           }
           className={styles.select}
         >
@@ -91,11 +95,7 @@ export function FilterBar() {
         )}
       </div>
 
-      <button
-        type="button"
-        onClick={openCreateForm}
-        className={styles.addButton}
-      >
+      <button type="button" onClick={openCreateForm} className={styles.addButton}>
         Add Application
       </button>
     </div>

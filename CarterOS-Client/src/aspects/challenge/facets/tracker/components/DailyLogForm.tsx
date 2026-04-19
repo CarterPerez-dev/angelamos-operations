@@ -3,11 +3,15 @@
 // DailyLogForm.tsx
 // ===================
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useCreateLog } from '../hooks/useTracker'
 import { useTrackerStore } from '../stores/tracker.store'
 import { PLATFORM_INFO, PLATFORM_KEYS } from '../types/tracker.enums'
-import type { ChallengeLog, LogCreateRequest, PlatformKey } from '../types/tracker.types'
+import type {
+  ChallengeLog,
+  LogCreateRequest,
+  PlatformKey,
+} from '../types/tracker.types'
 import styles from './DailyLogForm.module.scss'
 
 interface DailyLogFormProps {
@@ -19,7 +23,9 @@ export function DailyLogForm({ selectedDate, existingLog }: DailyLogFormProps) {
   const { mutate: createLog, isPending } = useCreateLog()
   const isSavingLog = useTrackerStore((s) => s.isSavingLog)
 
-  const [formData, setFormData] = useState<Record<PlatformKey | 'jobs_applied', number>>({
+  const [formData, setFormData] = useState<
+    Record<PlatformKey | 'jobs_applied', number>
+  >({
     tiktok: 0,
     instagram_reels: 0,
     youtube_shorts: 0,
@@ -48,7 +54,7 @@ export function DailyLogForm({ selectedDate, existingLog }: DailyLogFormProps) {
         jobs_applied: 0,
       })
     }
-  }, [existingLog, selectedDate])
+  }, [existingLog])
 
   const handleChange = (key: PlatformKey | 'jobs_applied', value: string) => {
     const cleaned = value.replace(/[^0-9]/g, '')
@@ -98,16 +104,18 @@ export function DailyLogForm({ selectedDate, existingLog }: DailyLogFormProps) {
         <div className={styles.inputGrid}>
           {PLATFORM_KEYS.map((key) => (
             <div key={key} className={styles.inputGroup}>
-              <label className={styles.label}>{PLATFORM_INFO[key].label}</label>
-              <input
-                type="text"
-                inputMode="numeric"
-                pattern="[0-9]*"
-                value={displayValue(formData[key])}
-                onChange={(e) => handleChange(key, e.target.value)}
-                placeholder="0"
-                className={styles.input}
-              />
+              <label className={styles.label}>
+                {PLATFORM_INFO[key].label}
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  value={displayValue(formData[key])}
+                  onChange={(e) => handleChange(key, e.target.value)}
+                  placeholder="0"
+                  className={styles.input}
+                />
+              </label>
             </div>
           ))}
         </div>
@@ -120,16 +128,18 @@ export function DailyLogForm({ selectedDate, existingLog }: DailyLogFormProps) {
       <div className={styles.section}>
         <span className={styles.sectionTitle}>Jobs</span>
         <div className={styles.inputGroup}>
-          <label className={styles.label}>Jobs Applied</label>
-          <input
-            type="text"
-            inputMode="numeric"
-            pattern="[0-9]*"
-            value={displayValue(formData.jobs_applied)}
-            onChange={(e) => handleChange('jobs_applied', e.target.value)}
-            placeholder="0"
-            className={styles.input}
-          />
+          <label className={styles.label}>
+            Jobs Applied
+            <input
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              value={displayValue(formData.jobs_applied)}
+              onChange={(e) => handleChange('jobs_applied', e.target.value)}
+              placeholder="0"
+              className={styles.input}
+            />
+          </label>
         </div>
       </div>
 

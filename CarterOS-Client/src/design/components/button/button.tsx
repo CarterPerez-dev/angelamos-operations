@@ -3,7 +3,7 @@
 // button.tsx
 // ===========================
 
-import { type ButtonHTMLAttributes } from 'react'
+import type { ButtonHTMLAttributes } from 'react'
 import styles from './button.module.scss'
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost'

@@ -20,12 +20,12 @@
 
 .input {
   width: 120px;
-  background: hsl(0, 0%, 9%);
-  border: 1px solid hsl(0, 0%, 21.2%);
+  background: hsl(0deg 0% 9%);
+  border: 1px solid hsl(0deg 0% 21.2%);
   border-radius: 4px;
   padding: 0.375rem 0.625rem;
   font-size: 0.8125rem;
-  color: hsl(0, 0%, 98%);
+  color: hsl(0deg 0% 98%);
 
   &:focus {
     outline: none;
@@ -33,16 +33,16 @@
   }
 
   &::placeholder {
-    color: hsl(0, 0%, 40%);
+    color: hsl(0deg 0% 40%);
   }
 
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+    appearance: none;
     margin: 0;
   }
 
-  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .btn {
@@ -68,13 +68,13 @@
   svg {
     width: 16px;
     height: 16px;
-    color: hsl(0, 0%, 7.1%);
+    color: hsl(0deg 0% 7.1%);
   }
 }
 
 .status {
   font-size: 0.75rem;
-  color: hsl(0, 0%, 53.7%);
+  color: hsl(0deg 0% 53.7%);
 }
 
 .error {
@@ -97,7 +97,7 @@
 .portLabel {
   font-size: 0.8125rem;
   font-weight: 500;
-  color: hsl(0, 0%, 98%);
+  color: hsl(0deg 0% 98%);
 }
 
 .available {
@@ -105,7 +105,7 @@
   font-weight: 500;
   color: #36d7b7;
   padding: 0.125rem 0.375rem;
-  background: hsl(155.1deg, 100%, 8%);
+  background: hsl(155.1deg 100% 8%);
   border-radius: 3px;
 }
 
@@ -114,7 +114,7 @@
   font-weight: 500;
   color: #e74c3c;
   padding: 0.125rem 0.375rem;
-  background: hsl(0, 100%, 8%);
+  background: hsl(0deg 100% 8%);
   border-radius: 3px;
 }
 
@@ -123,13 +123,13 @@
   align-items: center;
   gap: 0.25rem;
   font-size: 0.6875rem;
-  color: hsl(0, 0%, 53.7%);
+  color: hsl(0deg 0% 53.7%);
 }
 
 .processLabel {
-  color: hsl(0, 0%, 53.7%);
+  color: hsl(0deg 0% 53.7%);
 }
 
 .processValue {
-  color: hsl(0, 0%, 70.6%);
+  color: hsl(0deg 0% 70.6%);
 }

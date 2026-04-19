@@ -11,6 +11,9 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import { API_ENDPOINTS, QUERY_KEYS, ROUTES } from '@/config'
+import { apiClient, QUERY_STRATEGIES } from '@/core/api'
+import { useAuthStore } from '@/core/state'
 import {
   AUTH_ERROR_MESSAGES,
   AUTH_SUCCESS_MESSAGES,
@@ -25,9 +28,6 @@ import {
   type TokenWithUserResponse,
   type UserResponse,
 } from '@/core/sys/auth/types'
-import { API_ENDPOINTS, QUERY_KEYS, ROUTES } from '@/config'
-import { apiClient, QUERY_STRATEGIES } from '@/core/api'
-import { useAuthStore } from '@/core/state'
 
 export const authQueries = {
   all: () => QUERY_KEYS.AUTH.ALL,

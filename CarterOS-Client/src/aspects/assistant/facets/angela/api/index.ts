@@ -3,8 +3,12 @@
 // index.ts
 // ===================
 
-export * from './whisper.client'
+export { checkEdgeTTSHealth } from './edgetts.client'
+export { checkElevenLabsHealth, getVoices } from './elevenlabs.client'
 export * from './ollama.client'
-export * from './tts.client'
-export * from './elevenlabs.client'
-export * from './edgetts.client'
+export {
+  checkTTSHealth,
+  getAvailableProvider,
+  synthesizeSpeech,
+} from './tts.client'
+export * from './whisper.client'

@@ -56,7 +56,9 @@ export function PortCheckerCard() {
         <div className={styles.result}>
           <div className={styles.portRow}>
             <span className={styles.portLabel}>Port {portCheck.port}</span>
-            <span className={portCheck.available ? styles.available : styles.inUse}>
+            <span
+              className={portCheck.available ? styles.available : styles.inUse}
+            >
               {portCheck.available ? 'Available' : 'In Use'}
             </span>
           </div>

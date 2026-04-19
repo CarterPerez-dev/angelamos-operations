@@ -3,37 +3,32 @@
 // DashboardPage.tsx
 // ===================
 
+import { FaApple, FaCloudflare, FaGithub, FaXTwitter } from 'react-icons/fa6'
+import { GiCardJoker, GiHeartBeats } from 'react-icons/gi'
 import {
-  FaCloudflare,
-  FaGithub,
-  FaApple,
-  FaXTwitter,
-} from 'react-icons/fa6'
-import {
-  SiStripe,
-  SiSupabase,
-  SiGoogleanalytics,
-  SiSentry,
-  SiResend,
-  SiZoho,
   SiExpo,
-  SiTiktok,
-  SiYoutube,
+  SiFacebook,
+  SiGoogleanalytics,
   SiInstagram,
   SiLinkedin,
-  SiReddit,
-  SiFacebook,
   SiMongodb,
+  SiReddit,
+  SiResend,
+  SiSentry,
+  SiStripe,
+  SiSupabase,
+  SiTiktok,
   SiVuedotjs,
+  SiYoutube,
+  SiZoho,
 } from 'react-icons/si'
-import { GiCardJoker, GiHeartBeats } from 'react-icons/gi'
 import styles from './DashboardPage.module.scss'
 
 interface LinkCard {
   title: string
   url: string
   description?: string
-  icon?: React.ComponentType
+  icon?: React.ComponentType<{ className?: string; style?: React.CSSProperties }>
   iconColor?: string
 }
 

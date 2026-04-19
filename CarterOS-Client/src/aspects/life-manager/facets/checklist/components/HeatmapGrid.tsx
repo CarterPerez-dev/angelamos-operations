@@ -30,15 +30,18 @@ export function HeatmapGrid({ heatmap }: HeatmapGridProps) {
     <div className={styles.grid}>
       {yearDays.map((dateStr) => {
         const day = dayMap.get(dateStr)
-        const ratio = day && day.total_count > 0
-          ? day.completed_count / day.total_count
-          : 0
+        const ratio =
+          day && day.total_count > 0 ? day.completed_count / day.total_count : 0
 
         return (
           <div
             key={dateStr}
             className={styles.cell}
-            title={day ? `${dateStr}: ${day.completed_count}/${day.total_count}` : dateStr}
+            title={
+              day
+                ? `${dateStr}: ${day.completed_count}/${day.total_count}`
+                : dateStr
+            }
             style={{ opacity: ratio > 0 ? 0.15 + ratio * 0.85 : 0.08 }}
           />
         )

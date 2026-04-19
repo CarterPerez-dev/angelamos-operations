@@ -6,7 +6,7 @@
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
 import { TrackerTab } from '../types/tracker.enums'
-import type { ChallengeWithStats, ChallengeLog } from '../types/tracker.types'
+import type { ChallengeLog, ChallengeWithStats } from '../types/tracker.types'
 
 interface TrackerState {
   challenge: ChallengeWithStats | null
@@ -122,14 +122,11 @@ export const useTrackerStore = create<TrackerStore>()(
         setSavingLog: (saving) =>
           set({ isSavingLog: saving }, false, 'tracker/setSavingLog'),
 
-        setError: (error) =>
-          set({ error }, false, 'tracker/setError'),
+        setError: (error) => set({ error }, false, 'tracker/setError'),
 
-        clearError: () =>
-          set({ error: null }, false, 'tracker/clearError'),
+        clearError: () => set({ error: null }, false, 'tracker/clearError'),
 
-        reset: () =>
-          set(initialState, false, 'tracker/reset'),
+        reset: () => set(initialState, false, 'tracker/reset'),
       }),
       {
         name: 'tracker-storage',
@@ -149,17 +146,14 @@ export const useChallenge = (): ChallengeWithStats | null =>
 export const useSelectedDate = (): string | null =>
   useTrackerStore((s) => s.selectedDate)
 
-export const useActiveTab = (): TrackerTab =>
-  useTrackerStore((s) => s.activeTab)
+export const useActiveTab = (): TrackerTab => useTrackerStore((s) => s.activeTab)
 
 export const useIsTrackerLoading = (): boolean =>
   useTrackerStore((s) => s.isLoading)
 
-export const useIsStarting = (): boolean =>
-  useTrackerStore((s) => s.isStarting)
+export const useIsStarting = (): boolean => useTrackerStore((s) => s.isStarting)
 
-export const useIsSavingLog = (): boolean =>
-  useTrackerStore((s) => s.isSavingLog)
+export const useIsSavingLog = (): boolean => useTrackerStore((s) => s.isSavingLog)
 
 export const useTrackerError = (): string | null =>
   useTrackerStore((s) => s.error)

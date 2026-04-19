@@ -19,7 +19,8 @@ export const ApplicationStatus = {
   APPLIED: 'applied',
   WITHDRAWN: 'withdrawn',
 } as const
-export type ApplicationStatus = (typeof ApplicationStatus)[keyof typeof ApplicationStatus]
+export type ApplicationStatus =
+  (typeof ApplicationStatus)[keyof typeof ApplicationStatus]
 
 export const Outcome = {
   UNKNOWN: 'unknown',
@@ -51,7 +52,8 @@ export const ExperienceLevel = {
   PRINCIPAL: 'principal',
   EXECUTIVE: 'executive',
 } as const
-export type ExperienceLevel = (typeof ExperienceLevel)[keyof typeof ExperienceLevel]
+export type ExperienceLevel =
+  (typeof ExperienceLevel)[keyof typeof ExperienceLevel]
 
 export const Priority = {
   UNKNOWN: 'unknown',
@@ -99,7 +101,9 @@ export const JobApplicationListResponseSchema = z.object({
   total: z.number(),
 })
 
-export type JobApplicationListResponse = z.infer<typeof JobApplicationListResponseSchema>
+export type JobApplicationListResponse = z.infer<
+  typeof JobApplicationListResponseSchema
+>
 
 export const JobApplicationStatsSchema = z.object({
   total: z.number(),
@@ -182,12 +186,12 @@ export const isValidJobApplicationStats = (
 }
 
 export class JobTrackerResponseError extends Error {
-  constructor(
-    message: string,
-    public readonly endpoint?: string
-  ) {
+  readonly endpoint?: string
+
+  constructor(message: string, endpoint?: string) {
     super(message)
     this.name = 'JobTrackerResponseError'
+    this.endpoint = endpoint
     Object.setPrototypeOf(this, JobTrackerResponseError.prototype)
   }
 }

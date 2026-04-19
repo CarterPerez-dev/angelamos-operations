@@ -11,6 +11,9 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import { API_ENDPOINTS, QUERY_KEYS } from '@/config'
+import { apiClient, QUERY_STRATEGIES } from '@/core/api'
+import { useAuthStore } from '@/core/state'
 import {
   isValidUserResponse,
   USER_ERROR_MESSAGES,
@@ -20,9 +23,6 @@ import {
   UserResponseError,
   type UserUpdateRequest,
 } from '@/core/sys/auth/types'
-import { API_ENDPOINTS, QUERY_KEYS } from '@/config'
-import { apiClient, QUERY_STRATEGIES } from '@/core/api'
-import { useAuthStore } from '@/core/state'
 import { authQueries } from './useAuth'
 
 export const userQueries = {

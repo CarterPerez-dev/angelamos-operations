@@ -1,0 +1,32 @@
+# ©AngelaMos | 2026
+# compose.yml
+
+name: carterbot-whisper
+
+services:
+  whisper:
+    build: ./whisper-service
+    ports:
+      - "127.0.0.1:5069:5069"
+    environment:
+      - WHISPER_MODEL=${WHISPER_MODEL:-medium}
+      - WHISPER_DEVICE=auto
+    volumes:
+      - whisper-cache:/root/.cache
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5069/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+volumes:
+  whisper-cache:

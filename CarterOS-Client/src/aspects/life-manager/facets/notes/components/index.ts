@@ -5,5 +5,5 @@
 
 export * from './ConfirmDeleteModal'
 export * from './FolderSidebar'
-export * from './NotesList'
 export * from './NoteEditor'
+export * from './NotesList'

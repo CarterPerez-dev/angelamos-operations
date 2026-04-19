@@ -3,5 +3,5 @@
 // index.ts
 // ===================
 
-export * from './jobTracker.types'
 export * from './jobTracker.enums'
+export * from './jobTracker.types'

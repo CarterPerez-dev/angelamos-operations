@@ -19,8 +19,6 @@
 
 html {
   font-size: 16px;
-  -moz-text-size-adjust: none;
-  -webkit-text-size-adjust: none;
   text-size-adjust: none;
   overflow-x: hidden;
 }
@@ -157,4 +155,11 @@ dialog {
 ::selection {
   background-color: $accent-purple-30;
   color: $text-default;
+}
+
+@media print {
+  .tsqd-parent-container,
+  [class*="ReactQueryDevtools"] {
+    display: none !important;
+  }
 }

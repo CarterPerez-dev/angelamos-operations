@@ -3,17 +3,17 @@
 // TrackerPage.tsx
 // ===================
 
-import { useActiveChallenge, useStartChallenge } from '../hooks/useTracker'
-import { useTrackerStore, useSelectedLog } from '../stores/tracker.store'
-import { TrackerTab } from '../types/tracker.enums'
 import {
-  ProgressCard,
-  DayGrid,
-  DailyLogForm,
-  EmptyState,
-  TabNav,
   AllDaysTable,
+  DailyLogForm,
+  DayGrid,
+  EmptyState,
+  ProgressCard,
+  TabNav,
 } from '../components'
+import { useActiveChallenge, useStartChallenge } from '../hooks/useTracker'
+import { useSelectedLog, useTrackerStore } from '../stores/tracker.store'
+import { TrackerTab } from '../types/tracker.enums'
 import styles from './TrackerPage.module.scss'
 
 export function TrackerPage() {
@@ -44,7 +44,9 @@ export function TrackerPage() {
       <header className={styles.header}>
         <div className={styles.titleRow}>
           <h1 className={styles.title}>30 Day Focus Challenge</h1>
-          <span className={styles.dayBadge}>Day {challenge.current_day} of 30</span>
+          <span className={styles.dayBadge}>
+            Day {challenge.current_day} of 30
+          </span>
         </div>
         <button
           type="button"
@@ -78,10 +80,7 @@ export function TrackerPage() {
           <DayGrid challenge={challenge} />
 
           {selectedDate && (
-            <DailyLogForm
-              selectedDate={selectedDate}
-              existingLog={selectedLog}
-            />
+            <DailyLogForm selectedDate={selectedDate} existingLog={selectedLog} />
           )}
         </div>
       )}

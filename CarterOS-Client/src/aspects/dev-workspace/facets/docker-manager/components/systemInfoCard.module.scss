@@ -4,8 +4,8 @@
 // ===================
 
 .card {
-  background: hsl(0, 0%, 12.2%);
-  border: 1px solid hsl(0, 0%, 18%);
+  background: hsl(0deg 0% 12.2%);
+  border: 1px solid hsl(0deg 0% 18%);
   border-radius: 6px;
   padding: 0.75rem 1rem;
   display: flex;
@@ -18,7 +18,7 @@
   align-items: center;
   gap: 0.5rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid hsl(0, 0%, 14.1%);
+  border-bottom: 1px solid hsl(0deg 0% 14.1%);
 }
 
 .headerIcon {
@@ -30,7 +30,7 @@
 .title {
   font-size: 0.875rem;
   font-weight: 600;
-  color: hsl(0, 0%, 98%);
+  color: hsl(0deg 0% 98%);
   margin: 0;
 }
 
@@ -48,13 +48,13 @@
 
 .label {
   font-size: 0.75rem;
-  color: hsl(0, 0%, 53.7%);
+  color: hsl(0deg 0% 53.7%);
 }
 
 .value {
   font-size: 0.875rem;
   font-weight: 500;
-  color: hsl(0, 0%, 98%);
+  color: hsl(0deg 0% 98%);
 }
 
 .valueHighlight {
@@ -68,7 +68,7 @@
   flex-direction: column;
   gap: 0.5rem;
   padding-top: 0.5rem;
-  border-top: 1px solid hsl(0, 0%, 14.1%);
+  border-top: 1px solid hsl(0deg 0% 14.1%);
 }
 
 .sectionHeader {
@@ -80,13 +80,13 @@
 .sectionIcon {
   width: 14px;
   height: 14px;
-  color: hsl(0, 0%, 70.6%);
+  color: hsl(0deg 0% 70.6%);
 }
 
 .sectionTitle {
   font-size: 0.75rem;
   font-weight: 500;
-  color: hsl(0, 0%, 70.6%);
+  color: hsl(0deg 0% 70.6%);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }

@@ -3,5 +3,5 @@
 // index.ts
 // ===================
 
-export * from './docker.types'
 export * from './docker.enums'
+export * from './docker.types'

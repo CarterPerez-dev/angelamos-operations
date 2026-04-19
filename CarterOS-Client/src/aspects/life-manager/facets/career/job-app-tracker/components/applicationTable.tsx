@@ -51,7 +51,7 @@ export function ApplicationTable({ applications }: ApplicationTableProps) {
             <th>Salary</th>
             <th>Applied</th>
             <th>Source</th>
-            <th></th>
+            <th />
           </tr>
         </thead>
         <tbody>

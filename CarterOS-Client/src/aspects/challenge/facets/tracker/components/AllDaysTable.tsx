@@ -5,7 +5,11 @@
 
 import { useMemo } from 'react'
 import { PLATFORM_INFO, PLATFORM_KEYS } from '../types/tracker.enums'
-import type { ChallengeWithStats, ChallengeLog, PlatformKey } from '../types/tracker.types'
+import type {
+  ChallengeLog,
+  ChallengeWithStats,
+  PlatformKey,
+} from '../types/tracker.types'
 import styles from './AllDaysTable.module.scss'
 
 interface AllDaysTableProps {

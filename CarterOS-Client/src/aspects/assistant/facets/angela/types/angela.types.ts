@@ -46,7 +46,14 @@ export interface ElevenLabsVoice {
 
 export type TTSProvider = 'elevenlabs' | 'edgetts'
 
-export type AngelaStatus = 'initializing' | 'idle' | 'listening' | 'processing' | 'thinking' | 'speaking' | 'error'
+export type AngelaStatus =
+  | 'initializing'
+  | 'idle'
+  | 'listening'
+  | 'processing'
+  | 'thinking'
+  | 'speaking'
+  | 'error'
 
 export interface AngelaConfig {
   debug: boolean

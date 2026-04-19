@@ -9,6 +9,7 @@ import { session } from "../session";
 import { ALLOWED_USERS } from "../config";
 import { isAuthorized, checkInterrupt, startTypingIndicator } from "../utils";
 import { StreamingState, createStatusCallback } from "./streaming";
+import { isVideoUrl, handleTranscribeUrl } from "./video";
 
 export async function handleText(ctx: Context): Promise<void> {
   const userId = ctx.from?.id;
@@ -27,6 +28,12 @@ export async function handleText(ctx: Context): Promise<void> {
 
   message = await checkInterrupt(message);
   if (!message.trim()) {
+    return;
+  }
+
+  const detectedUrl = isVideoUrl(message);
+  if (detectedUrl && message.trim().match(/^https?:\/\/\S+$/)) {
+    await handleTranscribeUrl(ctx);
     return;
   }
 

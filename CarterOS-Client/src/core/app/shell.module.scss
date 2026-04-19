@@ -26,6 +26,23 @@
   overflow-y: auto;
 }
 
+@media print {
+  .shell {
+    display: block;
+    min-height: auto;
+  }
+
+  .main {
+    background: white;
+    background-image: none;
+  }
+
+  .content {
+    padding: 0;
+    overflow: visible;
+  }
+}
+
 .loading {
   @include flex-center;
   height: 100%;

@@ -3,8 +3,8 @@
 // unauthorizedPage.tsx
 // ===========================
 
-import { Link } from 'react-router-dom'
 import { GiLockedChest } from 'react-icons/gi'
+import { Link } from 'react-router-dom'
 import { APP, ROUTES } from '@/config'
 import { Button } from '@/design/components/button'
 import styles from './unauthorizedPage.module.scss'
@@ -30,5 +30,6 @@ export function UnauthorizedPage() {
   )
 }
 
-export const Component = UnauthorizedPage
-Component.displayName = 'UnauthorizedPage'
+export const Component = Object.assign(UnauthorizedPage, {
+  displayName: 'UnauthorizedPage',
+})

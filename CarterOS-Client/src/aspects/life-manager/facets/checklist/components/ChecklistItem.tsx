@@ -15,7 +15,13 @@ interface ChecklistItemProps {
   onDelete: (id: string) => void
 }
 
-export function ChecklistItem({ entry, onToggle, editMode, onEdit, onDelete }: ChecklistItemProps) {
+export function ChecklistItem({
+  entry,
+  onToggle,
+  editMode,
+  onEdit,
+  onDelete,
+}: ChecklistItemProps) {
   const [note, setNote] = useState(entry.note ?? '')
   const [showNote, setShowNote] = useState(!!entry.note)
   const [editTitle, setEditTitle] = useState(entry.item_title)
@@ -54,6 +60,7 @@ export function ChecklistItem({ entry, onToggle, editMode, onEdit, onDelete }: C
 
       {entry.completed && !editMode && (
         <button
+          type="button"
           className={styles.noteToggle}
           onClick={() => setShowNote((v) => !v)}
         >
@@ -62,7 +69,11 @@ export function ChecklistItem({ entry, onToggle, editMode, onEdit, onDelete }: C
       )}
 
       {editMode && (
-        <button className={styles.deleteBtn} onClick={() => onDelete(entry.item_id)}>
+        <button
+          type="button"
+          className={styles.deleteBtn}
+          onClick={() => onDelete(entry.item_id)}
+        >
           remove
         </button>
       )}

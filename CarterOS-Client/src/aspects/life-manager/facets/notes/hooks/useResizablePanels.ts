@@ -3,7 +3,7 @@
 // useResizablePanels.ts
 // ===================
 
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const STORAGE_KEY = 'notes-panel-widths'
 const DEFAULT_WIDTHS = { sidebar: 200, notesList: 280 }
@@ -45,7 +45,10 @@ export function useResizablePanels() {
           return updated
         })
       } else if (dragging === 'notesList') {
-        const newWidth = Math.max(MIN_NOTES, Math.min(MAX_NOTES, x - panelWidths.sidebar - 4))
+        const newWidth = Math.max(
+          MIN_NOTES,
+          Math.min(MAX_NOTES, x - panelWidths.sidebar - 4)
+        )
         setPanelWidths((prev) => {
           const updated = { ...prev, notesList: newWidth }
           saveWidths(updated)

@@ -7,14 +7,14 @@ import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
 import { useShallow } from 'zustand/react/shallow'
 import type {
+  ApplicationStatus,
+  ExperienceLevel,
   JobApplication,
   JobApplicationCreateRequest,
-  ApplicationStatus,
-  Outcome,
-  RemoteType,
   JobType,
-  ExperienceLevel,
+  Outcome,
   Priority,
+  RemoteType,
 } from '../types'
 
 type FormMode = 'create' | 'edit' | null
@@ -48,7 +48,12 @@ interface FilterState {
   remoteType: RemoteType | null
 }
 
-type SortField = 'created_at' | 'date_applied' | 'identity_name' | 'priority' | 'outcome'
+type SortField =
+  | 'created_at'
+  | 'date_applied'
+  | 'identity_name'
+  | 'priority'
+  | 'outcome'
 type SortOrder = 'asc' | 'desc'
 
 interface JobTrackerState {
@@ -287,7 +292,11 @@ export const useJobTrackerStore = create<JobTrackerStore>()(
           ),
 
         clearFilters: () =>
-          set({ filters: { ...initialFilters } }, false, 'jobTracker/clearFilters'),
+          set(
+            { filters: { ...initialFilters } },
+            false,
+            'jobTracker/clearFilters'
+          ),
 
         setSearch: (search) =>
           set(
@@ -342,14 +351,11 @@ export const useJobTrackerStore = create<JobTrackerStore>()(
         setDeleting: (deleting) =>
           set({ isDeleting: deleting }, false, 'jobTracker/setDeleting'),
 
-        setError: (error) =>
-          set({ error }, false, 'jobTracker/setError'),
+        setError: (error) => set({ error }, false, 'jobTracker/setError'),
 
-        clearError: () =>
-          set({ error: null }, false, 'jobTracker/clearError'),
+        clearError: () => set({ error: null }, false, 'jobTracker/clearError'),
 
-        reset: () =>
-          set(initialState, false, 'jobTracker/reset'),
+        reset: () => set(initialState, false, 'jobTracker/reset'),
       }),
       {
         name: 'job-tracker-storage',
@@ -368,8 +374,7 @@ export const useJobTrackerStore = create<JobTrackerStore>()(
 export const useSelectedApplicationId = (): string | null =>
   useJobTrackerStore((s) => s.selectedApplicationId)
 
-export const useFormMode = (): FormMode =>
-  useJobTrackerStore((s) => s.formMode)
+export const useFormMode = (): FormMode => useJobTrackerStore((s) => s.formMode)
 
 export const useDraftFormData = (): DraftFormData =>
   useJobTrackerStore((s) => s.draftFormData)
@@ -381,7 +386,9 @@ export const useJobTrackerFilters = (): FilterState =>
   useJobTrackerStore((s) => s.filters)
 
 export const useJobTrackerSort = (): { field: SortField; order: SortOrder } =>
-  useJobTrackerStore(useShallow((s) => ({ field: s.sortField, order: s.sortOrder })))
+  useJobTrackerStore(
+    useShallow((s) => ({ field: s.sortField, order: s.sortOrder }))
+  )
 
 export const useIsFormOpen = (): boolean =>
   useJobTrackerStore((s) => s.isFormOpen)
@@ -395,8 +402,7 @@ export const useDeletingApplicationId = (): string | null =>
 export const useIsJobTrackerLoading = (): boolean =>
   useJobTrackerStore((s) => s.isLoading)
 
-export const useIsSaving = (): boolean =>
-  useJobTrackerStore((s) => s.isSaving)
+export const useIsSaving = (): boolean => useJobTrackerStore((s) => s.isSaving)
 
 export const useIsDeleting = (): boolean =>
   useJobTrackerStore((s) => s.isDeleting)

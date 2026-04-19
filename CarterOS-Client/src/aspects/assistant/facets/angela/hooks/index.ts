@@ -4,5 +4,5 @@
 // ===================
 
 export { useThreeScene } from './useThreeScene'
-export { useWakeWord } from './useWakeWord'
 export { useVoicePipeline } from './useVoicePipeline'
+export { useWakeWord } from './useWakeWord'

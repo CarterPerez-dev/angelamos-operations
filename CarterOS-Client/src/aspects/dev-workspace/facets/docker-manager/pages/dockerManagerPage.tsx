@@ -4,26 +4,35 @@
 // ===================
 
 import { useState } from 'react'
-import { ProjectCard, SystemInfoCard, StorageInfoCard, PortCheckerCard } from '../components'
+import {
+  PortCheckerCard,
+  ProjectCard,
+  StorageInfoCard,
+  SystemInfoCard,
+} from '../components'
 import {
   useDockerProjects,
-  useDockerSystemInfo,
   useDockerStorageInfo,
-  useStartProject,
-  useStopProject,
+  useDockerSystemInfo,
+  usePruneSystem,
   useRestartProject,
-  useSetProjectProtection,
   useSetProjectDisplayName,
   useSetProjectHidden,
-  usePruneSystem,
+  useSetProjectProtection,
+  useStartProject,
+  useStopProject,
 } from '../hooks'
-import { ProtectionReason, ProjectStatus } from '../types/docker.types'
+import { ProjectStatus, ProtectionReason } from '../types/docker.types'
 import styles from './dockerManagerPage.module.scss'
 
 export function DockerManagerPage() {
   const [showOnlyRunning, setShowOnlyRunning] = useState(false)
   const [showHidden, setShowHidden] = useState(false)
-  const { data: projects, isLoading: projectsLoading, error: projectsError } = useDockerProjects()
+  const {
+    data: projects,
+    isLoading: projectsLoading,
+    error: projectsError,
+  } = useDockerProjects()
   const { data: systemInfo, isLoading: systemLoading } = useDockerSystemInfo()
   const { data: storageInfo, isLoading: storageLoading } = useDockerStorageInfo()
 
@@ -99,7 +108,10 @@ export function DockerManagerPage() {
       return false
     }
     if (showOnlyRunning) {
-      return project.status === ProjectStatus.RUNNING || project.status === ProjectStatus.PARTIAL
+      return (
+        project.status === ProjectStatus.RUNNING ||
+        project.status === ProjectStatus.PARTIAL
+      )
     }
     return true
   })
@@ -111,7 +123,9 @@ export function DockerManagerPage() {
       <div className={styles.header}>
         <div className={styles.headerText}>
           <h1 className={styles.title}>Docker Manager</h1>
-          <p className={styles.subtitle}>Manage your Docker projects and containers</p>
+          <p className={styles.subtitle}>
+            Manage your Docker projects and containers
+          </p>
         </div>
         <div className={styles.headerControls}>
           <PortCheckerCard />
@@ -182,7 +196,11 @@ export function DockerManagerPage() {
           </div>
         ) : (
           <div className={styles.empty}>
-            <p>{showOnlyRunning ? 'No running projects' : 'No Docker projects found'}</p>
+            <p>
+              {showOnlyRunning
+                ? 'No running projects'
+                : 'No Docker projects found'}
+            </p>
             <p className={styles.emptyHint}>
               {showOnlyRunning
                 ? 'Start a project to see it here'

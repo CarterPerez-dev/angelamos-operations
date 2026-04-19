@@ -21,7 +21,10 @@ interface JobBoard {
 
 const jobBoards: JobBoard[] = [
   { name: 'Wellfound', url: 'https://wellfound.com/jobs/home' },
-  { name: 'Work at a Startup', url: 'https://www.workatastartup.com/companies?demographic=any&hasEquity=any&hasSalary=any&industry=any&interviewProcess=any&jobType=fulltime&layout=list-compact&role=eng&sortBy=created_desc&tab=any&usVisaNotRequired=any' },
+  {
+    name: 'Work at a Startup',
+    url: 'https://www.workatastartup.com/companies?demographic=any&hasEquity=any&hasSalary=any&industry=any&interviewProcess=any&jobType=fulltime&layout=list-compact&role=eng&sortBy=created_desc&tab=any&usVisaNotRequired=any',
+  },
   { name: 'Indeed', url: 'https://www.indeed.com/' },
 ]
 
@@ -83,11 +86,7 @@ export function LifeManagerHub() {
       <div className={styles.grid}>
         {facets.map((facet) =>
           facet.enabled ? (
-            <Link
-              key={facet.title}
-              to={facet.path}
-              className={styles.card}
-            >
+            <Link key={facet.title} to={facet.path} className={styles.card}>
               <div className={styles.cardIcon}>{facet.icon}</div>
               <div className={styles.cardContent}>
                 <h2 className={styles.cardTitle}>{facet.title}</h2>
