@@ -11,7 +11,7 @@ import {
   GiRingingBell,
   GiSpeedometer,
   GiBookshelf,
-  GiChecklist,
+  GiScrollUnfurled,
   GiShare,
   GiFox,
 } from 'react-icons/gi'
@@ -68,9 +68,9 @@ export function Header() {
             <GiBookshelf />
             <span>Notes</span>
           </Link>
-          <Link to="/life/checklist" className={styles.navLink}>
-            <GiChecklist />
-            <span>Checklist</span>
+          <Link to="/dev-workspace/md2pdf" className={styles.navLink}>
+            <GiScrollUnfurled />
+            <span>md2pdf</span>
           </Link>
           <Link to="/dev-workspace/docker-manager" className={styles.navLink}>
             <GrDocker />

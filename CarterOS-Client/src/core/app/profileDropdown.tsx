@@ -18,6 +18,7 @@ import {
   GiBrain,
   GiFactory,
   GiExitDoor,
+  GiScrollUnfurled,
 } from 'react-icons/gi'
 import { GrDocker } from 'react-icons/gr'
 import { USER } from '@/config'
@@ -50,6 +51,7 @@ const NAV_SECTIONS = [
     label: 'Dev Workspace',
     items: [
       { to: '/dev-workspace/docker-manager', label: 'Docker Manager', icon: GrDocker },
+      { to: '/dev-workspace/md2pdf', label: 'md2pdf', icon: GiScrollUnfurled },
     ],
   },
   {

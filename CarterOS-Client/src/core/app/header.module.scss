@@ -121,6 +121,12 @@
   }
 }
 
+@media print {
+  .header {
+    display: none !important;
+  }
+}
+
 .profile {
   position: relative;
 }
