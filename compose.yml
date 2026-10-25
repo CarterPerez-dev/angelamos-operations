@@ -23,7 +23,7 @@ services:
     networks:
       - frontend
       - backend
-    restart: unless-stopped
+    restart: always
 
   # FastAPI
   backend:
@@ -55,7 +55,7 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
-    restart: unless-stopped
+    restart: always
 
   # Vite dev server
   frontend:
@@ -69,6 +69,7 @@ services:
       - ./CarterOS-Client:/app
     environment:
       - VITE_API_URL=${VITE_API_URL:-/api}
+      - VITE_API_TARGET=http://backend:8000
       - VITE_APP_TITLE=${VITE_APP_TITLE:-My App}
       - VITE_DOCKER_API_URL=http://localhost:7771
       - VITE_ELEVENLABS_API_KEY=${VITE_ELEVENLABS_API_KEY:-}
@@ -81,9 +82,10 @@ services:
       - VITE_TTS_ENDPOINT=${VITE_TTS_ENDPOINT:-http://localhost:5002}
     networks:
       - frontend
+      - backend
     depends_on:
       - wake
-    restart: unless-stopped
+    restart: always
 
   # Angela-Wake (wake word detection)
   wake:
@@ -105,7 +107,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 15s
-    restart: unless-stopped
+    restart: always
 
   # PostgreSQL DB
   db:
@@ -127,7 +129,7 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
-    restart: unless-stopped
+    restart: always
 
   # Redis
   redis:
@@ -145,7 +147,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    restart: unless-stopped
+    restart: always
 
 networks:
   frontend:
